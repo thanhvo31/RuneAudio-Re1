@@ -212,12 +212,12 @@ function infoMount( data ) {
 			}
 			$.post( 'commands.php', { bash: '/srv/http/settings/sourcesmount.sh '+ cmd }, function( std ) {
 				var std = std[ 0 ];
-				if ( std == -1 || std == -2 ) {
+				if ( std ) {
 					formdata = data;
 					info( {
 						  icon    : 'network'
 						, title   : 'Mount Share'
-						, message : ( std == -1 ? 'IP address not found.' : 'Mount failed.' )
+						, message : std
 						, ok      : function() {
 							infoMount( formdata );
 						}
