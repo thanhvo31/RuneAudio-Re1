@@ -12,6 +12,8 @@ getinstallzip
 
 rm -f /srv/http/{Gruntfile.js,package.json} /srv/http/assets/js/vendor/bootstrap-contextmenu*
 
+file="$( ls -d /mnt/MPD/USB/*/ ).mpdignore"
+if [[ ! -e "$file" ]]; then
 echo 'bookmarks
 coverarts
 lyrics
@@ -21,7 +23,8 @@ playlists
 redis
 tmp
 webradiopl
-webradios' >> $( ls -d /mnt/MPD/USB/*/ ).mpdignore
+webradios' >> "$file"
+fi
 
 setColor
 
