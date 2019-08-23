@@ -43,8 +43,6 @@ $time = time();  // for cache busting
 	<?php
 	if ( !preg_match( '/(Mobile|Android|Tablet|GoBrowser|[0-9]x[0-9]*|uZardWeb\/|Mini|Doris\/|Skyfire\/|iPhone|Fennec\/|Maemo|Iris\/|CLDC\-|Mobi\/)/uis', $_SERVER['HTTP_USER_AGENT'] ) ) echo 
 '<link rel="stylesheet" href="/assets/css/desktop.css">';
-	if ( file_exists( '/srv/http/assets/css/gpio.'.$time.'.css' ) ) echo 
-'<link rel="stylesheet" href="/assets/css/gpio.'.$time.'.css">';
 	if ( file_exists('/srv/http/assets/js/lyrics.js') ) echo 
 '<link rel="stylesheet" href="/assets/css/lyrics.'.$time.'.css">';
 	?>
