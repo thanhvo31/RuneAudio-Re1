@@ -17,7 +17,6 @@ if [[ ! -e "$file" ]]; then
 echo 'bookmarks
 coverarts
 lyrics
-Movies
 mpd
 playlists
 redis
