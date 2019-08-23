@@ -16,7 +16,6 @@
 - RuneUI Lyrics
 - RuneUI Metadata Tag Editor
 - USB DAC Plug and Play
-
 - Chromium 76.0.3809.100
 - MPD 0.21.13
 - NGINX 1.16
