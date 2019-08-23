@@ -1,5 +1,5 @@
 ## RuneAudio+R e1
-
+---
 *(Tested on RPi 2B, 3B)*
 
 ### An improved version of RuneAudio.
@@ -27,3 +27,67 @@
 - Image file: [RuneAudio+R_e1.img.xz](https://www.mediafire.com/file/kbkxcaap19gkrh8/RuneAudio+R_e1.img.xz/file)
 - Decompress to **RuneAudio+R_e1.img** with [7-zip](https://www.7-zip.org/), [WinRAR](https://www.rarlab.com/download.htm) or [WinZip](https://www.winzip.com/win/en/]WinZip)
 - Write the file to a micro SD card, 4GB or more, with something like [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/).
+
+### Before power on
+- A USB drive in the system is strongly recommended.
+- For persistent data and Library databases.
+- Extra directories in NAS must be imported manually.
+- If music files are in NAS only, plug in a small USB thumb drive for extra directories, 1GB is more than enough.
+
+(New users: skip to power on and enjoy.)  
+- Migrate existing data if it had taken a long time to build.
+	- Library database
+		- Create directory /mnt/MPD/USB/<label>/mpd (or USB root on PC)
+		- Copy /var/lib/mpd/mpd.db to this directory
+	- NAS based RuneUI Enhancement extra directories
+		- Copy the directories to /mnt/MPD/USB/<label>/ (or USB root on PC): bookmarks, coverarts, lyrics, playlists webradiopl and webradios
+	
+### Run automatically on initial boot
+- Expand micro SD card partition to full.
+- Import extra directories or create new ones if not exist.
+- Update MPD library if migrate database not exist.
+
+---
+## Features
+
+### UI Frontend
+- RuneUI Enhancement
+- Airplay coverarts
+- Roll the dice button for Library random (Improved global random)
+
+### Settings Backend
+- Enable / disable / options: applied immediately, no more Ok buttons.
+- No reboot needed. (except enable/disable audio devices)
+- Options visible/accessible only when features enabled.
+- Toggle descriptions with question mark button.
+
+**MPD**
+- I2S audio output selected automatically after setup in System and reboot.
+- Hardware/software volume set automatically for each device.
+- Bit-perfect setting.
+
+**Sources**
+- Improved mount / unmount / remount / remove mount
+
+**Network**
+- Improved status info
+- Complete IP address info with QR codes.
+- Wi-Fi:
+	- Faster scan available Wi-Fi.
+	- Icons indicate signal level.
+	- Improved connect / reconnect / forget
+	
+**System**
+- Unified hostname for all services: System, Access point, AirPlay, Samba, uPnP/DLNA
+- i2s module setup with auto select MPD output on reboot
+- Wi-Fi and Bluetooth disable option
+- Samba option to set write permissions
+- Faster scan available Wi-Fi.
+- Icons indicate signal level.
+- Improved connect / reconnect / forget
+
+**System**
+- Unified hostname for all services: System, Access point, AirPlay, Samba, uPnP/DLNA
+- i2s module setup with auto select MPD output on reboot
+- Wi-Fi and Bluetooth disable option
+- Samba option to set write permissions
