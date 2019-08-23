@@ -22,7 +22,7 @@ playlists
 redis
 tmp
 webradiopl
-webradios' >> "$file"
+webradios' > "$file"
 fi
 
 setColor
