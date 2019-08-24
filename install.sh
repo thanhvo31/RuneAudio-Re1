@@ -10,6 +10,8 @@ installstart $@
 
 getinstallzip
 
+redis-cli hdel addons font lyri udac kid3 expa motd enha
+
 rm -f /srv/http/{Gruntfile.js,package.json} /srv/http/assets/js/vendor/bootstrap-contextmenu*
 
 file="$( ls -d /mnt/MPD/USB/*/ ).mpdignore"
