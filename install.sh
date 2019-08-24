@@ -10,7 +10,7 @@ installstart $@
 
 getinstallzip
 
-redis-cli hdel addons font lyri udac kid3 expa motd enha
+redis-cli hdel addons font lyri udac kid3 expa motd enha &> /dev/null
 
 rm -f /srv/http/{Gruntfile.js,package.json} /srv/http/assets/js/vendor/bootstrap-contextmenu*
 
