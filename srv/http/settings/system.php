@@ -13,11 +13,11 @@ $data = json_decode( shell_exec( '/srv/http/settings/systemdata.sh' ) );
 date_default_timezone_set( $data->timezone );
 $timezonelist = timezone_identifiers_list();
 foreach( $timezonelist as $key => $zone ) {
-	$selected = $zone === $timezone ? ' selected' : '';
+	$selected = $zone === $data->timezone ? ' selected' : '';
 	$datetime = new DateTime( 'now', new DateTimeZone( $zone ) );
 	$offset = $datetime->format( 'P' );
 	$zonename = preg_replace( array( '/_/', '/\//' ), array( ' ', ' <gr>&middot;</gr> ' ), $zone );
-	if ( $selected ) $zonestring = $timezone === 'UTC' ? 'UTC' : explode( ' <gr>&middot;</gr> ', $zonename, 2 )[ 1 ];
+	if ( $selected ) $zonestring = $data->timezone === 'UTC' ? 'UTC' : explode( ' <gr>&middot;</gr> ', $zonename, 2 )[ 1 ];
 	$optiontimezone.= '<option value="'.$zone.'"'.$selected.'>'.$zonename.'&ensp;'.$offset."</option>\n";
 }
 
