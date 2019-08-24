@@ -52,8 +52,6 @@ RuneAudio+R e1
 
 ### UI Frontend
 - RuneUI Enhancement
-- Airplay coverarts
-- Roll the dice button for Library random (Improved global random)
 
 ### Settings Backend
 - Enable / disable / options: applied immediately, no more Ok buttons.
