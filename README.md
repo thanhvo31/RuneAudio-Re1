@@ -47,7 +47,35 @@ RuneAudio+R e1
 - Import extra directories or create new ones if not exist.
 - Update MPD library if migrate database not exist.
 
+### Recommendations
+- User interface for minimalists
+	- Menu > Playback Tools:
+	- Hide top-bottom bars, Time, Volume, Buttons 
+	- Enable Large coverart
+	- (Use Coverart for playback controls instead - tap top-center of Coverart for guide.)
+- Menu > Library Tools:
+	- Hide unused blocks, text Label
+	- Drag Library home blocks to arrange order
+- Best sound quality:
+	- Enable Bit-perfect.
+	- Use only amplifier volume.
+- RPi to router connection:
+	- With wired LAN if possible
+- Disable Wi-Fi
+	- With WiFi if necessary
+	- Connect with wired LAN for initial setup (or with accesspoint if necessary)
+	- Get IP address for browser connection
+	- Disable accesspoint once connected
+- With RPi accesspoint only if there's no router
+- Connect to RuneAudio with IP address instead of runeaudio.local
+	- Get IP address: Menu > Network > Network Interfaces list
+- Disable if not use to lower CPU usage	
+	- Bluetooth
+	- Wi-Fi
+	- Access point
+	- Browser on RPi
 ---
+
 ## Features
 
 ### UI Frontend
