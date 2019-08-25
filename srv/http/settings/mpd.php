@@ -2,6 +2,7 @@
 $redis = new Redis();
 $redis->pconnect( '127.0.0.1' );
 $ao = $redis->get( 'ao' );
+$mixersw = $redis->get( 'mixer' ) === 'software' ? 1 : 0;
 $autoplay = $redis->get( 'mpd_autoplay' );
 
 exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
@@ -64,6 +65,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 			<div class="col-sm-10">
 				<input id="mixertype" type="checkbox" value="<?=$mixertype?>" <?=( $mixertype === 'none' ? '' : 'checked' )?>>
 				<label class="switchlabel" for="mixertype"></label>
+				<i id="setting-mixertype" data-mixersw="<?=$mixersw?>" class="setting fa fa-gear <?=( $mixertype === 'none' ? 'hide' : '' )?>"></i>
 				<span class="help-block hide">Volume knob for level control</span>
 			</div>
 		</div>
