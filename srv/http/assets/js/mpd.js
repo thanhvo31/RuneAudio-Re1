@@ -37,7 +37,7 @@ $( '#novolume' ).click( function() {
 			  "sed -i 's/volume_normalization.*/volume_normalization    \"no\"/' "+ mpdconf
 			, 'mpc crossfade 0'
 			, 'mpc replaygain off'
-			, 'redis-cli set mixer none'
+			, 'redis-cli mset mixer none novolume 1'
 			, '/srv/http/settings/mpdconf.sh'
 		] } );
 		$( '#mixertype, #crossfade, #normalization, #replaygain' ).prop( 'checked', 0 );
@@ -49,12 +49,14 @@ $( '#novolume' ).click( function() {
 	} else {
 		$( '#mixertype' ).click();
 		$( '#volume' ).removeClass( 'hide' );
+		$.post( 'commands.php', { bash: 'redis-cli set novolume 0' } );
 	}
 } );
 $( '#mixertype' ).click( function() {
 	var checked = $( this ).prop( 'checked' );
+	$( '#setting-mixertype' ).toggleClass( 'hide', !checked )
 	$.post( 'commands.php', { bash: [
-		  ( checked ? 'redis-cli del mixer' : 'redis-cli mixer none' )
+		  ( checked ? 'redis-cli del mixer' : 'redis-cli set mixer none' )
 		, '/srv/http/settings/mpdconf.sh'
 	] } );
 } );
