@@ -10,6 +10,18 @@ if [[ -z $aplay ]]; then
 	shutdown -r now
 fi
 
+# unmute hardware volume if somehow it was set
+if amixer -c1 scontents | grep -q 'Playback.*\[off'; then
+	cards=$( aplay -l | grep '^card' | cut -d: -f1 | cut -d' ' -f2 | sort -u )
+	for card in $cards; do
+		scontrols=$( amixer -c $card scontents | grep -B1 'pvolume' | grep 'Simple' | awk -F"['']" '{print $2}' )
+		readarray -t mixers <<<"$scontrols"
+		for mixer in "${mixers[@]}"; do
+			amixer -c $card sset "$mixer" unmute # not work with "set numid=# unmute"
+		done
+	done
+fi
+
 file=/etc/mpd.conf
 mpdconf=$( sed '/audio_output/,/}/ d' $file ) # remove all outputs
 
