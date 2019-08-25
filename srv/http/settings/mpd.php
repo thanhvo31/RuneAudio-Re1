@@ -2,6 +2,7 @@
 $redis = new Redis();
 $redis->pconnect( '127.0.0.1' );
 $ao = $redis->get( 'ao' );
+$novolume = $redis->get( 'novolume' ) == 1 ? 'checked' : '';
 $mixersw = $redis->get( 'mixer' ) === 'software' ? 1 : 0;
 $autoplay = $redis->get( 'mpd_autoplay' );
 
@@ -19,7 +20,6 @@ $mixertype = exec( "$sudo/grep mixer_type /etc/mpd.conf | head -1 | cut -d'\"' -
 $crossfade = exec( "$sudo/mpc crossfade | cut -d' ' -f2" );
 $normalization = exec( "$sudo/grep 'volume_normalization' /etc/mpd.conf | cut -d'\"' -f2" );
 $replaygain = exec( "$sudo/mpc replaygain | cut -d' ' -f2" );
-$novolume = ( $mixertype !== 'none' || $crossfade != 0 || $normalization !== 'no' || $replaygain !== 'off' ) ? '' : 'checked';
 $autoupdate = exec( "$sudo/grep 'auto_update' /etc/mpd.conf | cut -d'\"' -f2" );
 $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" );
 ?>
