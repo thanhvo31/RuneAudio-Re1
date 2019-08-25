@@ -59,7 +59,8 @@ audio_output {
 	else
 		mixer_type=software
 	fi
-	[[ $( redis-cli get mixer_type ) == none ]] && mixer_type=none
+	mixer=$( redis-cli get mixer )
+	[[ -n $mixer ]] && mixer_type=$mixer
 	
 	mpdconf+='
 	mixer_type        "'$mixer_type'"'
