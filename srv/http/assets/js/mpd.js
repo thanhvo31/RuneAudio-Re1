@@ -6,8 +6,6 @@ $( '#audiooutput' ).change( function() {
 	var $selected = $( this ).find( ':selected' );
 	var name = $selected.val();
 	var index = $selected.data( 'index' );
-	var subdevice = name.slice( -1 );
-	var name0 = name.slice( 0, -2 );
 	var routecmd = $selected.data( 'routecmd' );
 	var cmd = [
 		  'redis-cli set ao "'+ name +'"'
@@ -36,14 +34,11 @@ $( '#dop' ).click( function() {
 $( '#novolume' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
 		$.post( 'commands.php', { bash: [
-			  'sed -i'
-					+" -e 's/mixer_type.*/mixer_type        \"none\"/'"
-					+" -e 's/replaygain.*/replaygain              \"off\"/'"
-					+" -e 's/volume_normalization.*/volume_normalization    \"no\"/'"
-					+' '+ mpdconf
+			  "sed -i 's/volume_normalization.*/volume_normalization    \"no\"/' "+ mpdconf
 			, 'mpc crossfade 0'
-			, 'redis-cli set mixer_type none'
-			, restart
+			, 'mpc replaygain off'
+			, 'redis-cli set mixer none'
+			, '/srv/http/settings/mpdconf.sh'
 		] } );
 		$( '#mixertype, #crossfade, #normalization, #replaygain' ).prop( 'checked', 0 );
 		$( '#mixertype' ).val( 'none' );
@@ -57,40 +52,25 @@ $( '#novolume' ).click( function() {
 	}
 } );
 $( '#mixertype' ).click( function() {
-	if ( $( this ).prop( 'checked' ) ) {
-		var cmd = 'sed -i';
-		$( '#audiooutput option' ).each( function() {
-			$this = $( this );
-			cmd += " -e '/"+ $this.val() +"/,/mixer_type/ s/mixer_type.*/mixer_type        \""+ $this.data( 'mixer' ) +"\"/'"
-		} );
-		cmd += ' '+ mpdconf;
-		$.post( 'commands.php', { bash: [
-			  cmd
-			, 'redis-cli del mixer_type'
-			, restart
-		] } );
-	} else {
-		$.post( 'commands.php', { bash: [
-			  "sed -i 's/mixer_type.*/mixer_type        \"none\"/' "+ mpdconf
-			, 'redis-cli mixer_type none'
-			, restart
-		] } );
-	}
+	var checked = $( this ).prop( 'checked' );
+	$.post( 'commands.php', { bash: [
+		  ( checked ? 'redis-cli del mixer' : 'redis-cli mixer none' )
+		, '/srv/http/settings/mpdconf.sh'
+	] } );
 } );
 $( '#setting-mixertype' ).click( function() {
 	info( {
 		  icon     : 'mpd'
 		, title    : 'Volume'
-		, checkbox : { Software volume }
-		, checked  : [ $( this ).val() === 'software' ? 0 : '' ]
-		, ok      : function() {
-			var sw = $( '#infoCheckBox input[ type=checkbox ]' ).prop( 'checked' ) ? 1 : 0;
+		, checkbox : { 'MPD software': 1 }
+		, checked  : [ $( this ).data( 'mixersw' ) ? 0 : 1 ]
+		, ok       : function() {
+			var mixersw = $( '#infoCheckBox input[ type=checkbox ]' ).prop( 'checked' ) ? 1 : 0;
 			$.post( 'commands.php', { bash: [
-				  ( cw ? 'redis-cli set mixer software' : 'redis-cli del mixer' )
+				  ( mixersw ? 'redis-cli set mixer software' : 'redis-cli del mixer' )
 				, '/srv/http/settings/mpdconf.sh'
-				, restart
 			] } );
-			$( this ).val( sw );
+			$( this ).data( 'mixersw', mixersw );
 		}
 	} );
 } );
