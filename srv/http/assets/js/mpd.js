@@ -149,5 +149,11 @@ $( '#ffmpeg' ).click( function() {
 $( '#autoplay' ).click( function() {
 	$.post( 'commands.php', { bash: 'redis-cli set mpd_autoplay '+ ( $( this ).prop( 'checked' ) ? 1 : 0 ) } );
 } );
+var pushstream = new PushStream( { modes: 'websocket' } );
+pushstream.addChannel( 'notify' );
+pushstream.connect();
+pushstream.onmessage = function( data ) {
+	if ( data[ 0 ].title === 'Audio Output Switched' ) location.reload();
+}
 
 } ); // document ready end <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
