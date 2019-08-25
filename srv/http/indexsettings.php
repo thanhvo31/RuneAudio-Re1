@@ -68,6 +68,7 @@ if ( $p === 'credits' ) {
 	<?php
 	if ( $p === 'mpd' ) echo
 '<script src="/assets/js/vendor/bootstrap-select-1.12.1.min.'.$time.'.js"></script>
+ <script src="/assets/js/vendor/pushstream.min.'.$time.'.js"></script>
  <script src="/assets/js/mpd.'.$time.'.js"></script>';
 	if ( $p === 'network' ) echo
 '<script src="/assets/js/vendor/jquery.qrcode.min.'.$time.'.js"></script>
