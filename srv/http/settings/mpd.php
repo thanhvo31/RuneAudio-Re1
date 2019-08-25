@@ -9,8 +9,9 @@ foreach( $outputs as $output ) {
 	$index = exec( $sudo.'/aplay -l | grep "'.preg_replace( '/_.$/', '', $output ).'" | cut -c6' );
 	$extlabel = exec( "$sudo/grep extlabel \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
 	$mixer = exec( "$sudo/grep mixer_control \"/srv/http/settings/i2s/$output\"" ) ? 'hardware' : 'software';
+	$routecmd = exec( "$sudo/grep route_cmd \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
 	$selected = $output === $ao ? 'selected' : '';
-	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-mixer="'.$mixer.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
+	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-mixer="'.$mixer.'" data-routecmd="'.$routecmd.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
 }
 $dop = exec( "$sudo/grep '^\s*dop' /etc/mpd.conf" ) ? 'checked' : '';
 $mixertype = exec( "$sudo/grep mixer_type /etc/mpd.conf | head -1 | cut -d'\"' -f2" );
