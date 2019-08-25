@@ -49,21 +49,23 @@ audio_output {
 	auto_resample     "no"
 	auto_format       "no"'
 	
-	if [[ -n $mixer_control ]]; then
-		mixer_type=hardware
-		
+	mixer=$( redis-cli get mixer )
+	if [[ -n $mixer ]]; then
 		mpdconf+='
+	mixer_type        "'$mixer'"'
+	
+	elif [[ -n $mixer_control ]]; then
+		mpdconf+='
+	mixer_type        "hardware"
 	mixer_control     "'$mixer_control'"
 	mixer_device      "hw:'$index'"'
 	
 	else
-		mixer_type=software
-	fi
-	mixer=$( redis-cli get mixer )
-	[[ -n $mixer ]] && mixer_type=$mixer
+		mpdconf+='
+	mixer_type        "software"'
 	
-	mpdconf+='
-	mixer_type        "'$mixer_type'"'
+	fi
+	
 	
 	if [[ $( redis-cli get dop ) == 1 ]]; then
 		mpdconf+='
