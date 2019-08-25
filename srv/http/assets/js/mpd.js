@@ -77,6 +77,23 @@ $( '#mixertype' ).click( function() {
 		] } );
 	}
 } );
+$( '#setting-mixertype' ).click( function() {
+	info( {
+		  icon     : 'mpd'
+		, title    : 'Volume'
+		, checkbox : { Software volume }
+		, checked  : [ $( this ).val() === 'software' ? 0 : '' ]
+		, ok      : function() {
+			var sw = $( '#infoCheckBox input[ type=checkbox ]' ).prop( 'checked' ) ? 1 : 0;
+			$.post( 'commands.php', { bash: [
+				  ( cw ? 'redis-cli set mixer software' : 'redis-cli del mixer' )
+				, '/srv/http/settings/mpdconf.sh'
+				, restart
+			] } );
+			$( this ).val( sw );
+		}
+	} );
+} );
 $( '#crossfade' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
 		var crossfade = 2;
