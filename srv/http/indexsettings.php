@@ -64,7 +64,6 @@ if ( $p === 'credits' ) {
 		$( this ).toggleClass( 'blue' );
 		$( '.help-block' ).toggleClass( 'hide' );
 	} );
-	$( '.selectpicker' ).selectpicker();
 </script>
 	<?php
 	if ( $p === 'mpd' ) echo
