@@ -10,17 +10,19 @@ installstart $@
 
 getinstallzip
 
+# no verify ###################################
+redis-cli hdel addons font lyri udac kid3 expa motd enha &> /dev/null
+redis-cli del AccessPoint activePlayer dirble mixer_type updatestart &> /dev/null
+
+rm -f /srv/http/{Gruntfile.js,package.json} /srv/http/assets/js/vendor/{bootstrap-contextmenu*,bootstrap-select.min.js}
+
+# need verify ######################################
 if ! grep '^mixer_type' /etc/mpd.conf; then
 	mixertype=$( grep mixer_type /etc/mpd.conf | head -1 | cut -d'"' -f2 )
 	sed -i -e '/mixer_type/ d
 	' -e '/max_connections/ a\mixer_type              "'$mixertype'"
 	' /etc/mpd.conf
 fi
-
-redis-cli hdel addons font lyri udac kid3 expa motd enha &> /dev/null
-redis-cli del AccessPoint activePlayer dirble mixer_type updatestart &> /dev/null
-
-rm -f /srv/http/{Gruntfile.js,package.json} /srv/http/assets/js/vendor/{bootstrap-contextmenu*,bootstrap-select.min.js}
 
 file="$( ls -d /mnt/MPD/USB/*/ ).mpdignore"
 if [[ ! -e "$file" ]]; then
