@@ -11,6 +11,7 @@ installstart $@
 getinstallzip
 
 redis-cli hdel addons font lyri udac kid3 expa motd enha &> /dev/null
+redis-cli set novolume 0 &> /dev/null
 
 rm -f /srv/http/{Gruntfile.js,package.json} \
 /srv/http/assets/js/vendor/{bootstrap-contextmenu*,bootstrap-select.min.js}
