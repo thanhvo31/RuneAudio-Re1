@@ -6,30 +6,37 @@ $( '#audiooutput' ).change( function() {
 	var $selected = $( this ).find( ':selected' );
 	var name = $selected.val();
 	var index = $selected.data( 'index' );
-	var routecmd = $selected.data( 'routecmd' );
 	var cmd = [
 		  'redis-cli set ao "'+ name +'"'
 		, "sed -i 's/output_device = .*/output_device = \"hw:"+ index +"\";/' /etc/shairport-sync.conf"
 		, 'systemctl try-restart shairport-sync'
 	];
+	var routecmd = $selected.data( 'routecmd' );
 	if ( routecmd ) cmd.push( routecmd.replace( '*CARDID*', index ) );
 	$.post( 'commands.php', { bash: cmd } );
 } );
+$( '#setting-audiooutput' ).click( function() {
+	var $selected = $( '#audiooutput option:selected' );
+	info( {
+		  icon     : 'mpd'
+		, title    : 'Volume'
+		, checkbox : { 'Disable': 1 }
+		, checked  : [ $selected.data( 'mixernone' ) ? 0 : 1 ]
+		, ok       : function() {
+			var mixernone = $( '#infoCheckBox input[ type=checkbox ]' ).prop( 'checked' ) ? 1 : 0;
+			$.post( 'commands.php', { bash: [
+				  'redis-cli hset mixernone "'+ $selected.val() +'" '+ mixernone
+				, '/srv/http/settings/mpdconf.sh'
+			] } );
+			$selected.data( 'mixernone', mixernone );
+		}
+	} );
+} );
 $( '#dop' ).click( function() {
-	if ( $( this ).prop( 'checked' ) ) {
-		var cmd = [
-			  "sed -i '/^\\s*name/ a\\\tdop               \"yes\"' "+ mpdconf
-			, 'redis-cli set dop 1'
-			, restart
-		];
-	} else {
-		var cmd = [
-			  "sed -i '/^\\s*dop/ d' "+ mpdconf
-			, 'redis-cli set dop 0'
-			, restart
-		];
-	}
-	$.post( 'commands.php', { bash: cmd } );
+	$.post( 'commands.php', { bash: [
+		  'redis-cli hset dop "'+ $( '#audiooutput option:selected' ).val() +'" '+ ( $( this ).prop( 'checked' ) ? 1 : 0 )
+		, '/srv/http/settings/mpdconf.sh'
+	] } );
 } );
 $( '#novolume' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
@@ -37,44 +44,21 @@ $( '#novolume' ).click( function() {
 			  "sed -i 's/volume_normalization.*/volume_normalization    \"no\"/' "+ mpdconf
 			, 'mpc crossfade 0'
 			, 'mpc replaygain off'
-			, 'redis-cli mset mixer none novolume 1'
+			, 'redis-cli set novolume 1'
 			, '/srv/http/settings/mpdconf.sh'
 		] } );
-		$( '#mixertype, #crossfade, #normalization, #replaygain' ).prop( 'checked', 0 );
-		$( '#mixertype' ).val( 'none' );
+		$( '#crossfade, #normalization, #replaygain' ).prop( 'checked', 0 );
 		$( '#crossfade' ).val( 0 );
 		$( '#normalization' ).val( 'no' );
 		$( '#replaygain' ).val( 'off' );
 		$( '#volume, #setting-crossfade, #setting-replaygain' ).addClass( 'hide' );
 	} else {
-		$( '#mixertype' ).click();
 		$( '#volume' ).removeClass( 'hide' );
-		$.post( 'commands.php', { bash: 'redis-cli set novolume 0' } );
+		$.post( 'commands.php', { bash: [
+			  'redis-cli set novolume 0'
+			, '/srv/http/settings/mpdconf.sh'
+		] } );
 	}
-} );
-$( '#mixertype' ).click( function() {
-	var checked = $( this ).prop( 'checked' );
-	$( '#setting-mixertype' ).toggleClass( 'hide', !checked )
-	$.post( 'commands.php', { bash: [
-		  ( checked ? 'redis-cli del mixer' : 'redis-cli set mixer none' )
-		, '/srv/http/settings/mpdconf.sh'
-	] } );
-} );
-$( '#setting-mixertype' ).click( function() {
-	info( {
-		  icon     : 'mpd'
-		, title    : 'Volume'
-		, checkbox : { 'MPD software': 1 }
-		, checked  : [ $( this ).data( 'mixersw' ) ? 0 : 1 ]
-		, ok       : function() {
-			var mixersw = $( '#infoCheckBox input[ type=checkbox ]' ).prop( 'checked' ) ? 1 : 0;
-			$.post( 'commands.php', { bash: [
-				  ( mixersw ? 'redis-cli set mixer software' : 'redis-cli del mixer' )
-				, '/srv/http/settings/mpdconf.sh'
-			] } );
-			$( this ).data( 'mixersw', mixersw );
-		}
-	} );
 } );
 $( '#crossfade' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
