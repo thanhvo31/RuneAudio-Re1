@@ -51,27 +51,16 @@ audio_output {
 	auto_format       "no"'
 	
 	if [[ -n $mixer_control ]]; then
-		mixer=hardware
 		mpdconf+='
 	mixer_control     "'$mixer_control'"
 	mixer_device      "hw:'$index'"'
 	
-	else
-		mixer=software
 	fi
 	
-	if [[ $( redis-cli get novolume ) == 1 ]]; then
-		mixer=none
-	else
-		mixerset=$( redis-cli hget mixer_type "$sysname" )
-		[[ -n $mixerset ]] && mixer=$mixerset
-	fi
-		mpdconf+='
-	mixer_type        "'$mixer'"'
-
 	if (( $( redis-cli get dop ) == 1 )) && [[ ${sysname:0:-2} != 'bcm2835 ALSA' ]]; then
 		mpdconf+='
 	dop               "yes"'
+	
 	fi
 	
 	mpdconf+='

@@ -10,12 +10,11 @@ exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
 foreach( $outputs as $output ) {
 	$index = exec( $sudo.'/aplay -l | grep "'.preg_replace( '/_.$/', '', $output ).'" | cut -c6' );
 	$extlabel = exec( "$sudo/grep extlabel \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
-	$mixer = $redis->hGet( 'mixer_type', $output );
-	if ( !$mixer ) $mixer = exec( "$sudo/sed -n '/$output/,/mixer_type/ p' /etc/mpd.conf | grep mixer_type | cut -d'\"' -f2" );
 	$routecmd = exec( "$sudo/grep route_cmd \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
 	$selected = $output === $audiooutput ? 'selected' : '';
-	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-mixer="'.$mixer.'" data-routecmd="'.$routecmd.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
+	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-routecmd="'.$routecmd.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
 }
+$mixertype = exec( "$sudo/grep mixer_type /etc/mpd.conf | cut -d'\"' -f2" );
 $crossfade = exec( "$sudo/mpc crossfade | cut -d' ' -f2" );
 $normalization = exec( "$sudo/grep 'volume_normalization' /etc/mpd.conf | cut -d'\"' -f2" );
 $replaygain = exec( "$sudo/mpc replaygain | cut -d' ' -f2" );
@@ -28,7 +27,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Inferface</label>
 			<div class="col-sm-10">
-				<select id="audiooutput" class="selectpicker" data-style="btn-default btn-lg">
+				<select id="audiooutput" data-mixertype="<?=$mixertype?>" class="selectpicker" data-style="btn-default btn-lg">
 					<?=$htmlacards?>
 				</select><br>
 				<i id="setting-audiooutput" class="setting select fa fa-gear"></i>
