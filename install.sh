@@ -11,6 +11,7 @@ installstart $@
 getinstallzip
 
 redis-cli hdel addons font lyri udac kid3 expa motd enha &> /dev/null
+redis-cli del AccessPoint activePlayer dirble mixer_none mixer_type updatestart &> /dev/null
 redis-cli set novolume 0 &> /dev/null
 
 rm -f /srv/http/{Gruntfile.js,package.json} \
