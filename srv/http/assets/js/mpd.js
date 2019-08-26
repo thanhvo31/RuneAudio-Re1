@@ -20,21 +20,21 @@ $( '#setting-audiooutput' ).click( function() {
 	info( {
 		  icon     : 'mpd'
 		, title    : 'Volume'
-		, checkbox : { 'Disable': 1 }
-		, checked  : [ $selected.data( 'mixernone' ) ? 0 : 1 ]
+		, radio    : { Disable: 'none', Hardware: 'hardware', Software: 'software' }
+		, checked  : $selected.data( 'mixer' )
 		, ok       : function() {
-			var mixernone = $( '#infoCheckBox input[ type=checkbox ]' ).prop( 'checked' ) ? 1 : 0;
+			var type = $( '#infoRadio input[ type=radio ]:checked' ).val();
 			$.post( 'commands.php', { bash: [
-				  'redis-cli hset mixernone "'+ $selected.val() +'" '+ mixernone
+				  'redis-cli hset mixer_type "'+ $selected.val() +'" '+ type
 				, '/srv/http/settings/mpdconf.sh'
 			] } );
-			$selected.data( 'mixernone', mixernone );
+			$selected.data( 'mixer', type );
 		}
 	} );
 } );
 $( '#dop' ).click( function() {
 	$.post( 'commands.php', { bash: [
-		  'redis-cli hset dop "'+ $( '#audiooutput option:selected' ).val() +'" '+ ( $( this ).prop( 'checked' ) ? 1 : 0 )
+		  'redis-cli set dop '+ ( $( this ).prop( 'checked' ) ? 1 : 0 )
 		, '/srv/http/settings/mpdconf.sh'
 	] } );
 } );
