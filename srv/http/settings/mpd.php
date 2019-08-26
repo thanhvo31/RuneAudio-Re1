@@ -55,7 +55,8 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 			<div class="col-sm-10">
 				<input id="novolume" type="checkbox" <?=$novolume?>>
 				<label class="switchlabel" for="novolume"></label>
-				<span class="help-block hide">Disable all volume manipulations for bit-perfect stream.</span>
+				<span class="help-block hide">Disable all volume manipulations for bit-perfect stream.<br>
+				Use hardware volume, resister type in DAC, to control level only if it's better than amplifier volume.</span>
 			</div>
 		</div>
 	</form>
