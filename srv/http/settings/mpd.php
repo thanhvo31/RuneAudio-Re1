@@ -1,7 +1,7 @@
 <?php
 $redis = new Redis();
 $redis->pconnect( '127.0.0.1' );
-$ao = $redis->get( 'ao' );
+$audiooutput = $redis->get( 'audiooutput' );
 $dop = $redis->get( 'dop' ) ? 'checked' : '';
 $novolume = $redis->get( 'novolume' ) == 1 ? 'checked' : '';
 $autoplay = $redis->get( 'mpd_autoplay' );
@@ -13,7 +13,7 @@ foreach( $outputs as $output ) {
 	$mixer = $redis->hGet( 'mixer_type', $output );
 	if ( !$mixer ) $mixer = exec( "$sudo/sed -n '/$output/,/mixer_type/ p' /etc/mpd.conf | grep mixer_type | cut -d'\"' -f2" );
 	$routecmd = exec( "$sudo/grep route_cmd \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
-	$selected = $output === $ao ? 'selected' : '';
+	$selected = $output === $audiooutput ? 'selected' : '';
 	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-mixer="'.$mixer.'" data-routecmd="'.$routecmd.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
 }
 $crossfade = exec( "$sudo/mpc crossfade | cut -d' ' -f2" );
