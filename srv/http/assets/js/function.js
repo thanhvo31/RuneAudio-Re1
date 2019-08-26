@@ -503,7 +503,7 @@ function displayPlayback() {
 	displayTopBottom();
 	$( '#time-knob, #play-group' ).toggleClass( 'hide', GUI.display.time === '' || GUI.status.ext === 'AirPlay' );
 	$( '#coverart, #share-group' ).toggleClass( 'hide', GUI.display.cover === '' );
-	var volume = ( GUI.status.volumempd !== 'none' && GUI.display.volume && GUI.status.ext !== 'AirPlay' ) ? 1 : 0;
+	var volume = ( GUI.status.volumempd && GUI.display.volume && GUI.status.ext !== 'AirPlay' ) ? 1 : 0;
 	$( '#volume-knob, #vol-group' ).toggleClass( 'hide', !volume );
 	
 	var column = ( GUI.display.time && GUI.status.ext !== 'AirPlay' ? 1 : 0 ) + ( GUI.display.cover ? 1 : 0 ) + volume;

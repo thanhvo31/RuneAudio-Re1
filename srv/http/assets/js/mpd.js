@@ -7,7 +7,7 @@ $( '#audiooutput' ).change( function() {
 	var name = $selected.val();
 	var index = $selected.data( 'index' );
 	var cmd = [
-		  'redis-cli set ao "'+ name +'"'
+		  'redis-cli set audiooutput "'+ name +'"'
 		, "sed -i 's/output_device = .*/output_device = \"hw:"+ index +"\";/' /etc/shairport-sync.conf"
 		, 'systemctl try-restart shairport-sync'
 	];
