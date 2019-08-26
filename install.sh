@@ -23,6 +23,7 @@ file="$( ls -d /mnt/MPD/USB/*/ ).mpdignore"
 if [[ ! -e "$file" ]]; then
 echo 'bookmarks
 coverarts
+gpio
 lyrics
 mpd
 playlists
