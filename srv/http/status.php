@@ -2,15 +2,17 @@
 $redis = new Redis(); 
 $redis->pconnect( '127.0.0.1' );
 
+$sudo = '/usr/bin/sudo /usr/bin/';
 $statusonly = isset( $_POST[ 'statusonly' ] );
 if ( !$statusonly ) {
-	if ( exec( '/usr/bin/sudo /usr/bin/systemctl is-active mpd' ) === 'active' ) {
+	if ( exec( "$sudo/systemctl is-active mpd" ) === 'active' ) {
 		$activePlayer = 'MPD';
-	} else if ( exec( '/usr/bin/sudo /usr/bin/systemctl is-active shairport-sync' ) === 'active' ) {
+	} else if ( exec( "$sudo/systemctl is-active shairport-sync" ) === 'active' ) {
 		$activePlayer = 'AirPlay';
 	}
 	$status[ 'activePlayer' ] = $activePlayer;
 	$status[ 'volumemute' ] = $redis->hGet( 'display', 'volumemute' );
+	$status[ 'volumempd' ] = exec( "$sudo/sed -n '/".$redis->get( 'ao' )."/,/mixer_type/ p' /etc/mpd.conf | grep mixer_type | cut -d'\"' -f2" );
 	if ( $activePlayer === 'AirPlay' ) {
 		$status[ 'Artist'] = $redis->hGet( 'airplaymeta', 'Artist' );
 		$status[ 'Title'] = $redis->hGet( 'airplaymeta', 'Title' );
@@ -121,10 +123,10 @@ if ( $status[ 'state' ] === 'play' ) {
 	echo json_encode( $status, JSON_NUMERIC_CHECK );
 	// save only webradio: update sampling database on each play
 	if ( $radio ) $redis->hSet( 'sampling', $name, $sampling );
-	exec( '/usr/bin/sudo /usr/bin/systemctl '.( $radio ? 'start' : 'stop' ).' radiowatchdog' );
+	exec( "$sudo/systemctl ".( $radio ? 'start' : 'stop' ).' radiowatchdog' );
 	exit();
 }
-exec( '/usr/bin/sudo /usr/bin/systemctl stop mpd-watchdog' );
+exec( "$sudo/systemctl stop radiowatchdog" );
 
 // state: stop / pause >>>>>>>>>>
 // webradio
