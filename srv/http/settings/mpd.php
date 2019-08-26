@@ -2,6 +2,7 @@
 $redis = new Redis();
 $redis->pconnect( '127.0.0.1' );
 $ao = $redis->get( 'ao' );
+$dop = $redis->get( 'dop' ) ? 'checked' : '';
 $novolume = $redis->get( 'novolume' ) == 1 ? 'checked' : '';
 $autoplay = $redis->get( 'mpd_autoplay' );
 
@@ -9,13 +10,12 @@ exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
 foreach( $outputs as $output ) {
 	$index = exec( $sudo.'/aplay -l | grep "'.preg_replace( '/_.$/', '', $output ).'" | cut -c6' );
 	$extlabel = exec( "$sudo/grep extlabel \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
-	$mixernone = $redis->hGet( 'mixernone', $output ) ? 1 : 0;
+	$mixer = $redis->hGet( 'mixer_type', $output );
+	if ( !$mixer ) $mixer = exec( "$sudo/sed -n '/$output/,/mixer_type/ p' /etc/mpd.conf | grep mixer_type | cut -d'\"' -f2" );
 	$routecmd = exec( "$sudo/grep route_cmd \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
 	$selected = $output === $ao ? 'selected' : '';
-	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-mixernone="'.$mixernone.'" data-routecmd="'.$routecmd.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
+	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-mixer="'.$mixer.'" data-routecmd="'.$routecmd.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
 }
-$dop = exec( "$sudo/grep '^\s*dop' /etc/mpd.conf" ) ? 'checked' : '';
-$mixertype = exec( "$sudo/grep mixer_type /etc/mpd.conf | head -1 | cut -d'\"' -f2" );
 $crossfade = exec( "$sudo/mpc crossfade | cut -d' ' -f2" );
 $normalization = exec( "$sudo/grep 'volume_normalization' /etc/mpd.conf | cut -d'\"' -f2" );
 $replaygain = exec( "$sudo/mpc replaygain | cut -d' ' -f2" );
@@ -31,8 +31,8 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 				<select id="audiooutput" class="selectpicker" data-style="btn-default btn-lg">
 					<?=$htmlacards?>
 				</select><br>
-				<i id="setting-audiooutput" data-mixernone="<?=$mixernone?>" class="setting select fa fa-gear"></i>
-				<span class="help-block hide">Switch output between audio interfaces. Each volume level control, hardware or software, was set by its driver unless manually disabled by users.</span>
+				<i id="setting-audiooutput" class="setting select fa fa-gear"></i>
+				<span class="help-block hide">Switch output between audio interfaces. Each volume level control, hardware or software, was set by its driver unless manually set by users.</span>
 			</div>
 		</div>
 	</form>
@@ -46,7 +46,8 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 				<span class="help-block hide">For DSD-capable devices without drivers dedicated for native DSD. DoP can be decoded by DSD-capable devices only. Any devices can play DSD files without DoP enabled.
 					<br>DoP will repack 16bit DSD stream into 24bit PCM frames and transmit to the DAC. 
 					Then PCM frames will be reassembled back to original DSD stream, COMPLETELY UNCHANGED, with expense of double bandwith.
-					Otherwise DSD will be converted to PCM stream.</span>
+					Otherwise DSD will be converted to PCM stream.<br>
+					Note: For I&#178;S modules and USB devices only. On-board devices will not be set to DoP.</span>
 			</div>
 		</div>
 		<div class="form-group">
