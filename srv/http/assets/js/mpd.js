@@ -17,18 +17,19 @@ $( '#audiooutput' ).change( function() {
 } );
 $( '#setting-audiooutput' ).click( function() {
 	var $selected = $( '#audiooutput option:selected' );
+	var sysname = $selected.val();
 	info( {
 		  icon     : 'mpd'
 		, title    : 'Volume'
 		, radio    : { Disable: 'none', Hardware: 'hardware', Software: 'software' }
-		, checked  : $selected.data( 'mixer' )
+		, checked  : $( '#audiooutput' ).data( 'mixertype' )
 		, ok       : function() {
 			var type = $( '#infoRadio input[ type=radio ]:checked' ).val();
 			$.post( 'commands.php', { bash: [
-				  'redis-cli hset mixer_type "'+ $selected.val() +'" '+ type
-				, '/srv/http/settings/mpdconf.sh'
+				  "sed -i 's/mixer_type.*/mixer_type              \""+ type +"\"/' /etc/mpd.conf"
+				, restart
 			] } );
-			$selected.data( 'mixer', type );
+			$( '#audiooutput' ).data( 'mixertype', type )
 		}
 	} );
 } );
