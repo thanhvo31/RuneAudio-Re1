@@ -28,9 +28,9 @@ sleep 1
 /srv/http/settings/mpdconf.sh
 # mpd mpdidle start here
 
-ao=$( redis-cli get ao )
-if [[ -z $ao ]] || ! mpc outputs | grep -q "$ao"; then
-	redis-cli set ao "$( mpc outputs | head -1 | awk -F'[()]' '{print $2}' )"
+audiooutput=$( redis-cli get audiooutput )
+if [[ -z $audiooutput ]] || ! mpc outputs | grep -q "$audiooutput"; then
+	redis-cli set audiooutput "$( mpc outputs | head -1 | awk -F'[()]' '{print $2}' )"
 fi
 
 /srv/http/settings/soundprofile.sh $( redis-cli get orionprofile )

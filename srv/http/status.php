@@ -12,7 +12,9 @@ if ( !$statusonly ) {
 	}
 	$status[ 'activePlayer' ] = $activePlayer;
 	$status[ 'volumemute' ] = $redis->hGet( 'display', 'volumemute' );
-	$status[ 'volumempd' ] = exec( "$sudo/sed -n '/".$redis->get( 'ao' )."/,/mixer_type/ p' /etc/mpd.conf | grep mixer_type | cut -d'\"' -f2" );
+	$volanalog = exec( "$sudo/sed -n '/bcm2835 ALSA_1/,/mixer_type/ p' /etc/mpd.conf | grep mixer_type | cut -d'\"' -f2" );
+	$volhdmi = exec( "$sudo/sed -n '/bcm2835 ALSA_2/,/mixer_type/ p' /etc/mpd.conf | grep mixer_type | cut -d'\"' -f2" );
+	$status[ 'volumempd' ] = ( $volanalog !== 'none' && $volhdmi !== 'none' );
 	if ( $activePlayer === 'AirPlay' ) {
 		$status[ 'Artist'] = $redis->hGet( 'airplaymeta', 'Artist' );
 		$status[ 'Title'] = $redis->hGet( 'airplaymeta', 'Title' );
