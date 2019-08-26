@@ -47,7 +47,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 					<br>DoP will repack 16bit DSD stream into 24bit PCM frames and transmit to the DAC. 
 					Then PCM frames will be reassembled back to original DSD stream, COMPLETELY UNCHANGED, with expense of double bandwith.
 					Otherwise DSD will be converted to PCM stream.<br>
-					Note: For I&#178;S modules and USB devices only. On-board devices will not be set to DoP.</span>
+					Note: On-board audio will always get converted DSD.</span>
 			</div>
 		</div>
 		<div class="form-group">
