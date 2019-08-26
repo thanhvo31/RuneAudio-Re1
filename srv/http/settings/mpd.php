@@ -3,17 +3,16 @@ $redis = new Redis();
 $redis->pconnect( '127.0.0.1' );
 $ao = $redis->get( 'ao' );
 $novolume = $redis->get( 'novolume' ) == 1 ? 'checked' : '';
-$mixersw = $redis->get( 'mixer' ) === 'software' ? 1 : 0;
 $autoplay = $redis->get( 'mpd_autoplay' );
 
 exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
 foreach( $outputs as $output ) {
 	$index = exec( $sudo.'/aplay -l | grep "'.preg_replace( '/_.$/', '', $output ).'" | cut -c6' );
 	$extlabel = exec( "$sudo/grep extlabel \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
-	$mixer = exec( "$sudo/grep mixer_control \"/srv/http/settings/i2s/$output\"" ) ? 'hardware' : 'software';
+	$mixernone = $redis->hGet( 'mixernone', $output ) ? 1 : 0;
 	$routecmd = exec( "$sudo/grep route_cmd \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
 	$selected = $output === $ao ? 'selected' : '';
-	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-mixer="'.$mixer.'" data-routecmd="'.$routecmd.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
+	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-mixernone="'.$mixernone.'" data-routecmd="'.$routecmd.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
 }
 $dop = exec( "$sudo/grep '^\s*dop' /etc/mpd.conf" ) ? 'checked' : '';
 $mixertype = exec( "$sudo/grep mixer_type /etc/mpd.conf | head -1 | cut -d'\"' -f2" );
@@ -32,7 +31,8 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 				<select id="audiooutput" class="selectpicker" data-style="btn-default btn-lg">
 					<?=$htmlacards?>
 				</select><br>
-				<span class="help-block hide">Switch output between audio interfaces.</span>
+				<i id="setting-audiooutput" data-mixernone="<?=$mixernone?>" class="setting select fa fa-gear"></i>
+				<span class="help-block hide">Switch output between audio interfaces. Each volume level control, hardware or software, was set by its driver unless manually disabled by users.</span>
 			</div>
 		</div>
 	</form>
@@ -60,15 +60,6 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 	</form>
 	<form id="volume" class="form-horizontal <?=( $novolume === 'checked' ? 'hide' : '' )?>">
 		<h3>Volume</h3>
-		<div class="form-group">
-			<label class="control-label col-sm-2">Level control</label>
-			<div class="col-sm-10">
-				<input id="mixertype" type="checkbox" value="<?=$mixertype?>" <?=( $mixertype === 'none' ? '' : 'checked' )?>>
-				<label class="switchlabel" for="mixertype"></label>
-				<i id="setting-mixertype" data-mixersw="<?=$mixersw?>" class="setting fa fa-gear <?=( $mixertype === 'none' ? 'hide' : '' )?>"></i>
-				<span class="help-block hide">Volume knob for level control</span>
-			</div>
-		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-2">Crossfade</label>
 			<div class="col-sm-10">

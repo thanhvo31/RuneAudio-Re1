@@ -14,10 +14,11 @@ fi
 if amixer -c1 scontents | grep -q 'Playback.*\[off'; then
 	cards=$( aplay -l | grep '^card' | cut -d: -f1 | cut -d' ' -f2 | sort -u )
 	for card in $cards; do
+		# not work with "numid=#" from "amixer -c $card contents"
 		scontrols=$( amixer -c $card scontents | grep -B1 'pvolume' | grep 'Simple' | awk -F"['']" '{print $2}' )
 		readarray -t mixers <<<"$scontrols"
 		for mixer in "${mixers[@]}"; do
-			amixer -c $card sset "$mixer" unmute # not work with "set numid=# unmute"
+			amixer -c $card sset "$mixer" unmute
 		done
 	done
 fi
@@ -49,25 +50,13 @@ audio_output {
 	auto_resample     "no"
 	auto_format       "no"'
 	
-	mixer=$( redis-cli get mixer )
-	if [[ -n $mixer ]]; then
+	if (( $( redis-cli get novolume ) == 1 )) || (( $( redis-cli hget mixernone "$sysname" ) == 1 )); then
 		mpdconf+='
-	mixer_type        "'$mixer'"'
-	
-	elif [[ -n $mixer_control ]]; then
-		mpdconf+='
-	mixer_type        "hardware"
-	mixer_control     "'$mixer_control'"
-	mixer_device      "hw:'$index'"'
-	
-	else
-		mpdconf+='
-	mixer_type        "software"'
+	mixer_type        "none"'
 	
 	fi
 	
-	
-	if [[ $( redis-cli get dop ) == 1 ]]; then
+	if (( $( redis-cli hget dop "$sysname" ) == 1 )); then
 		mpdconf+='
 	dop               "yes"'
 	fi
