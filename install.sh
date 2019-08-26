@@ -8,11 +8,12 @@ alias=rre1
 
 installstart $@
 
-mixertype=$( grep mixer_type /etc/mpd.conf | head -1 | cut -d'"' -f2 )
-
 getinstallzip
 
-sed -i 's/mixertype.*/mixer_type              "'$mixertype'"/' /etc/mpd.conf
+mixertype=$( grep mixer_type /etc/mpd.conf | head -1 | cut -d'"' -f2 )
+sed -i -e '/mixer_type/ d
+' -e '/max_connections/ a\mixer_type              "'$mixertype'"
+' /etc/mpd.conf
 
 redis-cli hdel addons font lyri udac kid3 expa motd enha &> /dev/null
 redis-cli del AccessPoint activePlayer dirble mixer_type updatestart &> /dev/null
