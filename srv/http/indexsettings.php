@@ -57,25 +57,37 @@ if ( $p === 'credits' ) {
 ?>
 <script src="/assets/js/vendor/jquery-2.1.0.min.<?=$time?>.js"></script>
 <script src="/assets/js/vendor/bootstrap.min.<?=$time?>.js"></script>
+<script src="/assets/js/vendor/pushstream.min.<?=$time?>.js"></script>
 <script src="/assets/js/addonsinfo.<?=$time?>.js"></script>
 <script src="/assets/js/banner.<?=$time?>.js"></script>
 <script>
-	$( '#help' ).click( function() {
-		$( this ).toggleClass( 'blue' );
-		$( '.help-block' ).toggleClass( 'hide' );
-	} );
+$( '#help' ).click( function() {
+	$( this ).toggleClass( 'blue' );
+	$( '.help-block' ).toggleClass( 'hide' );
+} );
+local = 0;
+pushstream = new PushStream( { modes: 'websocket' } );
+pushstream.addChannel( 'page' );
+pushstream.connect();
+pushstream.onmessage = function( data ) {
+	if ( !local && location.search === '?p='+ data[0].p ) location.reload();
+}
+function pstream( page ) {
+	return 'curl -s -X POST "http://localhost/pub?id=page" -d \'{ "p": "'+ page +'" }\'';
+}
+function resetlocal() {
+	setTimeout( function() { local = 0 }, 1000 );
+}
 </script>
 	<?php
 	if ( $p === 'mpd' ) echo
 '<script src="/assets/js/vendor/bootstrap-select-1.12.1.min.'.$time.'.js"></script>
- <script src="/assets/js/vendor/pushstream.min.'.$time.'.js"></script>
  <script src="/assets/js/mpd.'.$time.'.js"></script>';
 	if ( $p === 'network' ) echo
 '<script src="/assets/js/vendor/jquery.qrcode.min.'.$time.'.js"></script>
  <script src="/assets/js/network.'.$time.'.js"></script>';
 	if ( $p === 'sources' ) echo
-'<script src="/assets/js/vendor/pushstream.min.'.$time.'.js"></script>
- <script src="/assets/js/sources.'.$time.'.js"></script>';
+'<script src="/assets/js/sources.'.$time.'.js"></script>';
 	if ( $p === 'system' ) echo
 '<script src="/assets/js/vendor/bootstrap-select-1.12.1.min.'.$time.'.js"></script>
  <script src="/assets/js/system.'.$time.'.js"></script>';
