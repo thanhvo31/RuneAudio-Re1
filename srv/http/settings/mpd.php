@@ -58,7 +58,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 				<span class="help-block hide">Disable all software volume manipulations for bit-perfect stream from MPD to DACs.<br>
 				DACs with hardware volume must be set to 0dB (not level 0) to preserve amplitude when decoding. (Unless they are resister based.)<br>
 				<br>
-				Command line: <code>alsamixer</code> > <code>F6</code> > <code>device</code> > <code>[dB gain: 0.00, 0.00]</code></span>
+				Verify with command line: <code>alsamixer</code> > <code>F6</code> > <code>device</code> > <code>[dB gain: 0.00, 0.00]</code></span>
 			</div>
 		</div>
 	</form>
