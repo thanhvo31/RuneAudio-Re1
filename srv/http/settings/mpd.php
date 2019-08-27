@@ -31,7 +31,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 					<?=$htmlacards?>
 				</select><br>
 				<i id="setting-audiooutput" class="setting select fa fa-gear"></i>
-				<span class="help-block hide">Switch output between audio interfaces. Each volume level control, hardware or software, was set by its driver unless manually set by users.</span>
+				<span class="help-block hide">Switch output between audio interfaces. Volume level control, hardware or software, was set by its driver unless manually set by users.</span>
 			</div>
 		</div>
 	</form>
@@ -55,7 +55,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 				<input id="novolume" type="checkbox" <?=$novolume?>>
 				<label class="switchlabel" for="novolume"></label>
 				<span class="help-block hide">Disable all volume manipulations for bit-perfect stream.<br>
-				Use hardware volume, resister type in DAC, to control level only if it's better than amplifier volume.</span>
+				Hardware volume: Set level to 0dB.</span>
 			</div>
 		</div>
 	</form>
