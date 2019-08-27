@@ -23,17 +23,17 @@ $( '#setting-audiooutput' ).click( function() {
 	info( {
 		  icon     : 'mpd'
 		, title    : 'Volume Level Control'
-		, radio    : { Disable: 'none', 'DAC Hardware': 'hardware', 'MPD Software': 'software' }
-		, checked  : $( '#audiooutput' ).data( 'mixertype' )
+		, checkbox : { 'MPD Software': 'software' }
+		, checked  : [ $( '#audiooutput' ).data( 'mixertype' ) === 'software' ? 0 : 1 ]
 		, ok       : function() {
-			var type = $( '#infoRadio input[ type=radio ]:checked' ).val();
+			var type = $( '#infoCheckBox input[ type=checkbox ]' ).prop( 'checked' ) ? 'software' : 'hardware';
 			local = 1;
 			$.post( 'commands.php', { bash: [
 				  "sed -i 's/mixer_type.*/mixer_type              \""+ type +"\"/' /etc/mpd.conf"
 				, restartmpd
 				, pstream( 'mpd' )
 			] }, resetlocal );
-			$( '#audiooutput' ).data( 'mixertype', type )
+			$( '#audiooutput' ).data( 'mixertype', type );
 		}
 	} );
 } );
@@ -45,14 +45,16 @@ $( '#dop' ).click( function() {
 		, pstream( 'mpd' )
 	] }, resetlocal );
 } );
-$( '#novolume' ).click( function() {
-	if ( $( this ).prop( 'checked' ) ) {
+$( '#nosoftware' ).click( function() {
+	var $this = $( this );
+	var nosoftware = $this.data( 'nosoftware' );
+	if ( $this.prop( 'checked' ) && !nosoftware ) {
 		local = 1;
 		$.post( 'commands.php', { bash: [
-			  "sed -i 's/volume_normalization.*/volume_normalization    \"no\"/' /etc/mpd.conf"
+			  "sed -i -e 's/mixer_type.*/mixer_type              \"hardware\"/'"
+			 +" -e 's/volume_normalization.*/volume_normalization    \"no\"/' /etc/mpd.conf"
 			, 'mpc crossfade 0'
 			, 'mpc replaygain off'
-			, 'redis-cli set novolume 1'
 			, setmpdconf
 			, pstream( 'mpd' )
 		] }, resetlocal );
@@ -61,20 +63,16 @@ $( '#novolume' ).click( function() {
 		$( '#normalization' ).val( 'no' );
 		$( '#replaygain' ).val( 'off' );
 		$( '#volume, #setting-crossfade, #setting-replaygain' ).addClass( 'hide' );
+		$this.data( 'nosoftware', 1 );
 	} else {
-		$( '#volume' ).removeClass( 'hide' );
-		local = 1;
-		$.post( 'commands.php', { bash: [
-			  'redis-cli set novolume 0'
-			, setmpdconf
-			, pstream( 'mpd' )
-		] }, resetlocal );
+		$( '#volume' ).toggleClass( 'hide' );
 	}
 } );
 $( '#crossfade' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
 		var crossfade = 2;
 		$( '#setting-crossfade' ).removeClass( 'hide' );
+		$( '#nosoftware' ).data( 'nosoftware', 0 ).prop( 'checked', 0 );
 	} else {
 		var crossfade = 0;
 		$( '#setting-crossfade' ).addClass( 'hide' );
@@ -105,18 +103,20 @@ $( '#setting-crossfade' ).click( function() {
 	} );
 } );
 $( '#normalization' ).click( function() {
-	var yesno = $( this ).prop( 'checked' ) ? 'yes' : 'no';
+	var checked = $( this ).prop( 'checked' ) ? 1 : 0;
 	local = 1;
 	$.post( 'commands.php', { bash: [
-		  "sed -i 's/volume_normalization.*/volume_normalization    \""+ yesno +"\"/' /etc/mpd.conf"
+		  "sed -i 's/volume_normalization.*/volume_normalization    \""+ ( checked ? 'yes' : 'no' ) +"\"/' /etc/mpd.conf"
 		, restartmpd
 		, pstream( 'mpd' )
 	] }, resetlocal );
+	if ( checked ) $( '#nosoftware' ).data( 'nosoftware', 0 ).prop( 'checked', 0 );
 } );
 $( '#replaygain' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
 		var replaygain = 'auto';
 		$( '#setting-replaygain' ).removeClass( 'hide' );
+				$( '#nosoftware' ).data( 'nosoftware', 0 ).prop( 'checked', 0 );
 	} else {
 		var replaygain = 'off';
 		$( '#setting-replaygain' ).addClass( 'hide' );
