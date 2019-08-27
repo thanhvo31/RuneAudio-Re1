@@ -3,7 +3,6 @@ $redis = new Redis();
 $redis->pconnect( '127.0.0.1' );
 $audiooutput = $redis->get( 'audiooutput' );
 $dop = $redis->get( 'dop' ) ? 'checked' : '';
-$novolume = $redis->get( 'novolume' ) == 1 ? 'checked' : '';
 $autoplay = $redis->get( 'mpd_autoplay' );
 
 exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
@@ -18,6 +17,7 @@ $mixertype = exec( "$sudo/grep mixer_type /etc/mpd.conf | cut -d'\"' -f2" );
 $crossfade = exec( "$sudo/mpc crossfade | cut -d' ' -f2" );
 $normalization = exec( "$sudo/grep 'volume_normalization' /etc/mpd.conf | cut -d'\"' -f2" );
 $replaygain = exec( "$sudo/mpc replaygain | cut -d' ' -f2" );
+$nosoftware = ( $crossfade == 0 && $normalization === 'no' && $replaygain === 'off' ) ? 1 : 0;
 $autoupdate = exec( "$sudo/grep 'auto_update' /etc/mpd.conf | cut -d'\"' -f2" );
 $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" );
 ?>
@@ -31,7 +31,8 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 					<?=$htmlacards?>
 				</select><br>
 				<i id="setting-audiooutput" class="setting select fa fa-gear"></i>
-				<span class="help-block hide">Switch output between audio interfaces. Volume level control, hardware or software, was set by its driver unless manually set by users.</span>
+				<span class="help-block hide">Volume level control, hardware or software, was set by its driver unless manually set by users. Set to software only if hardware was not supported.<br>
+				Hardware volume controls are anolog circuits which do nothing to digital stream. However, it should be set to 0dB (not level 0) for optimum signal level.</span>
 			</div>
 		</div>
 	</form>
@@ -50,16 +51,16 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="control-label col-sm-2">No volume</label>
+			<label class="control-label col-sm-2">No software</label>
 			<div class="col-sm-10">
-				<input id="novolume" type="checkbox" <?=$novolume?>>
-				<label class="switchlabel" for="novolume"></label>
-				<span class="help-block hide">Disable all volume manipulations for bit-perfect stream.<br>
+				<input id="nosoftware" type="checkbox" data-nosoftware="<?=$nosoftware?>" <?=( $nosoftware ? 'checked' : '' )?>>
+				<label class="switchlabel" for="nosoftware"></label>
+				<span class="help-block hide">Disable all software volume manipulations for bit-perfect stream.<br>
 				Hardware volume: Set level to 0dB.</span>
 			</div>
 		</div>
 	</form>
-	<form id="volume" class="form-horizontal <?=( $novolume === 'checked' ? 'hide' : '' )?>">
+	<form id="volume" class="form-horizontal <?=( $nosoftware ? 'hide' : '' )?>">
 		<h3>Volume</h3>
 		<div class="form-group">
 			<label class="control-label col-sm-2">Crossfade</label>
