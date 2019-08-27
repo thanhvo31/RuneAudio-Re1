@@ -31,10 +31,10 @@ $( '#update' ).click( function() {
 		} );
 	}
 } );
-var pushstream = new PushStream( { modes: 'websocket' } );
-pushstream.addChannel( 'idle' );
-pushstream.connect();
-pushstream.onmessage = function( changed ) {
+var pushstreamidle = new PushStream( { modes: 'websocket' } );
+pushstreamidle.addChannel( 'idle' );
+pushstreamidle.connect();
+pushstreamidle.onmessage = function( changed ) {
 	if ( changed[ 0 ].changed === 'update' ) toggleUpdate();
 }
 
@@ -104,11 +104,14 @@ $( '.entries' ).on( 'click', 'li', function( e ) {
 					   +'<br><br>Continue?'
 			, oklabel : 'Remove'
 			, ok      : function() {
+				local = 1;
 				$.post( 'commands.php', { bash: [
 						  "sed -i '\\|"+ mountname +"| d' /etc/fstab"
 						, 'rmdir "'+ mountpoint +'" &> /dev/null'
+						, pstream( 'sources' )
 					] }, function() {
 					mountStatus();
+					resetlocal();
 				} );
 			}
 		} );
@@ -123,8 +126,13 @@ $( '.entries' ).on( 'click', 'li', function( e ) {
 					   +'<br><br>Continue?'
 			, oklabel : 'Unmount'
 			, ok      : function() {
-				$.post( 'commands.php', { bash: ( nas ? '' : 'udevil ' ) +'umount -l "'+ mountname +'"' }, function() {
+				local = 1;
+				$.post( 'commands.php', { bash: [
+						  ( nas ? '' : 'udevil ' ) +'umount -l "'+ mountname +'"'
+						, pstream( 'sources' )
+					] }, function() {
 					mountStatus();
+					resetlocal();
 				} );
 			}
 		} );
@@ -136,8 +144,13 @@ $( '.entries' ).on( 'click', 'li', function( e ) {
 					   +'<br><br>Continue?'
 			, oklabel : 'Mount'
 			, ok      : function() {
-				$.post( 'commands.php', { bash: ( nas ? 'mount "'+ mountname +'"' : 'udevil mount '+ device ) }, function() {
+				local = 1;
+				$.post( 'commands.php', { bash: [
+						  ( nas ? 'mount "'+ mountname +'"' : 'udevil mount '+ device )
+						, pstream( 'sources' )
+					] }, function() {
 					mountStatus();
+					resetlocal();
 				} );
 			}
 		} );
@@ -210,7 +223,11 @@ function infoMount( data ) {
 				var options = data.options || '';
 				var cmd = '"'+ mountpoint +'" '+ ip +' "'+ ip +':/'+ directory +'" nfs '+ options;
 			}
-			$.post( 'commands.php', { bash: '/srv/http/settings/sourcesmount.sh '+ cmd }, function( std ) {
+			local = 1;
+			$.post( 'commands.php', { bash: [
+					  '/srv/http/settings/sourcesmount.sh '+ cmd
+					, pstream( 'sources' )
+				] }, function( std ) {
 				var std = std[ 0 ];
 				if ( std ) {
 					formdata = data;
@@ -226,6 +243,7 @@ function infoMount( data ) {
 					mountStatus();
 					formdata = {}
 				}
+				resetlocal();
 			}, 'json' );
 		}
 	} );
@@ -253,7 +271,8 @@ function update( cmd ) {
 	$.post( 'commands.php', { bash: [
 		  'redis-cli set updatestart '+ new Date().getTime()
 		, '/srv/http/count.sh '+ cmd
-	] } );
+		, pstream( 'sources' )
+	] }, resetlocal );
 }
 function second2HMS( second ) {
 	if ( second <= 0 ) return 0;
