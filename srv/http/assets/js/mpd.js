@@ -15,31 +15,13 @@ function setMixerType( mixertype ) {
 	$( '#audiooutput' ).data( 'mixertype', mixertype );
 	if ( mixertype === 'none' ) {
 		if ( !$( '#crossfade, #normalization, #replaygain' ).prop( 'checked' ) ) {
-			$( '#nosoftware' ).data( 'nosoftware', 1 ).prop( 'checked', 1 );
+			$( '#novolume' ).data( 'novolume', 1 ).prop( 'checked', 1 );
 			$( '#volume' ).addClass( 'hide' );
 		}
 	} else {
-		$( '#nosoftware' ).data( 'nosoftware', 0 ).prop( 'checked', 0 );
+		$( '#novolume' ).data( 'novolume', 0 ).prop( 'checked', 0 );
 		$( '#volume' ).removeClass( 'hide' );
 	}
-}
-function setNoSoftware() {
-	local = 1;
-	$.post( 'commands.php', { bash: [
-		  "sed -i -e 's/mixer_type.*/mixer_type              \"none\"/'"
-		 +" -e 's/volume_normalization.*/volume_normalization    \"no\"/' /etc/mpd.conf"
-		, 'mpc crossfade 0'
-		, 'mpc replaygain off'
-		, setmpdconf
-		, pstream( 'mpd' )
-	] }, resetlocal );
-	$( '#crossfade, #normalization, #replaygain' ).prop( 'checked', 0 );
-	$( '#crossfade' ).val( 0 );
-	$( '#normalization' ).val( 'no' );
-	$( '#replaygain' ).val( 'off' );
-	$( '#volume, #setting-crossfade, #setting-replaygain' ).addClass( 'hide' );
-	$( '#nosoftware' ).data( 'nosoftware', 1 );
-	$( '#audiooutput' ).data( 'mixertype', 'none' );
 }
 $( '#audiooutput' ).change( function() {
 	var $selected = $( this ).find( ':selected' );
@@ -87,15 +69,32 @@ $( '#dop' ).click( function() {
 		, pstream( 'mpd' )
 	] }, resetlocal );
 } );
-$( '#nosoftware' ).click( function() {
+$( '#novolume' ).click( function() {
 	var $this = $( this );
-	var nosoftware = $this.data( 'nosoftware' );
-	if ( $this.prop( 'checked' ) && !nosoftware ) {
+	var novolume = $this.data( 'novolume' );
+	if ( $this.prop( 'checked' ) && !novolume ) {
 		info( {
 			  icon    : 'volume'
 			, title   : 'Volume Level'
 			, message : warning
-			, ok      : setNoSoftware
+			, ok      : function() {
+				local = 1;
+				$.post( 'commands.php', { bash: [
+					  "sed -i -e 's/mixer_type.*/mixer_type              \"none\"/'"
+					 +" -e 's/volume_normalization.*/volume_normalization    \"no\"/' /etc/mpd.conf"
+					, 'mpc crossfade 0'
+					, 'mpc replaygain off'
+					, setmpdconf
+					, pstream( 'mpd' )
+				] }, resetlocal );
+				$( '#crossfade, #normalization, #replaygain' ).prop( 'checked', 0 );
+				$( '#crossfade' ).val( 0 );
+				$( '#normalization' ).val( 'no' );
+				$( '#replaygain' ).val( 'off' );
+				$( '#volume, #setting-crossfade, #setting-replaygain' ).addClass( 'hide' );
+				$( '#novolume' ).data( 'novolume', 1 );
+				$( '#audiooutput' ).data( 'mixertype', 'none' );
+			}
 		} );
 	} else {
 		$( '#volume' ).toggleClass( 'hide' );
@@ -105,7 +104,7 @@ $( '#crossfade' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
 		var crossfade = 2;
 		$( '#setting-crossfade' ).removeClass( 'hide' );
-		$( '#nosoftware' ).data( 'nosoftware', 0 ).prop( 'checked', 0 );
+		$( '#novolume' ).data( 'novolume', 0 ).prop( 'checked', 0 );
 	} else {
 		var crossfade = 0;
 		$( '#setting-crossfade' ).addClass( 'hide' );
@@ -143,13 +142,13 @@ $( '#normalization' ).click( function() {
 		, restartmpd
 		, pstream( 'mpd' )
 	] }, resetlocal );
-	if ( checked ) $( '#nosoftware' ).data( 'nosoftware', 0 ).prop( 'checked', 0 );
+	if ( checked ) $( '#novolume' ).data( 'novolume', 0 ).prop( 'checked', 0 );
 } );
 $( '#replaygain' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
 		var replaygain = 'auto';
 		$( '#setting-replaygain' ).removeClass( 'hide' );
-				$( '#nosoftware' ).data( 'nosoftware', 0 ).prop( 'checked', 0 );
+				$( '#novolume' ).data( 'novolume', 0 ).prop( 'checked', 0 );
 	} else {
 		var replaygain = 'off';
 		$( '#setting-replaygain' ).addClass( 'hide' );
