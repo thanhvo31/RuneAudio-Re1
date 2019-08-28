@@ -15,8 +15,8 @@ if amixer -c1 scontents | grep -q 'Playback.*\[off'; then
 	cards=$( aplay -l | grep '^card' | cut -d: -f1 | cut -d' ' -f2 | sort -u )
 	for card in $cards; do
 		# not work with "numid=#" from "amixer -c $card contents"
-		scontrols=$( amixer -c $card scontents | grep -B1 'pvolume' | grep 'Simple' | awk -F"['']" '{print $2}' )
-		readarray -t mixers <<<"$scontrols"
+		scontents=$( amixer -c $card scontents | grep -B1 'pvolume' | grep 'Simple' | awk -F"['']" '{print $2}' )
+		readarray -t mixers <<<"$scontents"
 		for mixer in "${mixers[@]}"; do
 			amixer -c $card sset "$mixer" unmute
 		done
@@ -24,12 +24,20 @@ if amixer -c1 scontents | grep -q 'Playback.*\[off'; then
 fi
 
 file=/etc/mpd.conf
+mixertype=$( grep mixer_type $file | cut -d'"' -f2 )
 mpdconf=$( sed '/audio_output/,/}/ d' $file ) # remove all outputs
 
 readarray -t lines <<<"$aplay"
 for line in "${lines[@]}"; do
 	device=$( echo $line | sed 's/card \(.*\):.*device \(.*\):.*/hw:\1,\2/' )
-	index=${device:3:1}
+	card=${device:3:1}
+	if [[ $mixertype == none ]]; then
+		scontents=$( amixer -c $card scontents | grep -B1 'pvolume' | grep 'Simple' | awk -F"['']" '{print $2}' )
+		readarray -t mixers <<<"$scontents"
+		for mixer in "${mixers[@]}"; do
+			amixer -c $card sset "$mixer" 0dB
+		done
+	fi
 	subdevice=${device: -1}
 	name=$( echo $line | awk -F'[][]' '{print $2}' )
 	nameL=$( echo "$aplay" | grep "$name" | wc -l )
@@ -53,7 +61,7 @@ audio_output {
 	if [[ -n $mixer_control ]]; then
 		mpdconf+='
 	mixer_control     "'$mixer_control'"
-	mixer_device      "hw:'$index'"'
+	mixer_device      "hw:'$card'"'
 	
 	fi
 	

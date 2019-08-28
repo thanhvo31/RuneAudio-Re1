@@ -33,7 +33,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 				</select><br>
 				<i id="setting-audiooutput" class="setting select fa fa-gear"></i>
 				<span class="help-block hide">Volume level control, hardware or software, was set by its driver unless manually set by users.
-					<br>Disable to get the best sound quality. Hardware volume set at 0dB.
+					<br>Disable to get the best sound quality. Hardware volume will be set at 0dB.
 					<br>DAC hardware volume is good and convenient.
 					<br>Software volume depends on users preferences.</span>
 			</div>
