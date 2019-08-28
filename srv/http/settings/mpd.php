@@ -8,16 +8,17 @@ $autoplay = $redis->get( 'mpd_autoplay' );
 exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
 foreach( $outputs as $output ) {
 	$index = exec( $sudo.'/aplay -l | grep "'.preg_replace( '/_.$/', '', $output ).'" | cut -c6' );
+	$dB = exec( "$sudo/amixer -c $index contents | grep -B3 dBscale | grep ': values' | cut -d= -f2" );
 	$extlabel = exec( "$sudo/grep extlabel \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
 	$routecmd = exec( "$sudo/grep route_cmd \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
 	$selected = $output === $audiooutput ? 'selected' : '';
-	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-routecmd="'.$routecmd.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
+	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-db="'.$dB.'" data-routecmd="'.$routecmd.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
 }
 $mixertype = exec( "$sudo/grep mixer_type /etc/mpd.conf | cut -d'\"' -f2" );
 $crossfade = exec( "$sudo/mpc crossfade | cut -d' ' -f2" );
 $normalization = exec( "$sudo/grep 'volume_normalization' /etc/mpd.conf | cut -d'\"' -f2" );
 $replaygain = exec( "$sudo/mpc replaygain | cut -d' ' -f2" );
-$nosoftware = ( $crossfade == 0 && $normalization === 'no' && $replaygain === 'off' ) ? 1 : 0;
+$nosoftware = ( $mixertype !== 'none' || $crossfade != 0 || $normalization !== 'no' || $replaygain !== 'off' ) ? 0 : 1;
 $autoupdate = exec( "$sudo/grep 'auto_update' /etc/mpd.conf | cut -d'\"' -f2" );
 $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" );
 ?>
@@ -31,8 +32,10 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 					<?=$htmlacards?>
 				</select><br>
 				<i id="setting-audiooutput" class="setting select fa fa-gear"></i>
-				<span class="help-block hide">Volume level control, hardware or software, was set by its driver unless manually set by users.<br>
-				For better sound quality: Do not enable software volume.</span>
+				<span class="help-block hide">Volume level control, hardware or software, was set by its driver unless manually set by users.
+					<br>Disable to get the best sound quality. Hardware volume set at 0dB.
+					<br>DAC hardware volume is good and convenient.
+					<br>Software volume depends on users preferences.</span>
 			</div>
 		</div>
 	</form>
@@ -45,8 +48,8 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 				<label class="switchlabel" for="dop"></label>
 				<span class="help-block hide">For DSD-capable devices without drivers dedicated for native DSD.
 					<br>DoP will repack 16bit DSD stream into 24bit PCM frames and transmit to the DAC. 
-					Then PCM frames will be reassembled back to original DSD stream, COMPLETELY UNCHANGED, with expense of double bandwith.<br>
-					On-board audio will always get DSD converted to PCM stream.</span>
+					Then PCM frames will be reassembled back to original DSD stream, COMPLETELY UNCHANGED, with expense of double bandwith.
+					<br>On-board audio will always get DSD converted to PCM stream.</span>
 			</div>
 		</div>
 		<div class="form-group">
@@ -54,10 +57,8 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 			<div class="col-sm-10">
 				<input id="nosoftware" type="checkbox" data-nosoftware="<?=$nosoftware?>" <?=( $nosoftware ? 'checked' : '' )?>>
 				<label class="switchlabel" for="nosoftware"></label>
-				<span class="help-block hide">Disable all software volume manipulations for bit-perfect stream from MPD to DACs.<br>
-				DACs with hardware volume must be set to 0dB (not level 0) to preserve amplitude when decoding. (Unless they are resister based.)<br>
-				<br>
-				Verify with command line: <code>alsamixer</code> > <code>F6</code> > <code>device</code> > <code>[dB gain: 0.00, 0.00]</code></span>
+				<span class="help-block hide">Disable all software volume manipulations for bit-perfect stream from MPD to DACs.
+					<br>No software also disable volume level control and set DAC hardware volume at 0dB to preserve full amplitude.</span>
 			</div>
 		</div>
 	</form>
