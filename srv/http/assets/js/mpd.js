@@ -2,6 +2,49 @@ $( function() { // document ready start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 var restartmpd = 'systemctl restart mpd';
 var setmpdconf = '/srv/http/settings/mpdconf.sh';
+function warning( dB ) {
+	return '<wh><i class="fa fa-warning fa-lg"></i>&ensp;Lower amplifier volume</wh>'
+		  +'<br><br>Signal level will be set to full amplitude:'
+		  +'<br><wh>from '+ dB +'dB to 0dB</wh>'
+		  +'<br>Too high volume can damage speakers and ears';
+}
+function setMixerType( mixertype ) {
+	local = 1;
+	$.post( 'commands.php', { bash: [
+		  "sed -i 's/mixer_type.*/mixer_type              \""+ mixertype +"\"/' /etc/mpd.conf"
+		, setmpdconf
+		, pstream( 'mpd' )
+	] }, resetlocal );
+	$( '#audiooutput' ).data( 'mixertype', mixertype );
+	if ( mixertype === 'none' ) {
+		$( '#audiooutput option' ).data( 'db', 0 );
+		if ( !$( '#crossfade, #normalization, #replaygain' ).prop( 'checked' ) ) {
+			$( '#nosoftware' ).data( 'nosoftware', 1 ).prop( 'checked', 1 );
+			$( '#volume' ).addClass( 'hide' );
+		}
+	} else {
+		$( '#nosoftware' ).data( 'nosoftware', 0 ).prop( 'checked', 0 );
+		$( '#volume' ).removeClass( 'hide' );
+	}
+}
+function setNoSoftware() {
+	local = 1;
+	$.post( 'commands.php', { bash: [
+		  "sed -i -e 's/mixer_type.*/mixer_type              \"none\"/'"
+		 +" -e 's/volume_normalization.*/volume_normalization    \"no\"/' /etc/mpd.conf"
+		, 'mpc crossfade 0'
+		, 'mpc replaygain off'
+		, setmpdconf
+		, pstream( 'mpd' )
+	] }, resetlocal );
+	$( '#crossfade, #normalization, #replaygain' ).prop( 'checked', 0 );
+	$( '#crossfade' ).val( 0 );
+	$( '#normalization' ).val( 'no' );
+	$( '#replaygain' ).val( 'off' );
+	$( '#volume, #setting-crossfade, #setting-replaygain' ).addClass( 'hide' );
+	$( '#nosoftware' ).data( 'nosoftware', 1 );
+	$( '#audiooutput' ).data( 'mixertype', 'none' );
+}
 $( '#audiooutput' ).change( function() {
 	var $selected = $( this ).find( ':selected' );
 	var name = $selected.val();
@@ -18,22 +61,26 @@ $( '#audiooutput' ).change( function() {
 	$.post( 'commands.php', { bash: cmd }, resetlocal );
 } );
 $( '#setting-audiooutput' ).click( function() {
-	var $selected = $( '#audiooutput option:selected' );
-	var sysname = $selected.val();
+	var dB = $( '#audiooutput option:selected' ).data( 'db' );
 	info( {
 		  icon     : 'mpd'
 		, title    : 'Volume Level Control'
-		, checkbox : { 'MPD Software': 'software' }
-		, checked  : [ $( '#audiooutput' ).data( 'mixertype' ) === 'software' ? 0 : 1 ]
+		, radio    : { 'Disable': 'none', 'DAC hardware': 'hardware', 'MPD Software': 'software' }
+		, checked  : $( '#audiooutput' ).data( 'mixertype' )
 		, ok       : function() {
-			var type = $( '#infoCheckBox input[ type=checkbox ]' ).prop( 'checked' ) ? 'software' : 'hardware';
-			local = 1;
-			$.post( 'commands.php', { bash: [
-				  "sed -i 's/mixer_type.*/mixer_type              \""+ type +"\"/' /etc/mpd.conf"
-				, restartmpd
-				, pstream( 'mpd' )
-			] }, resetlocal );
-			$( '#audiooutput' ).data( 'mixertype', type );
+			var mixertype = $( '#infoRadio input[ type=radio ]:checked' ).val();
+			if ( mixertype === 'none' && dB < 0 ) {
+				info( {
+					  icon    : 'volume'
+					, title   : 'Volume Level'
+					, message : warning( dB )
+					, ok      : function() {
+						setMixerType( mixertype );
+					}
+				} );
+			} else {
+				setMixerType( mixertype );
+			}
 		}
 	} );
 } );
@@ -48,22 +95,18 @@ $( '#dop' ).click( function() {
 $( '#nosoftware' ).click( function() {
 	var $this = $( this );
 	var nosoftware = $this.data( 'nosoftware' );
+	var dB = $( '#audiooutput option:selected' ).data( 'db' );
 	if ( $this.prop( 'checked' ) && !nosoftware ) {
-		local = 1;
-		$.post( 'commands.php', { bash: [
-			  "sed -i -e 's/mixer_type.*/mixer_type              \"hardware\"/'"
-			 +" -e 's/volume_normalization.*/volume_normalization    \"no\"/' /etc/mpd.conf"
-			, 'mpc crossfade 0'
-			, 'mpc replaygain off'
-			, setmpdconf
-			, pstream( 'mpd' )
-		] }, resetlocal );
-		$( '#crossfade, #normalization, #replaygain' ).prop( 'checked', 0 );
-		$( '#crossfade' ).val( 0 );
-		$( '#normalization' ).val( 'no' );
-		$( '#replaygain' ).val( 'off' );
-		$( '#volume, #setting-crossfade, #setting-replaygain' ).addClass( 'hide' );
-		$this.data( 'nosoftware', 1 );
+		if ( dB < 0 ) {
+			info( {
+				  icon    : 'volume'
+				, title   : 'Volume Level'
+				, message : warning( dB )
+				, ok      : setNoSoftware
+			} );
+		} else {
+			setNoSoftware();
+		}
 	} else {
 		$( '#volume' ).toggleClass( 'hide' );
 	}
