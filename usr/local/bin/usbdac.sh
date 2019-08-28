@@ -4,11 +4,11 @@
 
 if (( $# > 0 )); then
 	name=$( aplay -l | grep card | tail -1 | awk -F'[][]' '{print $2}' )
-	ao0=$( redis-cli get ao )
-	redis-cli mset ao0 "$ao0" ao "$name"
+	audiooutput0=$( redis-cli get audiooutput )
+	redis-cli mset audiooutput0 "$audiooutput0" audiooutput "$name"
 else
-	name=$( redis-cli get ao0 )
-	redis-cli set ao "$name"
+	name=$( redis-cli get audiooutput0 )
+	redis-cli set audiooutput "$name"
 	file="/srv/http/settings/i2s/$name"
 	[[ -e "$file" ]] && name=$( grep extlabel "$file" | cut -d: -f2- )
 fi
