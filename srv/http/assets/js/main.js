@@ -1475,21 +1475,6 @@ $( '#plsave' ).click( function() {
 	
 	playlistNew();
 } );
-$( '#plcrop' ).click( function() {
-	info( {
-		  title   : 'Crop Playlist'
-		, message : 'Clear this playlist except current song?'
-		, ok       : function() {
-			$( '#pl-entries li:not( .active )' ).remove();
-			var cmd = [ GUI.status.state === 'stop' ? 'mpc play; mpc crop; mpc stop' : 'mpc crop' ];
-			if ( GUI.status.librandom ) cmd.push(
-				  "mpc add \"$( mpc listall | sed '"+ Math.floor( Math.random() * GUI.countsong ) +"q;d' )\""
-				, "mpc add \"$( mpc listall | sed '"+ Math.floor( Math.random() * GUI.countsong ) +"q;d' )\""
-			);
-			$.post( 'commands.php', { bash: cmd } );
-		}
-	} );
-} );
 $( '#plconsume' ).click( function() {
 	if ( GUI.status.consume ) {
 		$( this ).removeClass( 'bl' );
@@ -1506,17 +1491,13 @@ $( '#pllibrandom' ).click( function() {
 		GUI.status.librandom = 0;
 		$( this ).removeClass( 'bl' );
 		notify( 'Roll The Dice', 'Off', 'dice' );
-		$.post( 'commands.php', { bash: [
-			  'redis-cli set librandom 0'
-			, 'systemctl stop libraryrandom'
-		], pushstream: 'options' } );
+		$.post( 'commands.php', { bash: 'systemctl stop libraryrandom', pushstream: 'options' } );
 	} else {
 		GUI.status.librandom = 1;
 		$( this ).addClass( 'bl' );
 		notify( 'Roll The Dice', 'On - Add+play random songs perpetually.</gr>', 'dice' );
 		$.post( 'commands.php', { bash: [
 			  'mpc random 0'
-			, 'redis-cli set librandom 1'
 			, "mpc add \"$( mpc listall | sed '"+ Math.floor( Math.random() * GUI.countsong ) +"q;d' )\""
 			, 'mpc play $( mpc playlist | wc -l )'
 			, "mpc add \"$( mpc listall | sed '"+ Math.floor( Math.random() * GUI.countsong ) +"q;d' )\""
@@ -1524,6 +1505,21 @@ $( '#pllibrandom' ).click( function() {
 			, 'systemctl start libraryrandom'
 		], pushstream: 'options' } );
 	}
+} );
+$( '#plcrop' ).click( function() {
+	info( {
+		  title   : 'Crop Playlist'
+		, message : 'Clear this playlist except current song?'
+		, ok       : function() {
+			$( '#pl-entries li:not( .active )' ).remove();
+			var cmd = [ GUI.status.state === 'stop' ? 'mpc play; mpc crop; mpc stop' : 'mpc crop' ];
+			if ( GUI.status.librandom ) cmd.push(
+				  "mpc add \"$( mpc listall | sed '"+ Math.floor( Math.random() * GUI.countsong ) +"q;d' )\""
+				, "mpc add \"$( mpc listall | sed '"+ Math.floor( Math.random() * GUI.countsong ) +"q;d' )\""
+			);
+			$.post( 'commands.php', { bash: cmd } );
+		}
+	} );
 } );
 $( '#plclear' ).click( function() {
 	if ( $( '#pl-entries .pl-remove' ).length ) {
