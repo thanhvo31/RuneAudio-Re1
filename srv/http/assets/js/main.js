@@ -1491,7 +1491,10 @@ $( '#pllibrandom' ).click( function() {
 		GUI.status.librandom = 0;
 		$( this ).removeClass( 'bl' );
 		notify( 'Roll The Dice', 'Off', 'dice' );
-		$.post( 'commands.php', { bash: 'systemctl stop libraryrandom', pushstream: 'options' } );
+		$.post( 'commands.php', { bash: [
+			  'systemctl stop libraryrandom'
+			, 'curl -s -X POST "http://localhost/pub?id=idle" -d \'{ "changed": "options" }\''
+		] } );
 	} else {
 		GUI.status.librandom = 1;
 		$( this ).addClass( 'bl' );
@@ -1503,6 +1506,7 @@ $( '#pllibrandom' ).click( function() {
 			, "mpc add \"$( mpc listall | sed '"+ Math.floor( Math.random() * GUI.countsong ) +"q;d' )\""
 			, "mpc add \"$( mpc listall | sed '"+ Math.floor( Math.random() * GUI.countsong ) +"q;d' )\""
 			, 'systemctl start libraryrandom'
+			, 'curl -s -X POST "http://localhost/pub?id=idle" -d \'{ "changed": "options" }\''
 		], pushstream: 'options' } );
 	}
 } );
@@ -1899,6 +1903,7 @@ pushstreams.display.onmessage = function( data ) {
 }
 pushstreams.idle.onmessage = function( data ) {
 	var changed = data[ 0 ].changed;
+	console.log(changed)
 	clearTimeout( GUI.debounce );
 	GUI.debounce = setTimeout( function() {
 		if ( changed === 'player' ) { // on track changed or fast forward / rewind
