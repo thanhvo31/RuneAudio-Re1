@@ -52,7 +52,7 @@ while ( $line !== false ) {
 }
 $status[ 'song' ] = $status[ 'song' ] ?: 0;
 $status[ 'updating_db' ] = $status[ 'updating_db' ] ? 1 : 0;
-$status[ 'librandom' ] = $redis->get( 'librandom' ) ? 1 : 0;
+$status[ 'librandom' ] = exec( "$sudo/systemctl is-active libraryrandom" ) === 'active' ? 1 : 0;
 
 if ( $status[ 'file' ] ) {
 	$statusfile = $status[ 'file' ];

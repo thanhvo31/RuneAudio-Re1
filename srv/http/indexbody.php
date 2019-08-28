@@ -546,9 +546,9 @@ $redis->del( 'reboot' );
 		<div id="pl-manage" class="playlist">
 			<i id="plopen" class="fa fa-folder-open fa-lg"></i>
 			<i id="plsave" class="fa fa-save fa-lg"></i>
-			<i id="plcrop" class="fa fa-crop fa-lg"></i>
 			<i id="plconsume" class="fa fa-flash fa-lg"></i>
 			<i id="pllibrandom" class="fa fa-dice fa-lg"></i>
+			<i id="plcrop" class="fa fa-crop fa-lg"></i>
 			<i id="plclear" class="fa fa-minus-circle fa-lg"></i>
 		</div>
 		<button id="pl-search-close" class="btn hide" type="button"><i class="fa fa-times sx"></i><span></span></button>
