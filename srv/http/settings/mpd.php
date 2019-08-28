@@ -8,17 +8,16 @@ $autoplay = $redis->get( 'mpd_autoplay' );
 exec( "mpc outputs | grep '^Output' | awk -F'[()]' '{print $2}'", $outputs );
 foreach( $outputs as $output ) {
 	$index = exec( $sudo.'/aplay -l | grep "'.preg_replace( '/_.$/', '', $output ).'" | cut -c6' );
-	$dB = exec( "$sudo/amixer -c $index contents | grep -B3 dBscale | grep ': values' | cut -d= -f2" );
 	$extlabel = exec( "$sudo/grep extlabel \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
 	$routecmd = exec( "$sudo/grep route_cmd \"/srv/http/settings/i2s/$output\" | cut -d: -f2" );
 	$selected = $output === $audiooutput ? 'selected' : '';
-	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-db="'.$dB.'" data-routecmd="'.$routecmd.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
+	$htmlacards.= '<option value="'.$output.'" data-index="'.$index.'" data-routecmd="'.$routecmd.'" '.$selected.'>'.( $extlabel ?: $output ).'</option>';
 }
 $mixertype = exec( "$sudo/grep mixer_type /etc/mpd.conf | cut -d'\"' -f2" );
 $crossfade = exec( "$sudo/mpc crossfade | cut -d' ' -f2" );
 $normalization = exec( "$sudo/grep 'volume_normalization' /etc/mpd.conf | cut -d'\"' -f2" );
 $replaygain = exec( "$sudo/mpc replaygain | cut -d' ' -f2" );
-$nosoftware = ( $mixertype !== 'none' || $crossfade != 0 || $normalization !== 'no' || $replaygain !== 'off' ) ? 0 : 1;
+$novolume = ( $mixertype !== 'none' || $crossfade != 0 || $normalization !== 'no' || $replaygain !== 'off' ) ? 0 : 1;
 $autoupdate = exec( "$sudo/grep 'auto_update' /etc/mpd.conf | cut -d'\"' -f2" );
 $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" );
 ?>
@@ -33,7 +32,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 				</select><br>
 				<i id="setting-audiooutput" class="setting select fa fa-gear"></i>
 				<span class="help-block hide">Volume level control, hardware or software, was set by its driver unless manually set by users.
-					<br>Disable to get the best sound quality. Hardware volume will be set at 0dB.
+					<br>Disable to get the best sound quality. DAC hardware volume will be reset to 0dB.
 					<br>DAC hardware volume is good and convenient.
 					<br>Software volume depends on users preferences.</span>
 			</div>
@@ -53,16 +52,15 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="control-label col-sm-2">No software</label>
+			<label class="control-label col-sm-2">No volume</label>
 			<div class="col-sm-10">
-				<input id="nosoftware" type="checkbox" data-nosoftware="<?=$nosoftware?>" <?=( $nosoftware ? 'checked' : '' )?>>
-				<label class="switchlabel" for="nosoftware"></label>
-				<span class="help-block hide">Disable all software volume manipulations for bit-perfect stream from MPD to DACs.
-					<br>No software also disable volume level control and set DAC hardware volume at 0dB to preserve full amplitude.</span>
+				<input id="novolume" type="checkbox" data-novolume="<?=$novolume?>" <?=( $novolume ? 'checked' : '' )?>>
+				<label class="switchlabel" for="novolume"></label>
+				<span class="help-block hide">Disable all software volume manipulations for bit-perfect stream from MPD to DAC and reset DAC hardware volume to 0dB to preserve full amplitude.</span>
 			</div>
 		</div>
 	</form>
-	<form id="volume" class="form-horizontal <?=( $nosoftware ? 'hide' : '' )?>">
+	<form id="volume" class="form-horizontal <?=( $novolume ? 'hide' : '' )?>">
 		<h3>Volume</h3>
 		<div class="form-group">
 			<label class="control-label col-sm-2">Crossfade</label>
