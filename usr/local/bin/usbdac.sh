@@ -14,3 +14,4 @@ else
 fi
 
 curl -s -X POST 'http://localhost/pub?id=notify' -d '{ "title": "Audio Output Switched", "text": "'"$name"'", "icon": "output" }'
+curl -s -X POST 'http://localhost/pub?id=page' -d '{ "p": "mpd" }'
