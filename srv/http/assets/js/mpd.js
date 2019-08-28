@@ -2,12 +2,9 @@ $( function() { // document ready start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 var restartmpd = 'systemctl restart mpd';
 var setmpdconf = '/srv/http/settings/mpdconf.sh';
-function warning( dB ) {
-	return '<wh><i class="fa fa-warning fa-lg"></i>&ensp;Lower amplifier volume</wh>'
-		  +'<br><br>Signal level will be set to full amplitude:'
-		  +'<br><wh>from '+ dB +'dB to 0dB</wh>'
-		  +'<br>Too high volume can damage speakers and ears';
-}
+var warning = '<wh><i class="fa fa-warning fa-lg"></i>&ensp;Lower amplifier volume</wh>'
+			 +'<br><br>Signal level will be set to full amplitude to 0dB'
+			 +'<br>Too high volume can damage speakers and ears';
 function setMixerType( mixertype ) {
 	local = 1;
 	$.post( 'commands.php', { bash: [
@@ -17,7 +14,6 @@ function setMixerType( mixertype ) {
 	] }, resetlocal );
 	$( '#audiooutput' ).data( 'mixertype', mixertype );
 	if ( mixertype === 'none' ) {
-		$( '#audiooutput option' ).data( 'db', 0 );
 		if ( !$( '#crossfade, #normalization, #replaygain' ).prop( 'checked' ) ) {
 			$( '#nosoftware' ).data( 'nosoftware', 1 ).prop( 'checked', 1 );
 			$( '#volume' ).addClass( 'hide' );
@@ -61,7 +57,6 @@ $( '#audiooutput' ).change( function() {
 	$.post( 'commands.php', { bash: cmd }, resetlocal );
 } );
 $( '#setting-audiooutput' ).click( function() {
-	var dB = $( '#audiooutput option:selected' ).data( 'db' );
 	info( {
 		  icon     : 'mpd'
 		, title    : 'Volume Level Control'
@@ -69,11 +64,11 @@ $( '#setting-audiooutput' ).click( function() {
 		, checked  : $( '#audiooutput' ).data( 'mixertype' )
 		, ok       : function() {
 			var mixertype = $( '#infoRadio input[ type=radio ]:checked' ).val();
-			if ( mixertype === 'none' && dB < 0 ) {
+			if ( mixertype === 'none' ) {
 				info( {
 					  icon    : 'volume'
 					, title   : 'Volume Level'
-					, message : warning( dB )
+					, message : warning
 					, ok      : function() {
 						setMixerType( mixertype );
 					}
@@ -95,18 +90,13 @@ $( '#dop' ).click( function() {
 $( '#nosoftware' ).click( function() {
 	var $this = $( this );
 	var nosoftware = $this.data( 'nosoftware' );
-	var dB = $( '#audiooutput option:selected' ).data( 'db' );
 	if ( $this.prop( 'checked' ) && !nosoftware ) {
-		if ( dB < 0 ) {
-			info( {
-				  icon    : 'volume'
-				, title   : 'Volume Level'
-				, message : warning( dB )
-				, ok      : setNoSoftware
-			} );
-		} else {
-			setNoSoftware();
-		}
+		info( {
+			  icon    : 'volume'
+			, title   : 'Volume Level'
+			, message : warning
+			, ok      : setNoSoftware
+		} );
 	} else {
 		$( '#volume' ).toggleClass( 'hide' );
 	}
