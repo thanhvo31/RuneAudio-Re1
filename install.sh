@@ -13,8 +13,8 @@ getinstallzip
 # no verify ###################################
 ao=$( redis-cli get ao )
 [[ -n $ao ]] && redis-cli set audiooutput "$ao"
-redis-cli hdel addons font lyri udac kid3 expa motd enha &> /dev/null
-redis-cli del AccessPoint activePlayer ao ao0 dirble mixer_type &> /dev/null
+redis-cli hdel addons enha expa font kid3 lyri motd udac &> /dev/null
+redis-cli del AccessPoint activePlayer ao ao0 dirble librandom mixer_type &> /dev/null
 
 rm -f /srv/http/{Gruntfile.js,package.json} /srv/http/assets/js/vendor/{bootstrap-contextmenu*,bootstrap-select.min.js}
 
