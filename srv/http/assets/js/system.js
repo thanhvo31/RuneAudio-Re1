@@ -201,8 +201,7 @@ $( '#accesspoint' ).click( function() {
 			local = 1;
 			$.post( 'commands.php', { bash: [
 				  "sed -i '/^dtoverlay=pi3-disable-wifi/ s/^/#/' /boot/config.txt"
-				, 'systemctl enable hostapd dnsmasq'
-				, 'redis-cli set reboot "Enable RPi access point"'
+				, 'redis-cli mset accesspoint 1 reboot "Enable RPi access point"'
 				, pstream( 'network' )
 				, pstream( 'system' )
 			] }, resetlocal );
@@ -211,7 +210,8 @@ $( '#accesspoint' ).click( function() {
 			local = 1;
 			$.post( 'commands.php', { bash: [
 				  'ifconfig wlan0 '+ $( '#ipwebuiap' ).text()
-				, 'systemctl enable --now hostapd dnsmasq'
+				, 'systemctl start hostapd dnsmasq'
+				, 'redis-cli set accesspoint 1'
 				, 'systemctl disable --now netctl-auto@wlan0'
 				, 'netctl stop-all'
 				, pstream( 'network' )
@@ -223,7 +223,8 @@ $( '#accesspoint' ).click( function() {
 	} else {
 		local = 1;
 		$.post( 'commands.php', { bash: [
-			  'systemctl disable --now hostapd dnsmasq'
+			  'systemctl stop hostapd dnsmasq'
+			, 'redis-cli del accesspoint'
 			, 'ifconfig wlan0 0.0.0.0'
 			, pstream( 'network' )
 			, pstream( 'system' )

@@ -209,7 +209,8 @@ $( '#accesspoint' ).change( function() {
 		$( '#boxqr, #settings-accesspoint' ).removeClass( 'hide' );
 		var cmd = [
 				  'ifconfig wlan0 '+ $( '#ipwebuiap' ).text()
-				, 'systemctl enable --now hostapd dnsmasq'
+				, 'systemctl start hostapd dnsmasq'
+				, 'redis-cli set accesspoint 1'
 				, 'systemctl disable --now netctl-auto@wlan0'
 				, 'netctl stop-all'
 				, pstream( 'network' )
@@ -217,7 +218,8 @@ $( '#accesspoint' ).change( function() {
 	} else {
 		$( '#boxqr, #settings-accesspoint' ).addClass( 'hide' );
 		var cmd = [
-			  'systemctl disable --now hostapd dnsmasq'
+			  'systemctl stop hostapd dnsmasq'
+			, 'redis-cli del accesspoint'
 			, 'ifconfig wlan0 0.0.0.0'
 			, pstream( 'network' )
 		];
