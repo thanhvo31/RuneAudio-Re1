@@ -44,7 +44,7 @@ $listruneui = array(
 );
 foreach( $listruneui as $name => $list ) {
 	$runeuihtml.= '<br><a href="'.$list[ 0 ].'">'.$name.'</a>';
-	if ( $list[ 1 ] ) $runeuihtml.= '<gr> by '.$list[ 1 ].'</gr>';
+	if ( $list[ 1 ] ) $runeuihtml.= '<gr> - '.$list[ 1 ].'</gr>';
 }
 $listruneos = array(
 	  'Alac' => [ 'https://github.com/TimothyGu/alac', 'Timothy Gu' ]
@@ -75,7 +75,7 @@ $listruneos = array(
 );
 foreach( $listruneos as $name => $list ) {
 	$runeoshtml.= '<br><a href="'.$list[ 0 ].'">'.$name.'</a>';
-	if ( $list[ 1 ] ) $runeoshtml.= '<gr> by '.$list[ 1 ].'</gr>';
+	if ( $list[ 1 ] ) $runeoshtml.= '<gr> - '.$list[ 1 ].'</gr>';
 }
 ?>
 <div class="container credits">
@@ -98,7 +98,7 @@ foreach( $listruneos as $name => $list ) {
 		- NGINX<br>
 		- Redis<br>
 		- Samba<br>
-		- Shairport-Sync</p>
+		- Shairport Sync</p>
 	</span>
 	<h3>Version 0.5</h3>
 	<?=$list05html?>
