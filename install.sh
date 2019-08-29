@@ -19,6 +19,11 @@ redis-cli hdel addons enha expa font kid3 lyri motd udac &> /dev/null
 rm -f /srv/http/{Gruntfile.js,package.json} /srv/http/assets/js/vendor/{bootstrap-contextmenu*,bootstrap-select.min.js}
 
 # need verify ######################################
+if systemctl -q is-enabled hostapd; then
+	systemctl disable hostapd dnsmasq
+	redis-cli set accesspoint 1
+fi
+
 if ! grep '^mixer_type' /etc/mpd.conf; then
 	mixertype=$( grep mixer_type /etc/mpd.conf | head -1 | cut -d'"' -f2 )
 	sed -i -e '/mixer_type/ d
