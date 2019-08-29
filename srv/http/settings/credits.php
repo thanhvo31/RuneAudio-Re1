@@ -29,31 +29,18 @@ foreach( $list0103 as $name => $value ) {
 	$list0103html.= '<a href="'.$value[ 0 ].'" target="_blank">'.$name.'</a><span class="help-block hide"> - '.$value[ 1 ].'</span><br>';
 }
 $listruneui = array(
-	  '(cs)spinner' => [ 'https://github.com/jh3y', 'jhey tompkins' ]
-	, 'Bootstrap Context Menu' => [ 'https://github.com/sydcanem/bootstrap-contextmenu', '@sydcanem' ]
-	, 'Bootstrap-select' => [ 'http://silviomoreto.github.io/bootstrap-select', 'caseyjhol' ]
-	, 'CSS Toggle Switch' => [ 'https://github.com/ghinda/css-toggle-switch', 'Ionuț Colceriu' ]
-	, 'FastClick' => [ 'http://ftlabs.github.io/fastclick', 'ftlabs' ]
-	, 'Font Awesome' => [ 'http://fontawesome.io', 'Dave Gandy' ]
-	, 'getID3' => [ 'http://www.getid3.org', 'James Heinrich' ]
-	, 'jQuery Countdown' => [ 'http://keith-wood.name/countdown.html', 'Keith Wood' ]
-	, 'jQuery Knob' => [ 'https://github.com/aterrien/jQuery-Knob', 'Anthony Terrien' ]
-	, 'jQuery scrollTo' => [ 'http://flesler.blogspot.it/2007/10/jqueryscrollto.html', 'Ariel Flesler' ]
+	  'Bootstrap' => [ 'https://getbootstrap.com/' ]
+	, 'HTML5-Color-Picker' => [ 'https://github.com/NC22/HTML5-Color-Picker', 'Rubchuk Vladimir' ]
+	, 'jQuery' => [ 'https://jquery.com/' ]
+	, 'jQuery.documentSize' => [ 'https://github.com/hashchange/jquery.documentsize', 'Michael Heim' ]
+	, 'jQuery Mobile' => [ 'https://jquerymobile.com/' ]
+	, 'jquery.qrcode.js' => [ 'https://github.com/jeromeetienne/jquery-qrcode', 'Jerome Etienne' ]
 	, 'Lato-Fonts' => [ 'http://www.latofonts.com/lato-free-fonts', 'Lukasz Dziedzic' ]
-	, 'last.fm artist information and albumart' => [ 'https://www.last.fm' ]
-	, 'makeitpersonal song lyrics' => [ 'https://github.com/febuiles/makeitpersonal', 'Federico Builes' ]
-	, 'NGiNX Push Stream' => [ 'https://github.com/wandenberg/nginx-push-stream-module', 'Wandenberg Peixoto' ]
-	, 'NGiNX' => [ 'http://nginx.org/' ]
-	, 'PHP' => [ 'http://php.net/credits.php' ]
-	, 'PHP pthreads' => [ 'http://pthreads.org', 'Joe Watkins' ]
-	, 'PHP reader' => [ 'https://code.google.com/p/php-reader', 'Sven Vollbehr' ]
-	, 'PHP redis' => [ 'https://github.com/nicolasff/phpredis', 'Alfonso Jimenez, Nasreddine Bouafif and Nicolas Favre-Felix' ]
-	, 'PNotify' => [ 'http://sciactive.com/pnotify' ]
+	, 'LazyLoad' => [ 'https://github.com/verlok/lazyload', 'Andrea Verlicchi' ]
+	, 'pica' => [ 'https://github.com/nodeca/pica', 'Nodeca' ]
 	, 'raspi-rotate' => [ 'https://github.com/colinleroy/raspi-rotate', 'Colin Leroy-Mira' ]
-	, 'Redis' => [ 'http://redis.io', 'Salvatore Sanfilippo' ]
-	, 'Shareport-sync metadata decoder' => [ 'https://github.com/janui', 'janui' ]
-	, 'Twitter Bootstrap' => [ 'http://getbootstrap.com/', '@mdo and @fat' ]
-	, 'ZeroClipboard' => [ 'https://github.com/zeroclipboard' ]
+	, 'roundSlider' => [ 'https://github.com/soundar24/roundSlider', 'Soundar' ]
+	, 'Sortable' => [ 'https://github.com/SortableJS/Sortable' ]
 );
 foreach( $listruneui as $name => $list ) {
 	$runeuihtml.= '<br><a href="'.$list[ 0 ].'">'.$name.'</a>';
@@ -61,10 +48,8 @@ foreach( $listruneui as $name => $list ) {
 }
 $listruneos = array(
 	  'Alac' => [ 'https://github.com/TimothyGu/alac', 'Timothy Gu' ]
-	, 'Amixer-webui' => [ 'https://github.com/JiriSko/amixer-webui', 'Jiří Škorpil' ]
 	, 'ArchLinuxArm' => [ 'https://www.archlinuxarm.org' ]
-	, 'ArchLinux (patch for alsa 384kHz audio support)' => [ 'https://github.com/gearhead', 'Gerarhead' ]
-	, 'Ashuffle' => [ 'https://github.com/joshkunz/ashuffle', 'Josh Kunz' ]
+	, 'ArchLinux (patch for alsa 384kHz audio support)' => [ 'https://github.com/gearhead', 'Gearhead' ]
 	, 'BlueZ' => [ 'http://www.bluez.org' ]
 	, 'BlueZ-Alsa' => [ 'https://github.com/Arkq/bluez-alsa' ]
 	, 'BlueZ-Utils-Compat' => [ 'href="https://aur.archlinux.org/packages/bluez-utils-compat' ]
@@ -72,20 +57,20 @@ $listruneos = array(
 	, 'FFmpeg' => [ 'http://ffmpeg.org' ]
 	, 'Hfsprogs' => [ 'http://www.opensource.apple.com' ]
 	, 'Hfsutils' => [ 'http://www.opensource.apple.com' ]
-	, 'Libupnpp' => [ 'https://github.com/kleymenus/libupnpp', 'Alexander Kleymenov' ]
-	, 'MiniDLNA' => [ 'http://minidlna.sourceforge.net', 'Justin Maggard' ]
+	, 'ImageMagick' => [ 'https://imagemagick.org/' ]
+	, 'Kid3 - Audio Tagger' => [ 'https://kid3.sourceforge.io/' ]
+	, 'LyricsCore' => [ 'https://github.com/Smile4ever/LyricsCore', 'Geoffrey De Belie' ]
 	, 'MPD' => [ 'http://www.musicpd.org/', 'Max Kellermann' ]
-	, 'Mpdscribble' => [ 'http://www.musicpd.org', 'Max Kellermann &amp; Avuton Olrich' ]
 	, 'NGiNX' => [ 'http://nginx.org' ]
+	, 'Nginx Push Stream Module' => [ 'https://github.com/wandenberg/nginx-push-stream-module', 'Wandenberg Peixoto' ]
 	, 'PHP' => [ 'http://php.net' ]
 	, 'Phpiredis' => [ 'https://github.com/nrk/phpiredis', 'Daniele Alessandri' ]
 	, 'Phpredis' => [ 'https://github.com/phpredis', 'Nicolas Favre-Felix, Michael Grunder &amp; Pavlo Yatsukhnenko' ]
 	, 'Pi-Bluetooth' => [ 'https://aur.archlinux.org/pi-bluetooth.git' ]
-	, 'RuneAudio Addons' => [ 'https://github.com/rern/RuneAudio_Addons', 'rern' ]
+	, 'Redis' => [ 'http://redis.io', 'Salvatore Sanfilippo' ]
 	, 'Samba' => [ 'http://www.samba.org' ]
 	, 'Shairport' => [ 'https://github.com/abrasive/shairport', 'James &#8220;abrasive&#8221; Laird' ]
 	, 'Shairport-sync' => [ 'https://github.com/mikebrady/shairport-sync', 'Mike Brady' ]
-	, 'Spop' => [ 'https://github.com/Schnouki/spop', 'Thomas Jost' ]
 	, 'Upmpdcli' => [ 'http://www.lesbonscomptes.com/upmpdcli/upmpdcli.html', 'Jean-Francois Dockes' ]
 );
 foreach( $listruneos as $name => $list ) {
@@ -140,7 +125,6 @@ foreach( $listruneos as $name => $list ) {
 	<h3>RuneUI</h3>
 	<gr><i>(In alphabetical order, credits for all versions included)</i></gr><br>
 	<?=$runeuihtml?>
-	<br><gr>Also thanks to B. Carlisle for code inspiration on some MPD data-parsing functions.</gr>
 	<br>
 	<h3>RuneOS</h3>
 	<gr><i>(In alphabetical order, credits for all versions included)</i></gr><br>
