@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# for startup udev before redis started
+! systemctl -q is-active redis && exit
+
 /srv/http/settings/mpdconf.sh
 
 if (( $# > 0 )); then
