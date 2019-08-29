@@ -11,6 +11,7 @@ function setMixerType( mixertype ) {
 		  "sed -i 's/mixer_type.*/mixer_type              \""+ mixertype +"\"/' /etc/mpd.conf"
 		, setmpdconf
 		, pstream( 'mpd' )
+		, systemctl try-restart local-browser
 	] }, resetlocal );
 	$( '#audiooutput' ).data( 'mixertype', mixertype );
 	if ( mixertype === 'none' ) {
