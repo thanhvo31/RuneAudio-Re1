@@ -1903,7 +1903,6 @@ pushstreams.display.onmessage = function( data ) {
 }
 pushstreams.idle.onmessage = function( data ) {
 	var changed = data[ 0 ].changed;
-	console.log(changed)
 	clearTimeout( GUI.debounce );
 	GUI.debounce = setTimeout( function() {
 		if ( changed === 'player' ) { // on track changed or fast forward / rewind
