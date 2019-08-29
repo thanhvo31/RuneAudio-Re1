@@ -1,7 +1,6 @@
 // keyboard controls
 $( document ).keydown( function( e ) {
 	var key = e.key;
-	console.log(key)
 	if ( [ 'ArrowUp', 'ArrowDown' ].indexOf( key ) !== -1 ) e.preventDefault();
 	
 	if ( !$( '#settings' ).hasClass( 'hide' ) && key === 'Enter' ) {
