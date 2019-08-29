@@ -39,9 +39,20 @@ fi
 
 /srv/http/addonsupdate.sh &
 
-wlans=$( ifconfig | grep '^wl' | cut -d: -f1 )
-for wlan in $wlans; do
-	iw $wlan set power_save off
-done
+if ! grep '^dtoverlay=pi3-disable-wifi' /boot/config.txt; then
+	sleep 15
+	
+	if redis-cli exists accesspoint; then
+		ifconfig wlan0 $( grep router /etc/dnsmasq.conf | cut -d, -f2 )
+		systemctl start dnsmasq hostapd
+	fi
+	
+	sleep 15
+	
+	wlans=$( ifconfig | grep '^wl' | cut -d: -f1 )
+	for wlan in $wlans; do
+		iw $wlan set power_save off
+	done
+fi
 
 exit 0
