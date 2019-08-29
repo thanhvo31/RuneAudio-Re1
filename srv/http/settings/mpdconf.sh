@@ -11,7 +11,7 @@ if [[ -z $aplay ]]; then
 fi
 
 # unmute hardware volume if somehow it was set
-if amixer -c1 scontents | grep -q 'Playback.*\[off'; then
+if amixer scontents | grep -q 'Playback.*\[off'; then
 	cards=$( aplay -l | grep '^card' | cut -d: -f1 | cut -d' ' -f2 | sort -u )
 	for card in $cards; do
 		# not work with "numid=#" from "amixer -c $card contents"
