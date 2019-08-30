@@ -5,16 +5,17 @@ var setmpdconf = '/srv/http/settings/mpdconf.sh';
 var warning = '<wh><i class="fa fa-warning fa-lg"></i>&ensp;Lower amplifier volume</wh>'
 			 +'<br><br>Signal level will be set to full amplitude to 0dB'
 			 +'<br>Too high volume can damage speakers and ears';
-function setMixerType( mixertype ) {
-	local = 1;
-	$.post( 'commands.php', { bash: [
-		  "sed -i 's/mixer_type.*/mixer_type              \""+ mixertype +"\"/' /etc/mpd.conf"
+function setMixerType( mixer, restartbrowser ) {
+	var cmd = [
+		  "sed -i 's/mixer_type.*/mixer_type              \""+ mixer +"\"/' /etc/mpd.conf"
 		, setmpdconf
 		, pstream( 'mpd' )
-		, systemctl try-restart local-browser
-	] }, resetlocal );
-	$( '#audiooutput' ).data( 'mixertype', mixertype );
-	if ( mixertype === 'none' ) {
+	];
+	if ( restartbrowser ) cmd.push( 'systemctl try-restart local-browser' );
+	local = 1;
+	$.post( 'commands.php', { bash: cmd }, resetlocal );
+	$( '#audiooutput' ).data( 'mixertype', mixer );
+	if ( mixer === 'none' ) {
 		if ( !$( '#crossfade, #normalization, #replaygain' ).prop( 'checked' ) ) {
 			$( '#novolume' ).data( 'novolume', 1 ).prop( 'checked', 1 );
 			$( '#volume' ).addClass( 'hide' );
@@ -40,25 +41,27 @@ $( '#audiooutput' ).change( function() {
 	$.post( 'commands.php', { bash: cmd }, resetlocal );
 } );
 $( '#setting-audiooutput' ).click( function() {
+	var mixertype = $( '#audiooutput' ).data( 'mixertype' );
 	info( {
 		  icon     : 'mpd'
 		, title    : 'Volume Level Control'
 		, radio    : { 'Disable': 'none', 'DAC hardware': 'hardware', 'MPD Software': 'software' }
-		, checked  : $( '#audiooutput' ).data( 'mixertype' )
+		, checked  : mixertype
 		, ok       : function() {
-			var mixertype = $( '#infoRadio input[ type=radio ]:checked' ).val();
-			if ( mixertype === 'none' ) {
+			var mixer = $( '#infoRadio input[ type=radio ]:checked' ).val();
+			if ( mixer === 'none' ) {
 				info( {
 					  icon    : 'volume'
 					, title   : 'Volume Level'
 					, message : warning
 					, ok      : function() {
-						setMixerType( mixertype );
+						setMixerType( mixer, 'restartbrowser' );
 					}
 				} );
 			} else {
-				setMixerType( mixertype );
+				setMixerType( mixer, mixertype === 'none' ? 'restartbrowser' : '' );
 			}
+			checkNoVolume();
 		}
 	} );
 } );
@@ -70,10 +73,26 @@ $( '#dop' ).click( function() {
 		, pstream( 'mpd' )
 	] }, resetlocal );
 } );
+function checkNoVolume() {
+	if ( $( '#audiooutput' ).data( 'mixertype' ) === 'none'
+		&& $( '#crossfade' ).val() == 0
+		&& $( '#normalization' ).val() === 'no'
+		&& $( '#replaygain' ).val() === 'off'
+	) {
+		$( '#novolume' ).prop( 'checked', 1 );
+		$( '#volume' ).addClass( 'hide' );
+	} else {
+		$( '#novolume' ).prop( 'checked', 0 );
+		$( '#volume' ).removeClass( 'hide' );
+	}
+}
+$( 'body' ).on( 'click touchstart', function( e ) {
+	// fired twice, input + label
+	if ( e.target.id !== 'novolume' && $( e.target ).prop( 'for' ) !== 'novolume' ) checkNoVolume();
+} );
 $( '#novolume' ).click( function() {
 	var $this = $( this );
-	var novolume = $this.data( 'novolume' );
-	if ( $this.prop( 'checked' ) && !novolume ) {
+	if ( $this.prop( 'checked' ) && !$this.val() ) {
 		info( {
 			  icon    : 'volume'
 			, title   : 'Volume Level'
@@ -92,8 +111,8 @@ $( '#novolume' ).click( function() {
 				$( '#crossfade' ).val( 0 );
 				$( '#normalization' ).val( 'no' );
 				$( '#replaygain' ).val( 'off' );
+				$( '#novolume' ).val( 1 );
 				$( '#volume, #setting-crossfade, #setting-replaygain' ).addClass( 'hide' );
-				$( '#novolume' ).data( 'novolume', 1 );
 				$( '#audiooutput' ).data( 'mixertype', 'none' );
 			}
 		} );
@@ -105,12 +124,13 @@ $( '#crossfade' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
 		var crossfade = 2;
 		$( '#setting-crossfade' ).removeClass( 'hide' );
-		$( '#novolume' ).data( 'novolume', 0 ).prop( 'checked', 0 );
+		$( '#novolume' ).val( 0 ).prop( 'checked', 0 );
 	} else {
 		var crossfade = 0;
 		$( '#setting-crossfade' ).addClass( 'hide' );
 	}
 	$( this ).val( crossfade );
+	checkNoVolume();
 	local = 1;
 	$.post( 'commands.php', { bash: [
 		  'mpc crossfade '+ crossfade
@@ -136,25 +156,28 @@ $( '#setting-crossfade' ).click( function() {
 	} );
 } );
 $( '#normalization' ).click( function() {
-	var checked = $( this ).prop( 'checked' ) ? 1 : 0;
+	var yesno = $( this ).prop( 'checked' ) ? 'yes' : 'no';
 	local = 1;
 	$.post( 'commands.php', { bash: [
-		  "sed -i 's/volume_normalization.*/volume_normalization    \""+ ( checked ? 'yes' : 'no' ) +"\"/' /etc/mpd.conf"
+		  "sed -i 's/volume_normalization.*/volume_normalization    \""+ yesno +"\"/' /etc/mpd.conf"
 		, restartmpd
 		, pstream( 'mpd' )
 	] }, resetlocal );
-	if ( checked ) $( '#novolume' ).data( 'novolume', 0 ).prop( 'checked', 0 );
+	$( this ).val( yesno );
+	checkNoVolume();
+	if ( yesno === 'yes' ) $( '#novolume' ).val( 0 ).prop( 'checked', 0 );
 } );
 $( '#replaygain' ).click( function() {
 	if ( $( this ).prop( 'checked' ) ) {
 		var replaygain = 'auto';
 		$( '#setting-replaygain' ).removeClass( 'hide' );
-				$( '#novolume' ).data( 'novolume', 0 ).prop( 'checked', 0 );
+				$( '#novolume' ).val( 0 ).prop( 'checked', 0 );
 	} else {
 		var replaygain = 'off';
 		$( '#setting-replaygain' ).addClass( 'hide' );
 	}
-	$( '#replaygain' ).data( 'replaygain', replaygain );
+	$( '#replaygain' ).val( replaygain );
+	checkNoVolume();
 	local = 1;
 	$.post( 'commands.php', { bash: [
 		  'mpc replaygain '+ replaygain
@@ -166,10 +189,10 @@ $( '#setting-replaygain' ).click( function() {
 		  icon      : 'mpd'
 		, title     : 'Replay Gain'
 		, radio     : { Auto: 'auto', Album: 'album', Track: 'track' }
-		, checked   : $( '#replaygain' ).data( 'replaygain' )
+		, checked   : $( '#replaygain' ).val()
 		, ok        : function() {
 			var replaygain = $( '#infoRadio input[ type=radio ]:checked' ).val();
-			$( '#replaygain' ).data( 'replaygain', replaygain );
+			$( '#replaygain' ).val( replaygain );
 			local = 1;
 			$.post( 'commands.php', { bash: [
 				  'mpc replaygain '+ replaygain
