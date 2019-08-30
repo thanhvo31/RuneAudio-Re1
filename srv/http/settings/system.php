@@ -49,7 +49,7 @@ foreach( $i2slist as $name => $sysname ) {
 				Since
 			</label>
 			<div class="col-r">
-				<i class="fa fa-addons"></i> e1<br>
+				<i class="fa fa-addons"></i> e1.1<br>
 				<?=$data->kernel?><br>
 				<?=$data->hardware?><br>
 				<?=$data->date?><gr>&emsp;@ </gr><?=$zonestring?><br>

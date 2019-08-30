@@ -79,7 +79,7 @@ foreach( $listruneos as $name => $list ) {
 }
 ?>
 <div class="container credits">
-	<h3><i class="fa fa-addons"></i> e1</h3>
+	<h3><i class="fa fa-addons"></i> e1.1</h3>
 	<a href="https://github.com/rern/">r e r n</a><br>
 	<span class="help-block hide">
 		System-wide improvements and new settings.<br>
