@@ -18,6 +18,7 @@ redis-cli hdel addons enha expa font kid3 lyri motd udac &> /dev/null
 
 rm -f /srv/http/{Gruntfile.js,package.json} /srv/http/assets/js/vendor/{bootstrap-contextmenu*,bootstrap-select.min.js}
 
+sed -i 's/gpu_mem=16/gpu_mem=32/' /boot/config.txt
 # need verify ######################################
 if systemctl -q is-enabled hostapd; then
 	systemctl disable hostapd dnsmasq
