@@ -3,6 +3,8 @@ $( function() { // document ready start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 var intervalscan;
 var wlcurrent = '';
 var wlconnected = '';
+var msgreconnect = '<br><br>(Connected devices will be dropped.)'
+				  +'<br>Reconnect with new IP address.';
 
 nicsStatus();
 
@@ -12,6 +14,7 @@ $( '#back' ).click( function() {
 	$( '#divinterface, #divwebui, #divaccesspoint' ).removeClass( 'hide' );
 	$( '#divwifi' ).addClass( 'hide' );
 	if ( wlconnected ) { // refresh for ip to be ready
+		$( '#refreshing' ).removeClass( 'hide' );
 		wlanIP( wlconnected );
 	} else {
 		nicsStatus();
@@ -163,7 +166,8 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 			info( {
 				  icon    : 'wifi-3'
 				, title   : 'RPi access point'
-				, message : 'Stop RPi access point to connect Wi-Fi?'
+				, message : 'Stop RPi access point and connect Wi-Fi?'
+						   + msgreconnect
 				, ok      : function() {
 					connect( wlan, ssid, 0 );
 				}
@@ -176,7 +180,8 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 			info( {
 				  icon    : 'wifi-3'
 				, title   : 'RPi access point'
-				, message : 'Stop RPi access point to connect Wi-Fi?'
+				, message : 'Stop RPi access point and connect Wi-Fi?'
+						   + msgreconnect
 				, ok      : function() {
 					newWiFi( $this );
 				}
@@ -244,7 +249,8 @@ $( '#accesspoint' ).change( function() {
 			info( {
 				  icon    : 'wifi-3'
 				, title   : 'Wi-Fi'
-				, message : 'Disconnect Wi-Fi to start RPi access point?'
+				, message : 'Disconnect Wi-Fi and start RPi access point?'
+						   + msgreconnect
 				, ok      : function() {
 					qr();
 					$( '#boxqr, #settings-accesspoint' ).removeClass( 'hide' );
@@ -459,7 +465,8 @@ function connect( wlan, ssid, data ) {
 				, pstream( 'network' )
 			);
 			$.post( 'commands.php', { bash: cmd }, function( std ) {
-				wlanScanInterval();
+				//wlanScanInterval();
+				$( '#back' ).click();
 				resetlocal();
 			} );
 		} else {
@@ -475,17 +482,16 @@ function connect( wlan, ssid, data ) {
 	} );
 }
 function wlanIP( wlconnected ) {
-	$( '#refreshing' ).removeClass( 'hide' );
 	$.post( 'commands.php', { bash: 'ip addr list '+ wlconnected +' | grep inet' }, function( std ) {
 		if ( std != -1 ) {
 			wlconnected = '';
 			nicsStatus();
+			$( '#refreshing' ).addClass( 'hide' );
 		} else {
 			setTimeout( function() {
 				wlanIP( wlconnected )
 			}, 1000 );
 		}
-		$( '#refreshing' ).addClass( 'hide' );
 	} );
 }
 function escape_string( string ) {
