@@ -228,14 +228,14 @@ $( '#power' ).click( function( e ) {
 			$( '#loader' )
 				.css( 'background', '#000000' )
 				.find( 'svg' ).css( 'animation', 'unset' );
-			notify( 'Power Off', 'Processing ...', 'gear fa-spin', -1 );
+			notify( 'Powering Off ...', '', 'gear fa-spin', -1 );
 		}
 		, buttonlabel : '<i class="fa fa-reboot"></i>Reboot'
 		, buttoncolor : '#de810e'
 		, button      : function() {
 			cmd.push( 'shutdown -r now' );
 			$.post( 'commands.php', { bash: cmd } );
-			notify( 'Reboot', 'Processing ...', 'gear fa-spin', -1 );
+			notify( 'Rebooting ...', '', 'gear fa-spin', -1 );
 		}
 		, buttonwidth : 1
 	} );
