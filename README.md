@@ -89,7 +89,7 @@ RuneAudio+R e1
 
 **MPD**
 - I2S audio output selected automatically after setup in System and reboot.
-- Hardware/software volume set automatically for each device.
+- Hardware/software volume set automatically. (optional: software, none)
 - Bit-perfect setting.
 
 **Sources**
