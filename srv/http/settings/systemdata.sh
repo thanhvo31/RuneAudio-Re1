@@ -1,8 +1,9 @@
 #!/bin/bash
 
-grep '^#dtoverlay=pi3-disable-bt' /boot/config.txt && bluetooth=1 || bluetooth=0
-grep -q '^#dtoverlay=pi3-disable-wifi' /boot/config.txt && wlan=1 || wlan=0
+grep -q '^#dtoverlay=pi3-disable-bt' /boot/config.txt && bluetooth=1 || bluetooth=0
+grep -q 'dtparam=audio=on' /boot/config.txt && onboardaudio=on || onboardaudio=off
 grep -q '^disable_overscan=1' /boot/config.txt && overscan=0 || overscan=1
+grep -q '^#dtoverlay=pi3-disable-wifi' /boot/config.txt && wlan=1 || wlan=0
 file='/etc/X11/xorg.conf.d/99-raspi-rotate.conf'
 [[ -e $file ]] && rotate=$( grep rotate $file | cut -d'"' -f4 ) || rotate=NORMAL
 xinitrc=/etc/X11/xinit/xinitrc
@@ -18,7 +19,7 @@ data+=',"hostapd":"'$( systemctl is-active hostapd )'"'
 data+=',"ipwebuiap":"'$( grep 'router' /etc/dnsmasq.conf | cut -d',' -f2 )'"'
 data+=',"kernel":"'$( uname -r )'"'
 data+=',"localbrowser":"'$( systemctl is-active local-browser )'"'
-data+=',"onboardaudio":"'$( grep 'dtparam=audio=' /boot/config.txt | cut -d= -f3 )'"'
+data+=',"onboardaudio":"'$onboardaudio'"'
 data+=',"overscan":"'$overscan'"'
 data+=',"passphrase":"'$( grep '^wpa_passphrase' /etc/hostapd/hostapd.conf | cut -d'=' -f2 )'"'
 data+=',"queowner":"'$( grep '^ownqueue' /etc/upmpdcli.conf | cut -d' ' -f3 )'"'
