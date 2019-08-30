@@ -31,8 +31,10 @@ if ! grep '^mixer_type' /etc/mpd.conf; then
 	' /etc/mpd.conf
 fi
 
-# fix systemd upgrade - new dir for resolv.conf
+# fix missing locations by systemd upgrade
 [[ -L /etc/resolv.conf ]] || ln -sf /{run/systemd/resolve,etc}/resolv.conf
+sed -i 's|/var/run|/run|' /usr/lib/tmpfiles.d/bluealsa.conf
+sed -i 's|/var/run|/run|' /usr/lib/tmpfiles.d/samba.conf 
 
 file="$( ls -d /mnt/MPD/USB/*/ ).mpdignore"
 if [[ ! -e "$file" ]]; then
