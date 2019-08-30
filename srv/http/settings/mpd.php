@@ -54,7 +54,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 		<div class="form-group">
 			<label class="control-label col-sm-2">No volume</label>
 			<div class="col-sm-10">
-				<input id="novolume" type="checkbox" data-novolume="<?=$novolume?>" <?=( $novolume ? 'checked' : '' )?>>
+				<input id="novolume" type="checkbox" value="<?=$novolume?>" <?=( $novolume ? 'checked' : '' )?>>
 				<label class="switchlabel" for="novolume"></label>
 				<span class="help-block hide">Disable all software volume manipulations for bit-perfect stream from MPD to DAC and reset DAC hardware volume to 0dB to preserve full amplitude.</span>
 			</div>
@@ -74,7 +74,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 		<div class="form-group">
 			<label class="control-label col-sm-2">Normalization</label>
 			<div class="col-sm-10">
-				<input id="normalization" type="checkbox" <?=( $normalization === 'no' ? '' : 'checked' )?>>
+				<input id="normalization" type="checkbox" value="<?=$normalization?>" <?=( $normalization === 'no' ? '' : 'checked' )?>>
 				<label class="switchlabel" for="normalization"></label>
 				<span class="help-block hide">Normalize the volume level of songs as they play.</span>
 			</div>
@@ -82,7 +82,7 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 		<div class="form-group">
 			<label class="control-label col-sm-2">Replay gain</label>
 			<div class="col-sm-10">
-				<input id="replaygain" type="checkbox" data-replaygain="<?=$replaygain?>" <?=( $replaygain === 'off' ? '' : 'checked' )?>>
+				<input id="replaygain" type="checkbox" value="<?=$replaygain?>" <?=( $replaygain === 'off' ? '' : 'checked' )?>>
 				<label class="switchlabel" for="replaygain"></label>
 				<i id="setting-replaygain" class="setting fa fa-gear <?=( $replaygain === 'off' ? 'hide' : '' )?>"></i>
 				<span class="help-block hide">Set gain control to setting in replaygain tag. Currently only FLAC, Ogg Vorbis, Musepack, and MP3 (through ID3v2 ReplayGain tags, not APEv2) are supported.</span>
