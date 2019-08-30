@@ -31,6 +31,9 @@ if ! grep '^mixer_type' /etc/mpd.conf; then
 	' /etc/mpd.conf
 fi
 
+# fix systemd upgrade - new dir for resolv.conf
+[[ -L /etc/resolv.conf ]] || ln -sf /{run/systemd/resolve,etc}/resolv.conf
+
 file="$( ls -d /mnt/MPD/USB/*/ ).mpdignore"
 if [[ ! -e "$file" ]]; then
 echo 'bookmarks
