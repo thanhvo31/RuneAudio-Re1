@@ -54,6 +54,7 @@
 .fa-refresh:before { content: "\f53A" }
 .fa-reload:before { content: "\f539" }
 .fa-rune:before { content: "\f526" }
+.fa-save:before { content: "\f542"}
 .fa-sliders:before { content: "\f50B" }
 .fa-source:before { content: "\f52A" }
 .fa-stopwatch:before { content: "\f547" }
@@ -192,6 +193,10 @@ wh, gr {
 	vertical-align: -2px;
 	text-align: center;
 	color: hsl(200,3%,60%)/*cgl*/;
+}
+.entries .fa-save {
+	width: 20px;
+	font-size: 22px;
 }
 .entries li {
 	display: block;
