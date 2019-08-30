@@ -3,18 +3,10 @@ $( function() { // document ready start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 var intervalscan;
 var wlcurrent = '';
 var wlconnected = '';
-var reload = 0;
 
 nicsStatus();
 
 $( '#back' ).click( function() {
-	if ( reload ) {
-		$( '#refreshing' ).removeClass( 'hide' );
-		setTimeout( function() {
-			location.reload();
-		}, 3000 );
-	}
-	
 	wlcurrent = '';
 	clearInterval( intervalscan );
 	$( '#divinterface, #divwebui, #divaccesspoint' ).removeClass( 'hide' );
@@ -173,7 +165,6 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 				, title   : 'RPi access point'
 				, message : 'Stop RPi access point to connect Wi-Fi?'
 				, ok      : function() {
-					reload = 1;
 					connect( wlan, ssid, 0 );
 				}
 			} );
@@ -187,7 +178,6 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 				, title   : 'RPi access point'
 				, message : 'Stop RPi access point to connect Wi-Fi?'
 				, ok      : function() {
-					reload = 1;
 					newWiFi( $this );
 				}
 			} );
@@ -259,7 +249,6 @@ $( '#accesspoint' ).change( function() {
 					qr();
 					$( '#boxqr, #settings-accesspoint' ).removeClass( 'hide' );
 					local = 1;
-					reload = 1;
 					$.post( 'commands.php', { bash: cmd }, function() {
 						nicsStatus();
 						resetlocal();
@@ -362,7 +351,7 @@ function nicsStatus() {
 			}
 		} );
 		$( '#listinterfaces' ).html( html ).promise().done( function() {
-			$( '#divaccesspoint' ).toggleClass( 'hide', !$( '#listinterfaces .fa-wifi-3' ).length );
+			$( '#divaccesspoint' ).toggleClass( 'hide', !accesspoint );
 		} );
 		qr();
 		$( '#refreshing' ).addClass( 'hide' );
@@ -455,6 +444,8 @@ function connect( wlan, ssid, data ) {
 		if ( std != -1 ) {
 			wlconnected = wlan;
 			if ( $( '#accesspoint' ).prop( 'checked' ) ) {
+				$( '#accesspoint' ).prop( 'checked', 0 );
+				$( '#boxqr, #settings-accesspoint' ).addClass( 'hide' );
 				var cmd = [
 					  'systemctl stop hostapd dnsmasq'
 					, 'redis-cli del accesspoint'
