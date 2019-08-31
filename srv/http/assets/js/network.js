@@ -3,8 +3,6 @@ $( function() { // document ready start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 var intervalscan;
 var wlcurrent = '';
 var wlconnected = '';
-var msgreconnect = '<br><br>(Connected devices will be dropped.)'
-				  +'<br>Reconnect with new IP address.';
 
 nicsStatus();
 
@@ -114,6 +112,17 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 	var ssid = $this.data( 'ssid' );
 	var encrypt = $this.data( 'encrypt' );
 	var wpa = $this.data( 'wpa' );
+	var eth0ip = $( '#listinterfaces li.eth0' ).data( 'ip' );
+	if ( location.host === eth0ip ) {
+		var msgreconnect = '';
+	} else {
+		var msgreconnect = '<br><br>Warning: Connected devices will be dropped.'
+		if ( eth0ip ) {
+			msgreconnect += '<br>Reconnect with IP: <wh>'+ eth0ip +'</wh>';
+		} else {
+			msgreconnect += '<br>Connect a TV/monitor to RPi to display new IP address.';
+		}
+	}
 	if ( $this.data( 'connected' ) ) {
 		info( {
 			  icon    : 'wifi-3'
@@ -246,11 +255,13 @@ $( '#accesspoint' ).change( function() {
 				, pstream( 'network' )
 		];
 		if ( wlconnected ) {
+			var eth0ip = $( '#listinterfaces li.eth0' ).data( 'ip' );
+			var ipwebuiap = $( '#ipwebuiap' ).text();
 			info( {
 				  icon    : 'wifi-3'
 				, title   : 'Wi-Fi'
 				, message : 'Disconnect Wi-Fi and start RPi access point?'
-						   + msgreconnect
+						   + ( location.host === eth0ip ? '' : 'Reonnect with IP address: <wh>'+ ipwebuiap +'</wh>' )
 				, ok      : function() {
 					qr();
 					$( '#boxqr, #settings-accesspoint' ).removeClass( 'hide' );
@@ -340,7 +351,7 @@ function nicsStatus() {
 			var dhcp = val[ 5 ] ? ' data-dhcp="1"' : '';
 			var wlan = inf !== 'eth0';
 			var accesspoint = $( '#accesspoint' ).prop( 'checked' );
-			html += '<li data-inf="'+ inf +'" '+ ( up ? 'data-up="1"' : ''  ) + dataip + datarouter + dhcp +'>';
+			html += '<li class="'+ inf +'" data-inf="'+ inf +'" '+ ( up ? 'data-up="1"' : ''  ) + dataip + datarouter + dhcp +'>';
 			html += '<i class="fa fa-'+ ( wlan ? 'wifi-3' : 'lan' ) +'"></i>'+ infname;
 			if ( accesspoint && wlan ) {
 				html += '&ensp;<span class="green">&bull;</span>&ensp;'+ $( '#ipwebuiap' ).text() +'<gr>&ensp;<<&ensp;RPi access point</gr></li>';
@@ -465,7 +476,6 @@ function connect( wlan, ssid, data ) {
 				, pstream( 'network' )
 			);
 			$.post( 'commands.php', { bash: cmd }, function( std ) {
-				//wlanScanInterval();
 				$( '#back' ).click();
 				resetlocal();
 			} );
