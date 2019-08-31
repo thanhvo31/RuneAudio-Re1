@@ -20,7 +20,7 @@ $( '#back' ).click( function() {
 } );
 $( '#listinterfaces' ).on( 'click', 'li', function( e ) {
 	var $this = $( this );
-	var inf = $this.data( 'inf' );
+	var inf = $this.prop( 'class' );
 	var ip = $this.data( 'ip' );
 	var router = $this.data( 'router' );
 	var dhcp = $this.data( 'dhcp' ) ? 1 : 0;
@@ -351,7 +351,7 @@ function nicsStatus() {
 			var dhcp = val[ 5 ] ? ' data-dhcp="1"' : '';
 			var wlan = inf !== 'eth0';
 			var accesspoint = $( '#accesspoint' ).prop( 'checked' );
-			html += '<li class="'+ inf +'" data-inf="'+ inf +'" '+ ( up ? 'data-up="1"' : ''  ) + dataip + datarouter + dhcp +'>';
+			html += '<li class="'+ inf +'" '+ ( up ? 'data-up="1"' : ''  ) + dataip + datarouter + dhcp +'>';
 			html += '<i class="fa fa-'+ ( wlan ? 'wifi-3' : 'lan' ) +'"></i>'+ infname;
 			if ( accesspoint && wlan ) {
 				html += '&ensp;<span class="green">&bull;</span>&ensp;'+ $( '#ipwebuiap' ).text() +'<gr>&ensp;<<&ensp;RPi access point</gr></li>';
