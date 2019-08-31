@@ -16,7 +16,7 @@ ao=$( redis-cli get ao )
 redis-cli del AccessPoint activePlayer ao ao0 dirble librandom mixer_type &> /dev/null
 redis-cli hdel addons enha expa font kid3 lyri motd udac &> /dev/null
 
-rm -f /srv/http/{Gruntfile.js,package.json}
+rm -f /srv/http/{Gruntfile.js,package.json,lyricscontainer.php}
 rm -f /srv/http/assets/js/addonsmenu.js
 rm -f /srv/http/assets/js/vendor/{bootstrap-contextmenu*,bootstrap-select.min.js}
 
