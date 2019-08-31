@@ -67,15 +67,12 @@ $time = time();  // for cache busting
 <script src="/assets/js/banner.<?=$time?>.js"></script>
 <script src="/assets/js/context.<?=$time?>.js"></script>
 <script src="/assets/js/function.<?=$time?>.js"></script>
+<script src="/assets/js/lyrics.<?=$time?>.js"></script>
 	<?php
 	if ( !preg_match( '/(Mobile|Android|Tablet|GoBrowser|[0-9]x[0-9]*|uZardWeb\/|Mini|Doris\/|Skyfire\/|iPhone|Fennec\/|Maemo|Iris\/|CLDC\-|Mobi\/)/uis', $_SERVER['HTTP_USER_AGENT'] ) ) echo
 '<script src="/assets/js/shortcut.'.$time.'.js"></script>';
-	if ( file_exists( '/srv/http/assets/js/addonsmenu.js' ) ) echo
-'<script src="/assets/js/addonsmenu.'.$time.'.js"></script>';
 	if ( file_exists( '/srv/http/assets/js/gpio.js' ) ) echo
 '<script src="/assets/js/gpio.'.$time.'.js"></script>';
-	if ( file_exists( '/srv/http/assets/js/lyrics.js' ) ) echo
-'<script src="/assets/js/lyrics.'.$time.'.js"></script>';
 	?>
 	
 </body>
