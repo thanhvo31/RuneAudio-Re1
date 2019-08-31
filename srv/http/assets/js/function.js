@@ -1,3 +1,32 @@
+function addonsdl( exit ) {
+	if ( exit == 1 ) {
+		info( {
+			  icon    : 'info-circle'
+			, message : 'Download from Addons server failed.'
+					   +'<br>Please try again later.'
+			, ok      : function() {
+				$( '#loader' ).addClass( 'hide' );
+			}
+		} );
+	} else if ( exit == 2 ) {
+		info( {
+			  icon    : 'info-circle'
+			, message : 'Addons Menu cannot be updated.'
+					   +'<br>Root partition has <white>less than 1 MB free space</white>.'
+			, ok      : function() {
+				location.href = 'addons.php';
+			}
+		} );
+	} else {
+		location.href = 'addons.php';
+	}
+}
+function addonsLoader() {
+	$( '#loader' )
+		.html( '<i class="fa fa-addons blink"></i>' )
+		.removeClass( 'hide' );
+	$( '#settings' ).addClass( 'hide' );
+}
 function cssKeyframes( name, trx0, trx100 ) {
 	var moz = '-moz-'+ trx0;
 	var moz100 = '-moz-'+ trx100;

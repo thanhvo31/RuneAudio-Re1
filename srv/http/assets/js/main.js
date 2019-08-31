@@ -103,6 +103,28 @@ $( '#cover-art' ).on( 'error', function() {
 	removeSplash();
 } );
 // COMMON /////////////////////////////////////////////////////////////////////////////////////
+$( '#addons' ).click( function () {
+	$.get( 'addonsdl.php', function( exit ) {
+		addonsdl( exit );
+	} );
+	addonsLoader();
+} ).on( 'taphold', function () {
+	info( {
+		  title     : 'Addons Branch Test'
+		, textlabel : 'Branch'
+		, textvalue : 'UPDATE'
+		, boxwidth  : 'max'
+		, ok        : function() {
+			var branch = $( '#infoTextBox' ).val();
+			if ( branch ) {
+				$.get( 'addonsdl.php?branch='+ branch, function( exit ) {
+					addonsdl( exit );
+				} );
+			}
+			setTimeout( addonsLoader, 0 ); // fix - info() hides #loader on close
+		}
+	} );
+} );
 $( '#menu-settings, #badge' ).click( function() {
 	$( '#settings' )
 		.toggleClass( 'hide' )
@@ -1846,7 +1868,7 @@ window.addEventListener( 'orientationchange', function() {
 } );
 
 var pushstreams = {};
-var streams = [ 'airplay', 'bookmark', 'display', 'idle', 'notify', 'playlist', 'reload', 'volume', 'webradio' ];
+var streams = [ 'addons', 'airplay', 'bookmark', 'display', 'idle', 'notify', 'playlist', 'reload', 'volume', 'webradio' ];
 streams.forEach( function( stream ) {
 	pushstreams[ stream ] = new PushStream( { modes: 'websocket' } );
 	pushstreams[ stream ].addChannel( stream );
@@ -1859,6 +1881,9 @@ pushstreams.display.onstatuschange = function( status ) {
 		$( '#loader' ).removeClass( 'hide' );
 		bannerHide();
 	}
+}
+pushstreams.addons.onmessage = function() {
+	$( '#loader' ).html( '<i class="fa fa-gear fa-spin"></i><br><br>Updating ...' );
 }
 pushstreams.airplay.onmessage = function( data ) {
 	clearTimeout( GUI.debounce );
