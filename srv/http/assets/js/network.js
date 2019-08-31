@@ -461,6 +461,7 @@ function connect( wlan, ssid, data ) {
 		if ( std != -1 ) {
 			wlconnected = wlan;
 			if ( $( '#accesspoint' ).prop( 'checked' ) ) {
+				$( '#listinterfaces li.wlan0' ).html( '<i class="fa fa-wifi-3"></i>Wi-Fi&ensp;<span class="green">&bull;</span>' );
 				$( '#accesspoint' ).prop( 'checked', 0 );
 				$( '#boxqr, #settings-accesspoint' ).addClass( 'hide' );
 				var cmd = [
