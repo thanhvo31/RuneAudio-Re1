@@ -35,7 +35,13 @@ if ! grep '^mixer_type' /etc/mpd.conf; then
 fi
 
 # fix missing locations by systemd upgrade
-[[ -L /etc/resolv.conf ]] || ln -sf /{run/systemd/resolve,etc}/resolv.conf
+mkdir -p /etc/systemd/resolved.conf.d
+echo '[Resolve]
+DNSSEC=false' > /etc/systemd/resolved.conf.d/dnssec.conf
+
+[[ -L /etc/resolv.conf ]] || ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+systemctl restart systemd-resolved 
+
 sed -i 's|/var/run|/run|' /usr/lib/tmpfiles.d/bluealsa.conf
 sed -i 's|/var/run|/run|' /usr/lib/tmpfiles.d/samba.conf 
 
