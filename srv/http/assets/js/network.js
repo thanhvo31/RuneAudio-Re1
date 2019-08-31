@@ -84,7 +84,9 @@ $( '#listwifi' ).on( 'click', '.fa-save', function() {
 		  icon        : 'wifi-3'
 		, title       : 'Saved Wi-Fi'
 		, message     : 'Forget / Connect ?'
-		, buttonlabel : 'Fotget'
+		, buttonwidth : 1
+		, buttonlabel : '<i class="fa fa-minus-circle"></i> Fotget'
+		, buttoncolor : '#bb2828'
 		, button      : function() {
 			local = 1;
 			$.post( 'commands.php', { bash: [
@@ -133,12 +135,14 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 					+'IP<br>'
 					+'Router'
 				+'</div>'
-				+'<div class="col-r">'
+				+'<div class="col-r" style="width: 140px">'
 					+ $this.data( 'db' ) +' dB<br>'
 					+ $this.data( 'ip' ) +'<br>'
 					+ $this.data( 'router' )
 				+'</div>'
-			, buttonlabel : 'Fotget'
+			, buttonwidth : 1
+			, buttonlabel : '<i class="fa fa-minus-circle"></i> Fotget'
+			, buttoncolor : '#bb2828'
 			, button      : function() {
 				local = 1;
 				$.post( 'commands.php', { bash: [
