@@ -28,7 +28,7 @@ $ipwebuiap = exec( "$sudo/grep 'router' /etc/dnsmasq.conf | cut -d',' -f2" );
 					<div class="divqr">
 						<div id="qrwebui" class="qr"></div>
 					</div>
-					<span class="help-block hide">Scan QR code or use IP address to connect RuneAudio Web User Interface.</span>
+					<span class="help-block hide">Scan QR code or use IP address to connect RuneAudio web user interface.</span>
 				</div>
 			</div>
 		</form>
@@ -56,7 +56,7 @@ $ipwebuiap = exec( "$sudo/grep 'router' /etc/dnsmasq.conf | cut -d',' -f2" );
 					<div class="divqr">
 						<div id="qraccesspoint" class="qr"></div>
 					</div>
-					<span class="help-block hide">Scan QR code or find the SSID and use the password to connect RuneAudio via local access point.</span>
+					<span class="help-block hide">Scan QR code or find the SSID and use the password to connect remote devices with RPi access point.</span>
 				</div>
 			</div>
 			<div class="form-group">
@@ -66,7 +66,7 @@ $ipwebuiap = exec( "$sudo/grep 'router' /etc/dnsmasq.conf | cut -d',' -f2" );
 					<div class="divqr">
 						<div id="qrwebuiap" class="qr"></div>
 					</div>
-					<span class="help-block hide">Scan QR code or use IP address to connect RuneAudio Web User Interface.</span>
+					<span class="help-block hide">Scan QR code or use the IP address to connect RuneAudio web user interface with any browsers from remote devices.</span>
 				</div>
 			</div>
 		</form>
