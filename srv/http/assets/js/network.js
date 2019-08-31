@@ -130,13 +130,11 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 			, message : 
 				'<div class="col-l">'
 					+'Signal<br>'
-					+'Interface<br>'
 					+'IP<br>'
 					+'Router'
 				+'</div>'
 				+'<div class="col-r">'
 					+ $this.data( 'db' ) +' dB<br>'
-					+'<span id="inf">'+ wlan +'</span><br>'
 					+ $this.data( 'ip' ) +'<br>'
 					+ $this.data( 'router' )
 				+'</div>'
@@ -387,16 +385,17 @@ function wlanScan() {
 		var html = '';
 		data.forEach( function( el ) {
 			val = el.split( '^^' );
-			ssid = val[ 1 ];
-			encrypt = val[ 2 ];
-			wpa = val[ 3 ];
-			connected = val[ 4 ] ? ' data-connected="1"' : '';;
-			wlan = val[ 5 ];
-			profile = val[ 6 ] ? ' data-profile="1"' : '';
-			router = val[ 7 ] ? ' data-router="'+ val[ 7 ] +'"' : '';
-			db = val[ 8 ];
 			quality = val[ 0 ];
-			saved = val[ 6 ] ? '<i class="fa fa-save"></i>' : '';
+			db = val[ 1 ];
+			ssid = val[ 2 ];
+			encrypt = val[ 3 ];
+			wpa = val[ 4 ];
+			connected = val[ 5 ] ? ' data-connected="1"' : '';;
+			wlan = val[ 6 ];
+			profile = val[ 7 ] ? ' data-profile="1"' : '';
+			router = val[ 8 ] ? ' data-router="'+ val[ 8 ] +'"' : '';
+			ip = val[ 9 ] ? ' data-ip="'+ val[ 9 ] +'"' : '';
+			saved = profile ? '<i class="fa fa-save"></i>' : '';
 			if ( quality > 55 ) {
 				wifi = 3;
 			} else if ( quality < 41 ) {
@@ -407,7 +406,7 @@ function wlanScan() {
 			html += '<li '
 				   +'data-db="'+ db +'" data-ssid="'+ ssid +'" data-encrypt="'+ encrypt +'" '
 				   +' data-encrypt="'+ encrypt +'" data-wpa="'+ wpa +'" data-wlan="'+ wlan +'"'
-				   + router +'"'+ connected + profile +'>';
+				   + router + ip +'"'+ connected + profile +'>';
 			html += '<i class="fa fa-wifi-'+ wifi +'"></i>';
 			if ( connected ) html += '<span class="green">&bull;</span>&ensp;';
 			html += ssid;
