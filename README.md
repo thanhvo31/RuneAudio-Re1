@@ -29,12 +29,15 @@ RuneAudio+R e1
 - Write the file to a micro SD card, 4GB or more, with something like [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/).
 
 ### Before power on
+- New users:
+	- Connect a TV/monitor and a mouse to RPi.
+	- Connect wired LAN to RPi if available.
 - A USB drive in the system is strongly recommended.
-- For persistent data and Library databases.
-- Extra directories in NAS must be imported manually.
-- If music files are in NAS only, plug in a small USB thumb drive for extra directories, 1GB is more than enough.
+	- For persistent data and Library databases.
+	- Extra directories in NAS must be imported manually.
+	- If music files are in NAS only, plug in a small USB thumb drive for extra directories, 1GB is more than enough.
 
-(New users: skip to power on and enjoy.)  
+(New users: skip this migration.)  
 - Migrate existing data if it had taken a long time to build.
 	- Library database
 		- Create directory /mnt/MPD/USB/<label>/mpd (or USB root on PC)
@@ -43,6 +46,7 @@ RuneAudio+R e1
 		- Copy the directories to /mnt/MPD/USB/<label>/ (or USB root on PC): bookmarks, coverarts, lyrics, playlists webradiopl and webradios
 	
 ### Run automatically on initial boot
+- Greeting dialog with options for new user to go to Network page
 - Expand micro SD card partition to full.
 - Import extra directories or create new ones if not exist.
 - Update MPD library if migrate database not exist.
@@ -52,28 +56,30 @@ RuneAudio+R e1
 	- Menu > Playback Tools:
 	- Hide top-bottom bars, Time, Volume, Buttons 
 	- Enable Large coverart
-	- (Use Coverart for playback controls instead - tap top-center of Coverart for guide.)
-- Menu > Library Tools:
+	- Use Coverart for playback controls instead - tap top-center of Coverart for guide.
+- Settings > Library Tools:
 	- Hide unused blocks, text Label
 	- Drag Library home blocks to arrange order
 - Best sound quality:
 	- Enable Bit-perfect.
 	- Use only amplifier volume.
 - RPi to router connection:
-	- With wired LAN if possible
-- Disable Wi-Fi
-	- With WiFi if necessary
-	- Connect with wired LAN for initial setup (or with accesspoint if necessary)
-	- Get IP address for browser connection
-	- Disable accesspoint once connected
-- With RPi accesspoint only if there's no router
+	- With wired LAN if possible.
+	- Use Wi-Fi instead of wired LAN if necessary.
+	- Less than optimum Wi-Fi slow down everything.
+	- With RPi accesspoint only if there's no router/Wi-Fi to connect.
 - Connect to RuneAudio with IP address instead of runeaudio.local
-	- Get IP address: Menu > Network > Network Interfaces list
-- Disable if not use to lower CPU usage	
+	- Get IP address: Settings > Network > Network Interfaces list
+	- Set reserved IP for RPi on router to a fixed address.
+- Disable if not use:
 	- Bluetooth
 	- Wi-Fi
 	- Access point
+	- AirPlay
 	- Browser on RPi
+	- File sharing
+	- Password login
+	- uPnP / DLNA
 ---
 
 ## Features
