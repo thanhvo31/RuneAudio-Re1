@@ -1,9 +1,9 @@
 #!/bin/bash
 
-readarray -t lines <<<"$( ip addr list )"
+readarray -t lines <<<"$( ip a )"
 
 for line in "${lines[@]}"; do
-	echo $line | grep -q 'LOOPBACK\|^\s*link\|^\s*valid' && continue
+	echo $line | grep -q 'LOOPBACK\|link\|valid' && continue
 	
 	ini=${line:3:2}
 	if [[ $ini == et || $ini == wl ]]; then
@@ -14,7 +14,7 @@ for line in "${lines[@]}"; do
 		inf=$( echo $line | cut -d: -f2 | tr -d ' ' )
 		ip r | grep -q "default.*$inf.*dhcp" && dhcp=dhcp
 		[[ $ini == wl ]] && ssid=$( iwgetid $inf -r )
-		if [[ $( echo $line | grep ',UP' ) ]]; then
+		if [[ $( echo $line | grep 'state UP' ) ]]; then
 			up=up
 			gw=$( ip r | grep "default.*$inf" | awk '{print $3}' )
 		fi

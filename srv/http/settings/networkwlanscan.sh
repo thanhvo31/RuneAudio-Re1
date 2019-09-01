@@ -17,15 +17,16 @@ for line in "${lines[@]}"; do
 		if [[ $ssid ]] && (( $quality > 35 )); then
 			list="$list$quality^^$db^^$ssid^^$encryption^^$wpa^^$connected^^$wlan^^$profile^^$gwip\n"
 		fi
+		signal=
 		quality=
+		db=
 		encryption=
 		wpa=
 		ssid=
 		profile=
-		quality=( $( echo $line | sed 's/\s\+.*=/ /; s/^.*=//' ) )
-		quality=${quality[0]}
-		db=${quality[1]}
-		quality=${quality/\/*/}
+		signal=( $( echo $line | sed 's|Quality=\(.*\)/.*=\(.*\) .*|\1 \2|' ) )
+		quality=${signal[0]}
+		db=${signal[1]}
 	elif [[ $ini == En ]]; then
 		encryption=$( echo $line | cut -d':' -f2 )
 	elif echo $line | grep -q WPA; then
