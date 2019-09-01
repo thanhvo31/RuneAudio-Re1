@@ -104,24 +104,28 @@ $( '#cover-art' ).on( 'error', function() {
 } );
 // COMMON /////////////////////////////////////////////////////////////////////////////////////
 $( '#addons' ).click( function () {
+	$( '#loader' ).removeClass( 'hide' );
 	$.get( 'addonsdl.php', function( exit ) {
-		addonsdl( exit );
-	} );
-	addonsLoader();
-} ).on( 'taphold', function () {
-	info( {
-		  title     : 'Addons Branch Test'
-		, textlabel : 'Branch'
-		, textvalue : 'UPDATE'
-		, boxwidth  : 'max'
-		, ok        : function() {
-			var branch = $( '#infoTextBox' ).val();
-			if ( branch ) {
-				$.get( 'addonsdl.php?branch='+ branch, function( exit ) {
-					addonsdl( exit );
-				} );
-			}
-			setTimeout( addonsLoader, 0 ); // fix - info() hides #loader on close
+		if ( exit == 1 ) {
+			info( {
+				  icon    : 'info-circle'
+				, message : 'Download from Addons server failed.'
+						   +'<br>Please try again later.'
+				, ok      : function() {
+					$( '#loader' ).addClass( 'hide' );
+				}
+			} );
+		} else if ( exit == 2 ) {
+			info( {
+				  icon    : 'info-circle'
+				, message : 'Addons Menu cannot be updated.'
+						   +'<br>Root partition has <white>less than 1 MB free space</white>.'
+				, ok      : function() {
+					location.href = 'addons.php';
+				}
+			} );
+		} else {
+			location.href = 'addons.php';
 		}
 	} );
 } );
@@ -1971,7 +1975,7 @@ pushstreams.playlist.onmessage = function( data ) {
 	}
 }
 pushstreams.reload.onmessage = function() {
-	location.href= '/';
+	location.href = '/';
 }
 pushstreams.volume.onmessage = function( data ) {
 	var data = data[ 0 ];

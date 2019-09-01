@@ -5,13 +5,13 @@ var setmpdconf = '/srv/http/settings/mpdconf.sh';
 var warning = '<wh><i class="fa fa-warning fa-lg"></i>&ensp;Lower amplifier volume</wh>'
 			 +'<br><br>Signal level will be set to full amplitude to 0dB'
 			 +'<br>Too high volume can damage speakers and ears';
-function setMixerType( mixer, restartbrowser ) {
+function setMixerType( mixer, reloadpage ) {
 	var cmd = [
 		  "sed -i 's/mixer_type.*/mixer_type              \""+ mixer +"\"/' /etc/mpd.conf"
 		, setmpdconf
 		, pstream( 'mpd' )
 	];
-	if ( restartbrowser ) cmd.push( 'systemctl try-restart local-browser' );
+	if ( reloadpage ) cmd.push( 'curl -s -X POST "http://localhost/pub?id=reload" -d 1' );
 	local = 1;
 	$.post( 'commands.php', { bash: cmd }, resetlocal );
 	$( '#audiooutput' ).data( 'mixertype', mixer );
@@ -55,11 +55,11 @@ $( '#setting-audiooutput' ).click( function() {
 					, title   : 'Volume Level'
 					, message : warning
 					, ok      : function() {
-						setMixerType( mixer, 'restartbrowser' );
+						setMixerType( mixer, 'reloadpage' );
 					}
 				} );
 			} else {
-				setMixerType( mixer, mixertype === 'none' ? 'restartbrowser' : '' );
+				setMixerType( mixer, mixertype === 'none' ? 'reloadpage' : '' );
 			}
 			checkNoVolume();
 		}
@@ -106,6 +106,7 @@ $( '#novolume' ).click( function() {
 					, 'mpc replaygain off'
 					, setmpdconf
 					, pstream( 'mpd' )
+					, 'curl -s -X POST "http://localhost/pub?id=reload" -d 1'
 				] }, resetlocal );
 				$( '#crossfade, #normalization, #replaygain' ).prop( 'checked', 0 );
 				$( '#crossfade' ).val( 0 );

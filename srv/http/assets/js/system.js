@@ -311,17 +311,21 @@ $( '#setting-localbrowser' ).click( function() {
 		</div>
 	*/ } );
 	info( {
-		  icon    : 'chromium'
-		, title   : 'Browser on RPi'
-		, content : html
-		, preshow : function() {
+		  icon        : 'chromium'
+		, title       : 'Browser on RPi'
+		, content     : html
+		, preshow     : function() {
 			$( '#infoTextBox1' ).val( $( '#localbrowser' ).data( 'zoom' ) );
 			$( '#infoTextBox' ).val( $( '#localbrowser' ).data( 'screenoff' ) );
 			$( '#infoRadio input[value='+ $( '#localbrowser' ).data( 'rotate' ) +']' ).prop( 'checked', true )
 			$( '#infoCheckBox input:eq( 0 )' ).prop( 'checked', $( '#localbrowser' ).data( 'cursor' ) );
 			$( '#infoCheckBox input:eq( 1 )' ).prop( 'checked', $( '#localbrowser' ).data( 'overscan' ) );
 		}
-		, ok      : function() {
+		, buttonlabel : 'Refresh'
+		, button      : function() {
+			$.post( 'commands.php', { bash: 'curl -s -X POST "http://localhost/pub?id=reload" -d 1' } );
+		}
+		, ok          : function() {
 			var screenoff = $( '#infoTextBox' ).val();
 			$( '#localbrowser' ).data( 'screenoff', screenoff );
 			var zoom = parseFloat( $( '#infoTextBox1' ).val() ) || 1;

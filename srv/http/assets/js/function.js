@@ -21,12 +21,6 @@ function addonsdl( exit ) {
 		location.href = 'addons.php';
 	}
 }
-function addonsLoader() {
-	$( '#loader' )
-		.html( '<i class="fa fa-addons blink"></i>' )
-		.removeClass( 'hide' );
-	$( '#settings' ).addClass( 'hide' );
-}
 function cssKeyframes( name, trx0, trx100 ) {
 	var moz = '-moz-'+ trx0;
 	var moz100 = '-moz-'+ trx100;
@@ -448,6 +442,8 @@ function dataParse( data, path, querytype, plid ) {
 function dbContextmenu( $li, $target ) {
 	$( '.menu' ).addClass( 'hide' );
 	var $menu = $( $li.find( '.db-icon' ).data( 'target' ) );
+	if ( !$menu.length ) return // fix: no '.db-icon' for color setting
+	
 	GUI.list = {};
 	GUI.list.li = $li; // for contextmenu
 	if ( $li.hasClass( 'licover' ) && GUI.browsemode === 'coverart' ) {
