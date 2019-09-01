@@ -17,7 +17,7 @@ $ipwebuiap = exec( "$sudo/grep 'router' /etc/dnsmasq.conf | cut -d',' -f2" );
 			<i id="back" class="fa fa-arrow-left"></i>
 		</h3noline>
 		<ul id="listwifi" class="entries"></ul>
-		<span class="help-block hide">Access points with less than optimal signal, -36dB, were omitted.</span>
+		<span class="help-block hide">Access points with less than -66dBm should not be used.</span>
 	</div>
 	<div id="divwebui">
 		<form id="webui" class="form-horizontal hide">
