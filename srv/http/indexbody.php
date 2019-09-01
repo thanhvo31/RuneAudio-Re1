@@ -287,7 +287,6 @@ $menu.= '</div>';
 $reboot = $redis->get( 'reboot' );
 $redis->del( 'reboot' );
 ?>
-<input type="hidden" id="restart" value="<?=$restart?>">
 <input type="hidden" id="reboot" value="<?=$reboot?>">
 <input type="hidden" id="password" value="<?=$password?>">
 
@@ -507,6 +506,8 @@ $redis->del( 'reboot' );
 		<i id="playlist-empty" class="fa fa-plus-circle playlist hide"></i>
 	</div>
 </div>
+
+<?=$menu?>
 
 <div id="divcolorpicker" class="hide">
 	<i id="colorcancel" class="fa fa-times fa-2x"></i>
