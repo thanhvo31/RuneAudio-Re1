@@ -4,7 +4,7 @@
 
 ifconfig $wlan up
 
-stored=$( netctl list | grep -v eth | sed 's/^\s*//' )
+stored=$( netctl list | grep -v eth | sed 's/^\s*\*\s*//' )
 readarray -t stored <<<"$stored"
 
 connectedssid=$( iwgetid $wlan -r )
@@ -15,18 +15,18 @@ for line in "${lines[@]}"; do
 	ini=${line:0:2}
 	if [[ $ini == Qu ]]; then
 		if [[ $ssid ]] && (( $quality > 35 )); then
-			list="$list$quality^^$db^^$ssid^^$encryption^^$wpa^^$connected^^$wlan^^$profile^^$gwip\n"
+			list="$list$quality^^$db^^$ssid^^$encryption^^$wpa^^$wlan^^$connected^^$profile^^$gw_ip\n"
 		fi
 		signal=
 		quality=
 		db=
+		ssid=
 		encryption=
 		wpa=
-		ssid=
 		profile=
-		signal=( $( echo $line | sed 's|Quality=\(.*\)/.*=\(.*\) .*|\1 \2|' ) )
-		quality=${signal[0]}
-		db=${signal[1]}
+		quality_db=( $( echo $line | sed 's|Quality=\(.*\)/.*=\(.*\) .*|\1 \2|' ) )
+		quality=${quality_db[0]}
+		db=${quality_db[1]}
 	elif [[ $ini == En ]]; then
 		encryption=$( echo $line | cut -d':' -f2 )
 	elif echo $line | grep -q WPA; then
@@ -36,10 +36,10 @@ for line in "${lines[@]}"; do
 		ssid=${ssid:1:-1}
 		if [[ $ssid == $connectedssid ]]; then
 			connected=connected
-			gwip=$( ip r | grep "default.*$wlan" | awk '{print $3"^^"$9}' )
+			gw_ip=$( ip r | grep "default.*$wlan" | awk '{print $3"^^"$9}' )
 		else
 			connected=
-			gwip=
+			gw_ip=
 		fi
 		for st in "${stored[@]}"; do
 			[[ $ssid == $st ]] && profile=stored
