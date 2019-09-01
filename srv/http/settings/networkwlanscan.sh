@@ -14,7 +14,7 @@ readarray -t lines <<<"$scan"
 for line in "${lines[@]}"; do
 	ini=${line:0:2}
 	if [[ $ini == Qu ]]; then
-		if [[ $ssid ]] && (( $quality > 35 )); then
+		if [[ -n $ssid ]]; then
 			list="$list$quality^^$db^^$ssid^^$encryption^^$wpa^^$wlan^^$connected^^$profile^^$gw_ip\n"
 		fi
 		signal=
