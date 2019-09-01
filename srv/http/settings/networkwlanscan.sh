@@ -48,7 +48,7 @@ for line in "${lines[@]}"; do
 done
 # last one
 if [[ $ssid ]] && (( $quality > 35 )); then
-	list="$list$quality^^$ssid^^$encryption^^$wpa^^$connect^^$wlan"
+	list="$list$quality^^$db^^$ssid^^$encryption^^$wpa^^$wlan^^$connected^^$profile^^$gw_ip"
 fi
 list=$( echo -e "$list" | sort -r )
 
