@@ -51,6 +51,18 @@ RuneAudio+R e1
 - Import extra directories or create new ones if not exist.
 - Update MPD library if migrate database not exist.
 
+### After power on
+- Without wired LAN:
+	- Keep wired LAN connection.
+	- Connect Wi-Fi or setup RPi access point to a working state
+	- Disconect wired LAN after wirelessly connected with RPi.
+- I2S module / HAT:
+	- Settings > System > I2S module > select
+	- Close page
+	- Reboot
+- No sound:
+	- Settings > MPD > Interface setting > MPD software
+
 ### Recommendations
 - User interface for minimalists
 	- Menu > Playback Tools:
