@@ -21,7 +21,7 @@
 			font-style : normal;
 		}
 	</style>
-	<link rel="stylesheet" href="/assets/css/addonsinfo.<?=$time?>.css">
+	<link rel="stylesheet" href="/assets/css/info.<?=$time?>.css">
 	<link rel="stylesheet" href="/assets/css/indexsettings.<?=$time?>.css">
 	<link rel="stylesheet" href="/assets/css/banner.<?=$time?>.css">
 	<link rel="icon" type="image/png" href="/img/favicon-192x192.<?=$time?>.png" sizes="192x192">
@@ -58,7 +58,7 @@ if ( $p === 'credits' ) {
 <script src="/assets/js/vendor/jquery-2.1.0.min.<?=$time?>.js"></script>
 <script src="/assets/js/vendor/bootstrap.min.<?=$time?>.js"></script>
 <script src="/assets/js/vendor/pushstream.min.<?=$time?>.js"></script>
-<script src="/assets/js/addonsinfo.<?=$time?>.js"></script>
+<script src="/assets/js/info.<?=$time?>.js"></script>
 <script src="/assets/js/banner.<?=$time?>.js"></script>
 <script>
 $( '#help' ).click( function() {

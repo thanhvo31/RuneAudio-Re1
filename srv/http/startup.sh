@@ -30,18 +30,16 @@ sleep 1
 
 audiooutput=$( redis-cli get audiooutput )
 if [[ -z $audiooutput ]] || ! mpc outputs | grep -q "$audiooutput"; then
-	redis-cli set audiooutput "$( mpc outputs | head -1 | awk -F'[()]' '{print $2}' )"
+	redis-cli set audiooutput "$( mpc outputs | head -1 | awk -F"[()]" '{print $2}' )"
 fi
 
 /srv/http/settings/soundprofile.sh $( redis-cli get orionprofile )
 
 [[ $( redis-cli get mpd_autoplay ) == 1 ]] && mpc -q play
 
-/srv/http/addonsupdate.sh &
+sleep 15 # wait for network interfaces
 
 if ! grep '^dtoverlay=pi3-disable-wifi' /boot/config.txt; then
-	sleep 15
-	
 	if redis-cli exists accesspoint; then
 		ifconfig wlan0 $( grep router /etc/dnsmasq.conf | cut -d, -f2 )
 		systemctl start dnsmasq hostapd
@@ -54,5 +52,7 @@ if ! grep '^dtoverlay=pi3-disable-wifi' /boot/config.txt; then
 		iw $wlan set power_save off
 	done
 fi
+
+/srv/http/addonsupdate.sh &
 
 exit 0
