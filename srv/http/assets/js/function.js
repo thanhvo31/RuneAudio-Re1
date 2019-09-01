@@ -442,8 +442,6 @@ function dataParse( data, path, querytype, plid ) {
 function dbContextmenu( $li, $target ) {
 	$( '.menu' ).addClass( 'hide' );
 	var $menu = $( $li.find( '.db-icon' ).data( 'target' ) );
-	if ( !$menu.length ) return // fix: no '.db-icon' for color setting
-	
 	GUI.list = {};
 	GUI.list.li = $li; // for contextmenu
 	if ( $li.hasClass( 'licover' ) && GUI.browsemode === 'coverart' ) {
