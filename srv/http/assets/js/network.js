@@ -394,8 +394,8 @@ function wlanScan() {
 			ssid = val[ 2 ];
 			encrypt = val[ 3 ];
 			wpa = val[ 4 ];
-			connected = val[ 5 ] ? ' data-connected="1"' : '';;
-			wlan = val[ 6 ];
+			wlan = val[ 5 ];
+			connected = val[ 6 ] ? ' data-connected="1"' : '';;
 			profile = val[ 7 ] ? ' data-profile="1"' : '';
 			router = val[ 8 ] ? ' data-router="'+ val[ 8 ] +'"' : '';
 			ip = val[ 9 ] ? ' data-ip="'+ val[ 9 ] +'"' : '';
