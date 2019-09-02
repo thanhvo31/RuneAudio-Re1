@@ -1,34 +1,32 @@
 @font-face {
 	font-family: Lato;
-	src: url( '../fonts/lato/lato-regular-webfont.woff' ) format( 'woff' ),
-		url( '../fonts/lato/lato-regular-webfont.ttf' ) format( 'truetype' );
+	src: url( '/assets/fonts/lato-regular-webfont.woff' ) format( 'woff' ),
+		url( '/assets/fonts/lato-regular-webfont.ttf' ) format( 'truetype' );
 	font-weight: normal;
 	font-style: normal;
 }
 @font-face {
 	font-family: Lato;
-	src: url( '../fonts/lato/lato-bold-webfont.woff' ) format( 'woff' ),
-		url( '../fonts/lato/lato-bold-webfont.ttf' ) format( 'truetype' );
+	src: url( '/assets/fonts/lato-bold-webfont.woff' ) format( 'woff' ),
+		url( '/assets/fonts/lato-bold-webfont.ttf' ) format( 'truetype' );
 	font-weight: bold;
 	font-style: normal;
 }
 @font-face {
 	font-family: Lato;
-	src: url( '../fonts/lato/lato-light-webfont.woff' ) format( 'woff' ),
-		url( '../fonts/lato/lato-light-webfont.ttf' ) format( 'truetype' );
+	src: url( '/assets/fonts/lato-light-webfont.woff' ) format( 'woff' ),
+		url( '/assets/fonts/lato-light-webfont.ttf' ) format( 'truetype' );
 	font-weight: 300;
 	font-style: normal;
 }
 @font-face {
 	font-family: enhance;
-	src: url( '../fonts/enhance.woff' ) format( 'woff' ),
-		url( '../fonts/enhance.ttf' ) format( 'truetype' );
+	src: url( '/assets/fonts/enhance.woff' ) format( 'woff' ),
+		url( '/assets/fonts/enhance.ttf' ) format( 'truetype' );
 	font-weight: normal;
 	font-style: normal;
 }
-.fa {
-	font-family: enhance;
-}
+.fa { font-family: enhance }
 .fa-arrow-left:before { content: "\f544" }
 .fa-check:before { content: "\f51B" }
 .fa-chromium:before { content: "\f52E" }

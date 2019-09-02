@@ -265,22 +265,22 @@ a[ href^='http' ]:hover { color: #0ab1ff }
 
 @font-face {
 	font-family: Lato;
-	src: url( '../fonts/lato/lato-regular-webfont.woff' ) format( 'woff' ),
-		url( '../fonts/lato/lato-regular-webfont.ttf' ) format( 'truetype' );
+	src: url( '/assets/fonts/lato-regular-webfont.woff' ) format( 'woff' ),
+		url( '/assets/fonts/lato-regular-webfont.ttf' ) format( 'truetype' );
 	font-weight: normal;
 	font-style: normal;
 }
 @font-face {
 	font-family: Lato;
-	src: url( '../fonts/lato/lato-light-webfont.woff' ) format( 'woff' ),
-		url( '../fonts/lato/lato-light-webfont.ttf' ) format( 'truetype' );
+	src: url( '/assets/fonts/lato-light-webfont.woff' ) format( 'woff' ),
+		url( '/assets/fonts/lato-light-webfont.ttf' ) format( 'truetype' );
 	font-weight: 300;
 	font-style: normal;
 }
 @font-face {
 	font-family: Inconsolata;
-	src: url('../fonts/Inconsolata.woff') format('woff'),
-		url( '../fonts/Inconsolata.ttf' ) format( 'truetype' );
+	src: url('/assets/fonts/Inconsolata.woff') format('woff'),
+		url( '/assets/fonts/Inconsolata.ttf' ) format( 'truetype' );
 	font-weight: normal;
 	font-style: normal;
 }
@@ -289,9 +289,7 @@ a[ href^='http' ]:hover { color: #0ab1ff }
 	font-family: enhance;
 	font-style: normal;
 }
-.fa-addons:before {
-	content: "\f520";
-}
+.fa-addons:before { content: "\f520" }
 .fa-arrow-down:before { content: "\f567" }
 .fa-arrow-up:before { content: "\f566" }
 .fa-check:before { content: "\f51B" }
