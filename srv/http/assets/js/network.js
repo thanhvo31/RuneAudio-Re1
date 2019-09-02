@@ -212,17 +212,18 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 $( '#add' ).click( function() {
 	$this = $( this );
 	info( {
-		  icon      : 'wifi-3'
-		, title     : 'Add Wi-Fi'
-		, textlabel : [ 'SSID', 'Password', 'IP', 'Gateway' ]
-		, checkbox  : { 'Static IP': 1, 'Hidden SSID': 1, 'WEP': 1 }
-		, preshow   : function() {
-			$( '#infotextlabel a:eq( 2 ), #infoTextBox2, #infotextlabel a:eq( 3 ), #infoTextBox3' ).hide();
+		  icon          : 'wifi-3'
+		, title         : 'Add Wi-Fi'
+		, textlabel     : [ 'SSID', 'IP', 'Gateway' ]
+		, checkbox      : { 'Static IP': 1, 'Hidden SSID': 1, 'WEP': 1 }
+		, passwordlabel : 'Password'
+		, preshow       : function() {
+			$( '#infotextlabel a:eq( 1 ), #infoTextBox1, #infotextlabel a:eq( 2 ), #infoTextBox2' ).hide();
 		}
-		, ok        : function() {
+		, ok            : function() {
 			var ssid = $( '#infoTextBox' ).val();
 			var wlan = $( '#listwifi li:eq( 0 )' ).data( 'wlan' );
-			var password = $( '#infoTextBox1' ).val();
+			var password = $( '#infoPasswordBox' ).val();
 			var ip = $( '#infoTextBox2' ).val();
 			var gw = $( '#infoTextBox3' ).val();
 			var hidden = $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked' ) ? 'Hidden=yes' : '';
@@ -244,7 +245,7 @@ $( '#add' ).click( function() {
 		}
 	} );
 	$( '#infoCheckBox' ).on( 'click', 'input:eq( 0 )', function() {
-		$( '#infotextlabel a:eq( 2 ), #infoTextBox2, #infotextlabel a:eq( 3 ), #infoTextBox3' ).toggle( $( this ).prop( 'checked' ) );
+		$( '#infotextlabel a:eq( 1 ), #infoTextBox1, #infotextlabel a:eq( 2 ), #infoTextBox2' ).toggle( $( this ).prop( 'checked' ) );
 	} );
 } );
 $( '#accesspoint' ).change( function() {
