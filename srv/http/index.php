@@ -35,7 +35,6 @@ $time = time();  // for cache busting
 		font-style : normal;
 	}
 </style>
-<link rel="stylesheet" href="/assets/css/fontawesome.min.<?=$time?>.css">
 <link rel="stylesheet" href="/assets/css/info.<?=$time?>.css">
 <link rel="stylesheet" href="/assets/css/roundslider.min.<?=$time?>.css">
 <link rel="stylesheet" href="/assets/css/main.<?=$time?>.css">

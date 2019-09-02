@@ -339,6 +339,7 @@ $redis->del( 'reboot' );
 </div>
 
 <div id="page-playback" class="page">
+	<div class="emptyadd hide"><i class="fa fa-plus-circle"></i></div>
 	<div id="info">
 		<div id="divartist">
 			<span id="artist"></span>
@@ -471,6 +472,7 @@ $redis->del( 'reboot' );
 </div>
 
 <div id="page-playlist" class="page hide">
+	<div class="emptyadd hide"><i class="fa fa-plus-circle"></i></div>
 	<div class="btnlist btnlist-top">
 		<div id="pl-home"><i class="fa fa-list-ul sx"></i></div>
 		<i id="pl-back" class="fa fa-arrow-left hide"></i>
@@ -486,12 +488,12 @@ $redis->del( 'reboot' );
 			</div>
 		</form>
 		<div id="pl-manage" class="playlist">
-			<i id="plopen" class="fa fa-folder-open fa-lg"></i>
-			<i id="plsave" class="fa fa-save fa-lg"></i>
-			<i id="plconsume" class="fa fa-flash fa-lg"></i>
-			<i id="pllibrandom" class="fa fa-dice fa-lg"></i>
-			<i id="plcrop" class="fa fa-crop fa-lg"></i>
-			<i id="plclear" class="fa fa-minus-circle fa-lg"></i>
+			<i id="plopen" class="fa fa-folder-open"></i>
+			<i id="plsave" class="fa fa-save"></i>
+			<i id="plconsume" class="fa fa-flash"></i>
+			<i id="pllibrandom" class="fa fa-dice"></i>
+			<i id="plcrop" class="fa fa-crop"></i>
+			<i id="plclear" class="fa fa-minus-circle"></i>
 		</div>
 		<button id="pl-search-close" class="btn hide" type="button"><i class="fa fa-times sx"></i><span></span></button>
 	</div>
@@ -499,7 +501,6 @@ $redis->del( 'reboot' );
 		<ul id="pl-entries" class="playlist"></ul>
 		<ul id="pl-editor" class="hide"></ul>
 		<ul id="pl-index" class="index hide"><?=$index?></ul>
-		<i id="playlist-empty" class="fa fa-plus-circle playlist hide"></i>
 	</div>
 </div>
 

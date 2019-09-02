@@ -10,7 +10,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="msapplication-tap-highlight" content="no">
 	<link rel="stylesheet" href="/assets/css/bootstrap.min.<?=$time?>.css">
-	<link rel="stylesheet" href="/assets/css/fontawesome.min.<?=$time?>.css">
 	<link rel="stylesheet" href="/assets/css/bootstrap-select.min.<?=$time?>.css">
 	<style>
 		@font-face {
@@ -33,7 +32,7 @@ $sudo = '/usr/bin/sudo /usr/bin';
 function headhtml( $icon, $title ) {
 	echo '
 		<div class="head">
-			<i class="page-icon fa fa-'.$icon.'"></i><span class="title">'.$title.'</span><a href="/"><i id="close" class="fa fa-times fa-2x"></i></a><i id="help" class="fa fa-question-circle"></i>
+			<i class="page-icon fa fa-'.$icon.'"></i><span class="title">'.$title.'</span><a href="/"><i id="close" class="fa fa-times"></i></a><i id="help" class="fa fa-question-circle"></i>
 		</div>
 	';
 }
