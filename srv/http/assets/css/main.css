@@ -43,7 +43,13 @@
 }
 /* ---------------------- fontawesome mod ---------------------- */
 /* 'enhance' declared in <head> for cache busting */
-.fa { font-family: enhance }
+.fa {
+	display: inline-block;
+	font-family: enhance;
+	font-style: normal;
+}
+.fa-lg { font-size: 22px }
+.fa-2x { font-size: 28px }
 .fa-addons:before { content: "\f520" }
 .fa-airplay:before { content: "\f524" }
 .fa-album:before { content: "\f555" }
@@ -278,7 +284,6 @@ svg path.st1 {
 .menu a {
 	display: block;
 	margin: 0;
-	padding-left: 5px;
 	font-size: 16px;
 	line-height: 40px;
 	color: #e0e7ee;
@@ -530,8 +535,17 @@ svg path.st1 {
 	font-size: 30px;
 	color: hsl(200,100%,40%)/*c*/;
 }
-#song i {
-	color: #e0e7ee;
+.emptyadd {
+	position: fixed;
+	top: 100px;
+	width: 100%;
+	text-align: center;
+	font-size: 30px !important;
+	color: #e0e7ee !important;
+	z-index: 10;
+}
+.emptyadd i {
+	cursor: pointer;
 }
 #divartist,
 #divalbum {
@@ -877,10 +891,6 @@ svg path.st1 {
 	font-size:24px;
 }
 #page-playback .btn-group button i {
-	position: absolute;
-	top: 8px;
-	left: 0;
-	width: 40px;
 	text-shadow: 1px 1px 2px #000000;
 }
 /* button shadow */
@@ -1444,12 +1454,9 @@ p.hrbl {
 	display: inline-block;
 	width: 40px;
 	height: 40px;
-	line-height: 44px;
+	line-height: 40px;
 	text-align: center;
 	background: hsl(200,100%,40%)/*c*/;
-}
-#pl-home {
-	line-height: 46px;
 }
 #pl-currentpath i {
 	width: 40px;

@@ -26,7 +26,11 @@
 	font-weight: normal;
 	font-style: normal;
 }
-.fa { font-family: enhance }
+.fa {
+	display: inline-block;
+	font-family: enhance;
+	font-style: normal;
+}
 .fa-arrow-left:before { content: "\f544" }
 .fa-check:before { content: "\f51B" }
 .fa-chromium:before { content: "\f52E" }
@@ -101,6 +105,9 @@ body {
 	font-size: 24px;
 	text-shadow: 1px 1px 2px #000000;
 	cursor: pointer;
+}
+#close {
+	font-size: 28px;
 }
 .page-icon {
 	float: left;
@@ -719,7 +726,7 @@ input:checked + .switchlabel:after {
 
 .setting {
 	position: absolute;
-	top: 7px;
+	top: 0;
 	left: 95px;
 	font-size: 26px;
 	cursor: pointer;
