@@ -4,6 +4,7 @@ $redis->pconnect( '127.0.0.1' );
 $password = $redis->get( 'pwd_protection' );
 if ( $password ) session_start(); // for login
 $time = time();  // for cache busting
+$desktop = !preg_match( '/(Mobile|Android|Tablet|GoBrowser|[0-9]x[0-9]*|uZardWeb\/|Mini|Doris\/|Skyfire\/|iPhone|Fennec\/|Maemo|Iris\/|CLDC\-|Mobi\/)/uis', $_SERVER['HTTP_USER_AGENT'] );
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +26,6 @@ $time = time();  // for cache busting
 <meta name="msapplication-TileImage" content="/assets/img/mstile-144x144.<?=$time?>.png">
 <meta name="msapplication-config" content="/assets/img/browserconfig.xml">
 <meta name="application-name" content="RuneAudio">
-<link rel="stylesheet" href="/assets/css/bootstrap.min.<?=$time?>.css">
 <style>
 	@font-face {
 		font-family: enhance;
@@ -35,16 +35,15 @@ $time = time();  // for cache busting
 		font-style : normal;
 	}
 </style>
+<link rel="stylesheet" href="/assets/css/bootstrap.min.<?=$time?>.css">
 <link rel="stylesheet" href="/assets/css/info.<?=$time?>.css">
 <link rel="stylesheet" href="/assets/css/roundslider.min.<?=$time?>.css">
 <link rel="stylesheet" href="/assets/css/main.<?=$time?>.css">
 <link rel="stylesheet" href="/assets/css/banner.<?=$time?>.css">
-	<?php
-	if ( !preg_match( '/(Mobile|Android|Tablet|GoBrowser|[0-9]x[0-9]*|uZardWeb\/|Mini|Doris\/|Skyfire\/|iPhone|Fennec\/|Maemo|Iris\/|CLDC\-|Mobi\/)/uis', $_SERVER['HTTP_USER_AGENT'] ) ) echo 
-'<link rel="stylesheet" href="/assets/css/desktop.css">';
-	if ( file_exists('/srv/http/assets/js/lyrics.js') ) echo 
-'<link rel="stylesheet" href="/assets/css/lyrics.'.$time.'.css">';
-	?>
+<link rel="stylesheet" href="/assets/css/lyrics.<?=$time?>.css">
+	<?php if ( $desktop ) { ?> 
+<link rel="stylesheet" href="/assets/css/desktop.css">
+	<?php } ?>
 	
 </head>
 <body>
@@ -123,12 +122,12 @@ include 'indexbody.php';
 <script src="/assets/js/context.<?=$time?>.js"></script>
 <script src="/assets/js/function.<?=$time?>.js"></script>
 <script src="/assets/js/lyrics.<?=$time?>.js"></script>
-	<?php
-	if ( !preg_match( '/(Mobile|Android|Tablet|GoBrowser|[0-9]x[0-9]*|uZardWeb\/|Mini|Doris\/|Skyfire\/|iPhone|Fennec\/|Maemo|Iris\/|CLDC\-|Mobi\/)/uis', $_SERVER['HTTP_USER_AGENT'] ) ) echo
-'<script src="/assets/js/shortcut.'.$time.'.js"></script>';
-	if ( file_exists( '/srv/http/assets/js/gpio.js' ) ) echo
-'<script src="/assets/js/gpio.'.$time.'.js"></script>';
-	?>
+	<?php if ( $desktop ) { ?> 
+<script src="/assets/js/shortcut.<?=$time?>.js"></script>
+	<?php }
+		  if ( file_exists( '/srv/http/gpiosettings.php' ) ) { ?>
+<script src="/assets/js/gpio.<?=$time?>.js"></script>
+	<?php } ?>
 	
 </body>
 </html>

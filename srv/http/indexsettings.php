@@ -59,6 +59,12 @@ if ( $p === 'credits' ) {
 <script src="/assets/js/vendor/pushstream.min.<?=$time?>.js"></script>
 <script src="/assets/js/info.<?=$time?>.js"></script>
 <script src="/assets/js/banner.<?=$time?>.js"></script>
+<script src="/assets/js/<?=$p?>.<?=$time?>.js"></script>
+	<?php if ( $p === 'mpd' || $p === 'system' ) { ?>
+<script src="/assets/js/vendor/bootstrap-select-1.12.1.min.<?=$time?>.js"></script>
+	<?php } else if ( $p === 'network' ) { ?>
+<script src="/assets/js/vendor/jquery.qrcode.min.<?=$time?>.js"></script>
+	<?php } ?>
 <script>
 $( '#help' ).click( function() {
 	$( this ).toggleClass( 'blue' );
@@ -78,19 +84,6 @@ function resetlocal() {
 	setTimeout( function() { local = 0 }, 1000 );
 }
 </script>
-	<?php
-	if ( $p === 'mpd' ) echo
-'<script src="/assets/js/vendor/bootstrap-select-1.12.1.min.'.$time.'.js"></script>
- <script src="/assets/js/mpd.'.$time.'.js"></script>';
-	if ( $p === 'network' ) echo
-'<script src="/assets/js/vendor/jquery.qrcode.min.'.$time.'.js"></script>
- <script src="/assets/js/network.'.$time.'.js"></script>';
-	if ( $p === 'sources' ) echo
-'<script src="/assets/js/sources.'.$time.'.js"></script>';
-	if ( $p === 'system' ) echo
-'<script src="/assets/js/vendor/bootstrap-select-1.12.1.min.'.$time.'.js"></script>
- <script src="/assets/js/system.'.$time.'.js"></script>';
-	?>
 
 </body>
 </html>
