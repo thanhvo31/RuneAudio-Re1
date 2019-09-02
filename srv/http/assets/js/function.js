@@ -1452,7 +1452,7 @@ function renderPlayback() {
 		var ext = ( status.ext !== 'radio' ) ? '<wh> • </wh>' + status.ext : '';
 	} else {
 		$( '#songposition' ).empty();
-		var ext = '<wh> • </wh><i class="fa fa-airplay fa-lg bl"></i>' ;
+		var ext = '<wh> • </wh><i class="fa fa-airplay bl"></i>' ;
 	}
 	$( '#format-bitrate' ).html( ( GUI.display.time ? '<wh id="dot0"> • </wh>' : '' ) + status.sampling + ext )
 	if ( status.ext === 'radio' ) {
@@ -1630,7 +1630,7 @@ function renderPlaylist() {
 		$( '#pl-count' ).html( '<span class="title">PLAYLIST</span>' );
 		$( '#plsave, #plcrop, #plconsume, #plclear, #pl-searchbtn' ).addClass( 'disable' );
 		$( '#pl-entries' ).empty();
-		$( '.playlist' ).removeClass( 'hide' );
+		$( '.playlist, .emptyadd' ).removeClass( 'hide' );
 		$( '#playlist-empty' ).css( 'margin-top', ( GUI.bars ? 27 : 67 ) +'px' );
 		$( 'html, body' ).scrollTop( 0 );
 		return
@@ -1956,7 +1956,8 @@ function setPageSwipe( type ) {
 function setPlaybackBlank() {
 	$( '#playback-controls' ).addClass( 'hide' );
 	$( '#divartist, #divsong, #divalbum' ).removeClass( 'scroll-left' );
-	$( '#song' ).html( '<i class="fa fa-plus-circle" style="width: 40px"></i>' );
+	$( '.emptyadd' ).removeClass( 'hide' );
+//	$( '#song' ).html( '<i class="fa fa-plus-circle" style="width: 40px"></i>' );
 	$( '#divpos i' ).addClass( 'hide' );
 	$( '#artist, #album, #songposition, #format-bitrate, #timepos, #elapsed, #total' ).empty();
 	if ( GUI.display.time ) $( '#time' ).roundSlider( 'setValue', 0 );

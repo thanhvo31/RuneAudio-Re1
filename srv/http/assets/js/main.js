@@ -55,7 +55,7 @@ if ( GUI.localhost ) {
 	var vu = '/assets/img/vu.'+ hash +'.gif';
 	var blinkdot = '<a class="dot">·</a>&ensp;<a class="dot dot2">·</a>&ensp;<a class="dot dot3">·</a>';
 }
-
+var emptyadd = '<div class="emptyadd"><i class="fa fa-plus-circle"></i><div>';
 // get playlist display, status, library
 $.post( 'commands.php', { getplaylist: 1 }, function( data ) {
 	GUI.pllist = data.playlist; // for dirble coverart
@@ -487,7 +487,7 @@ $( '#infoCheckBox' ).on( 'click', 'label', function() { // playback tools
 	}
 } );
 // PLAYBACK /////////////////////////////////////////////////////////////////////////////////////
-$( '#song, #playlist-empty' ).click( function( e ) {
+$( '.emptyadd' ).click( function( e ) {
 	if ( $( e.target ).hasClass( 'fa' ) ) $( '#tab-library' ).click();
 } );
 $( '#artist, #bio-open' ).click( function() {
