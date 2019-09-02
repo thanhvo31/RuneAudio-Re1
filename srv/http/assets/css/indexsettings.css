@@ -26,9 +26,8 @@
 	font-weight: normal;
 	font-style: normal;
 }
-.fa-addons:before {
-	font-family: enhance;
-	content: "\f520";
+.fa {
+	font-family: enhance, Fontawesome;
 }
 .fa-arrow-left:before { content: "\f544" }
 .fa-check:before { content: "\f51B" }
@@ -36,6 +35,8 @@
 .fa-code:before { content: "\f50C" }
 .fa-dlna:before { content: "\f525" }
 .fa-edit-circle:before { content: "\f537" }
+.fa-eye:before { content: "\f576" }
+.fa-eye-no:before { content: "\f577" }
 .fa-folder-open-cascade:before { content: "\f521" }
 .fa-gear:before { content: "\f509" }
 .fa-gears:before { content: "\f50A" }
@@ -66,6 +67,10 @@
 .fa-wifi-2:before { content: "\f571" }
 .fa-wifi-3:before { content: "\f570" }
 
+w, wh, .wh { color: #e0e7ee !important; }
+bl, .bl { color: hsl(200,100%,40%)/*c*/ !important; }
+gr, .gr { color: hsl(200,3%,60%)/*cgl*/ !important; }
+
 @keyframes blinkopaque {
 	50% { opacity: 0; }
 }
@@ -78,9 +83,6 @@
 body {
 	font-family: "Lato";
 	font-size: 14px;
-}
-.fa {
-	font-family: enhance, Fontawesome;
 }
 .head {
 	position: fixed;

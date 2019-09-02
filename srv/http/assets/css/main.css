@@ -44,10 +44,7 @@
 /* ---------------------- fontawesome mod ---------------------- */
 /* 'enhance' declared in <head> for cache busting */
 .fa { font-family: enhance }
-.fa-addons:before {
-	font-family: enhance;
-	content: "\f520";
-}
+.fa-addons:before { content: "\f520" }
 .fa-airplay:before { content: "\f524" }
 .fa-album:before { content: "\f555" }
 .fa-albumartist:before { content: "\f557" }
@@ -69,6 +66,8 @@
 .fa-edit:before { content: "\f536" }
 .fa-edit-circle:before { content: "\f537" }
 .fa-external-link:before { content: "\f565" }
+.fa-eye:before { content: "\f576" }
+.fa-eye-no:before { content: "\f577" }
 .fa-facebook:before { content: "\f52D" }
 .fa-file-music:before { content: "\f54B" }
 .fa-flash:before { content: "\f51E" }

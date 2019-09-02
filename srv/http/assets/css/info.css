@@ -1,53 +1,3 @@
-/* 'addons' declared in <head> for cache busting */
-.fa {
-	font-family: addons, FontAwesome;
-	font-style: normal;
-}
-.fa-addons:before {
-	font-family: addons;
-	content: "\f520";
-}
-.fa-addons {
-	color: hsl(200,3%,60%)/*cgl*/;
-}
-.fa-info-circle:before { content: "\f561" }
-.fa-question-circle:before { content: "\f560" }
-.fa-times:before { content: "\f51A" }
-.fa-warning:before { content: "\f562" }
-
-#addons { cursor: pointer; } /* for non enha */
-
-#settings,
-.dropdown-menu {
-	-webkit-touch-callout: none; /* iOS Safari */
-	-webkit-user-select: none; /* Safari */
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* Internet Explorer/Edge */
-	user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-}
-@keyframes blinkopaque {
-	50% { opacity: 0; }
-}
-.blink {
-	animation: blinkopaque 1.5s linear infinite;
-}
-#loader {
-	font-size: 16px;
-	font-weight: 300;
-	color: #999;
-	background: rgba(0, 0, 0, 0.8);
-}
-#loader i {
-	margin-top: 40vh;
-	width: 100px;
-	font-size: 98px;
-}
-#loadercontent {
-	top: 60px;
-}
-wh { color: #e0e7ee; }
-gr { color: hsl(200,3%,60%)/*cgl*/; }
-wh, gr { font-weight: normal !important; }
 .infobtn,
 .filebtn {
 	display: inline-block;
@@ -208,6 +158,12 @@ wh, gr { font-weight: normal !important; }
 }
 .infoinput:focus {
 	outline: none;
+}
+#infoPasswordBox {
+	display: inline-block;
+}
+.eye {
+	cursor: pointer;
 }
 .infohtml {
 	display: table;
