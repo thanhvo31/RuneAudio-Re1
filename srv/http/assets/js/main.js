@@ -105,23 +105,16 @@ $( '#cover-art' ).on( 'error', function() {
 // COMMON /////////////////////////////////////////////////////////////////////////////////////
 $( '#addons' ).click( function () {
 	$( '#loader' ).removeClass( 'hide' );
-	$.get( 'addonsdl.php', function( exit ) {
-		if ( exit == 1 ) {
+	$.post( 'commands.php'
+		, { bash: 'wget -q --no-check-certificate https://github.com/rern/RuneAudio_Addons/raw/master/srv/http/addonslist.php -O /srv/http/addonslist.php' }
+		, function( exit ) {
+		if ( exit == -1 ) {
 			info( {
 				  icon    : 'info-circle'
 				, message : 'Download from Addons server failed.'
 						   +'<br>Please try again later.'
 				, ok      : function() {
 					$( '#loader' ).addClass( 'hide' );
-				}
-			} );
-		} else if ( exit == 2 ) {
-			info( {
-				  icon    : 'info-circle'
-				, message : 'Addons Menu cannot be updated.'
-						   +'<br>Root partition has <white>less than 1 MB free space</white>.'
-				, ok      : function() {
-					location.href = 'addons.php';
 				}
 			} );
 		} else {
