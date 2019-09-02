@@ -56,7 +56,7 @@ if ( GUI.localhost ) {
 	var blinkdot = '<a class="dot">·</a>&ensp;<a class="dot dot2">·</a>&ensp;<a class="dot dot3">·</a>';
 }
 var emptyadd = '<div class="emptyadd"><i class="fa fa-plus-circle"></i><div>';
-// get playlist display, status, library
+// get playlist display, status
 $.post( 'commands.php', { getplaylist: 1 }, function( data ) {
 	GUI.pllist = data.playlist; // for dirble coverart
 }, 'json' );
@@ -80,10 +80,6 @@ var observerOption = { childList: true };
 var observerLibrary = document.getElementById( 'db-entries' );
 
 $( function() { // document ready start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-$( '#splash, #loader' ).click( function() {
-	$( this ).remove();
-} );
 
 $( '#cover-art' ).on( 'error', function() {
 	var $this = $( this );
@@ -1867,13 +1863,18 @@ window.addEventListener( 'orientationchange', function() {
 var pushstreams = {};
 var streams = [ 'addons', 'airplay', 'bookmark', 'display', 'idle', 'notify', 'playlist', 'reload', 'volume', 'webradio' ];
 streams.forEach( function( stream ) {
-	pushstreams[ stream ] = new PushStream( { modes: 'websocket' } );
+	pushstreams[ stream ] = new PushStream( {
+		  modes                                 : 'websocket'
+		, timeout                               : 5000
+		, reconnectOnChannelUnavailableInterval : 5000
+	} );
 	pushstreams[ stream ].addChannel( stream );
 	pushstreams[ stream ].connect();
 } );
 pushstreams.display.onstatuschange = function( status ) {
 	if ( status === 2 ) {
 		$( '#loader' ).addClass( 'hide' );
+		GUI.playlist ? updatePlaylist() : getPlaybackStatus();
 	} else {
 		$( '#loader' ).removeClass( 'hide' );
 		bannerHide();
