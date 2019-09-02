@@ -187,12 +187,14 @@ wh, gr {
 }
 .entries i {
 	width: 40px;
-	margin: 3px 10px 0 0;
 	font-size: 26px;
 	line-height: 40px;
 	vertical-align: -2px;
 	text-align: center;
 	color: hsl(200,3%,60%)/*cgl*/;
+}
+.entries i:first-of-type {
+	margin: 3px 10px 0 0;
 }
 .entries .fa-save {
 	width: 20px;
