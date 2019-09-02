@@ -1438,7 +1438,7 @@ function renderPlayback() {
 	$( '.playback-controls' ).css( 'visibility', 'visible' );
 	$( '#artist, #song, #album' ).css( 'width', '' );
 	$( '#cover-art' ).removeClass( 'vu' );
-	$( '#coverartoverlay' ).addClass( 'hide' );
+	$( '#coverartoverlay, .emptyadd' ).addClass( 'hide' );
 	if ( !GUI.coversave ) $( '.licover-save' ).remove();
 	$( '#artist' ).html( status.Artist );
 	$( '#song' ).html( status.Title );
@@ -1631,7 +1631,6 @@ function renderPlaylist() {
 		$( '#plsave, #plcrop, #plconsume, #plclear, #pl-searchbtn' ).addClass( 'disable' );
 		$( '#pl-entries' ).empty();
 		$( '.playlist, .emptyadd' ).removeClass( 'hide' );
-		$( '#playlist-empty' ).css( 'margin-top', ( GUI.bars ? 27 : 67 ) +'px' );
 		$( 'html, body' ).scrollTop( 0 );
 		return
 	}
@@ -1648,7 +1647,7 @@ function renderPlaylist() {
 		counthtml += countradiohtml;
 	}
 	$( '.playlist' ).removeClass( 'hide' );
-	$( '#playlist-empty' ).addClass( 'hide' );
+	$( '.emptyadd' ).addClass( 'hide' );
 	$( '#pl-count' ).html( counthtml );
 	$( '#plsave, #plclear, #pl-searchbtn' ).removeClass( 'disable' );
 	$( '#plcrop' ).toggleClass( 'disable', GUI.pllist.length < 2 );
@@ -1957,9 +1956,8 @@ function setPlaybackBlank() {
 	$( '#playback-controls' ).addClass( 'hide' );
 	$( '#divartist, #divsong, #divalbum' ).removeClass( 'scroll-left' );
 	$( '.emptyadd' ).removeClass( 'hide' );
-//	$( '#song' ).html( '<i class="fa fa-plus-circle" style="width: 40px"></i>' );
 	$( '#divpos i' ).addClass( 'hide' );
-	$( '#artist, #album, #songposition, #format-bitrate, #timepos, #elapsed, #total' ).empty();
+	$( '#artist, #song, #album, #songposition, #format-bitrate, #timepos, #elapsed, #total' ).empty();
 	if ( GUI.display.time ) $( '#time' ).roundSlider( 'setValue', 0 );
 	$( '#coverartoverlay' ).addClass( 'hide' );
 	$( '#cover-art' )
