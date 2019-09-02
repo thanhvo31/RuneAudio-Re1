@@ -5,7 +5,7 @@ info( 'message' );
 normal usage:
 info( {                                     // default
 	width         : N                       // 400            (info width)
-	icon          : 'NAME'                  // 'question'     (FontAwesome name for top icon)
+	icon          : 'NAME'                  // 'question'     (top icon)
 	title         : 'TITLE'                 // 'Information'  (top title)
 	nox           : 1                       // (show)         (no top 'X' close button)
 	nobutton      : 1                       // (show)         (no button)
