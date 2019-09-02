@@ -226,7 +226,7 @@ $( '#add' ).click( function() {
 			var password = $( '#infoPasswordBox' ).val();
 			var ip = $( '#infoTextBox2' ).val();
 			var gw = $( '#infoTextBox3' ).val();
-			var hidden = $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked' ) ? 'Hidden=yes' : '';
+			var hidden = $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked' ) ? 'Hidden=yes\n' : '';
 			var wpa = $( '#infoCheckBox input:eq( 2 )' ).prop( 'checked' ) ? 'wep' : 'wpa';
 			var data = 'Interface='+ wlan +'\n'
 					  +'Connection=wireless\n'
