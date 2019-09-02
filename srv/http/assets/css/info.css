@@ -126,14 +126,12 @@
 	overflow: hidden;
 	color: hsl(200,3%,60%)/*cgl*/;
 }
-#infotextlabel,
-#infopasswordlabel {
+#infotextlabel {
 	display: inline-block;
 	line-height: 38px;
 	text-align: right;
 }
-#infotextbox,
-#infopasswordbox {
+#infotextbox {
 	display: inline-block;
 	text-align: left;
 }
