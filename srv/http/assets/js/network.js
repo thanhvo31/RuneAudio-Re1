@@ -397,16 +397,12 @@ function wlanScan() {
 			encrypt = val[ 2 ];
 			wpa = val[ 3 ];
 			wlan = val[ 4 ];
-			connected = val[ 5 ] ? ' data-connected="1"' : '';;
+			connected = val[ 5 ] ? ' data-connected="1"' : '';
 			profile = val[ 6 ] ? ' data-profile="1"' : '';
 			router = val[ 7 ] ? ' data-router="'+ val[ 7 ] +'"' : '';
 			ip = val[ 8 ] ? ' data-ip="'+ val[ 8 ] +'"' : '';
 			stored = profile ? '<i class="fa fa-save"></i>' : '';
-			if ( db > good ) {
-				wifi = 3;
-			} else {
-				wifi = db < fair ? 1 : 2;
-			}
+			wifi = db > good ? 3 : ( db < fair ? 1 : 2 );
 			html += '<li '
 				   +'data-db="'+ db +'" data-ssid="'+ ssid +'" data-encrypt="'+ encrypt +'" '
 				   +' data-encrypt="'+ encrypt +'" data-wpa="'+ wpa +'" data-wlan="'+ wlan +'"'
