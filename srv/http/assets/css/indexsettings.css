@@ -27,7 +27,7 @@
 	font-style: normal;
 }
 .fa {
-	font-family: enhance, Fontawesome;
+	font-family: enhance;
 }
 .fa-arrow-left:before { content: "\f544" }
 .fa-check:before { content: "\f51B" }
