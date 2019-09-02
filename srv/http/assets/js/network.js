@@ -385,27 +385,27 @@ function wlanStatus() {
 function wlanScan() {
 	$( '#scanning' ).removeClass( 'hide' );
 	$.post( 'commands.php', { bash: '/srv/http/settings/networkwlanscan.sh '+ wlcurrent }, function( data ) {
-		var val, quality, ssid, encrypt, wpa, wlan, connected, profile, router, ip, db, wifi;
+		var val, dbm, db, ssid, encrypt, wpa, wlan, connected, profile, router, ip, db, wifi;
+		var good = -60;
+		var fair = -68;
 		var html = '';
 		data.forEach( function( el ) {
 			val = el.split( '^^' );
-			quality = val[ 0 ];
-			db = val[ 1 ];
-			ssid = val[ 2 ];
-			encrypt = val[ 3 ];
-			wpa = val[ 4 ];
-			wlan = val[ 5 ];
-			connected = val[ 6 ] ? ' data-connected="1"' : '';;
-			profile = val[ 7 ] ? ' data-profile="1"' : '';
-			router = val[ 8 ] ? ' data-router="'+ val[ 8 ] +'"' : '';
-			ip = val[ 9 ] ? ' data-ip="'+ val[ 9 ] +'"' : '';
-			saved = profile ? '<i class="fa fa-save"></i>' : '';
-			if ( quality > 55 ) {
+			dbm = val[ 0 ];
+			db = dbm.split( ' ' )[ 0 ];
+			ssid = val[ 1 ];
+			encrypt = val[ 2 ];
+			wpa = val[ 3 ];
+			wlan = val[ 4 ];
+			connected = val[ 5 ] ? ' data-connected="1"' : '';;
+			profile = val[ 6 ] ? ' data-profile="1"' : '';
+			router = val[ 7 ] ? ' data-router="'+ val[ 7 ] +'"' : '';
+			ip = val[ 8 ] ? ' data-ip="'+ val[ 8 ] +'"' : '';
+			stored = profile ? '<i class="fa fa-save"></i>' : '';
+			if ( db > good ) {
 				wifi = 3;
-			} else if ( quality < 41 ) {
-				wifi = 1;
 			} else {
-				wifi = 2
+				wifi = db < fair ? 1 : 2;
 			}
 			html += '<li '
 				   +'data-db="'+ db +'" data-ssid="'+ ssid +'" data-encrypt="'+ encrypt +'" '
@@ -413,8 +413,9 @@ function wlanScan() {
 				   + router + ip +'"'+ connected + profile +'>';
 			html += '<i class="fa fa-wifi-'+ wifi +'"></i>';
 			if ( connected ) html += '<span class="green">&bull;</span>&ensp;';
-			html += ssid;
-			if ( encrypt === 'on' ) html += ' <i class="fa fa-lock"></i>'+ saved;
+			html += db < fair ? '<gr>'+ ssid +'</gr>' : ssid;
+			if ( encrypt === 'on' ) html += ' <i class="fa fa-lock"></i>';
+			html += stored +'<gr>'+ dbm +'</gr>';
 			$( '#listwifi' ).html( html +'</li>' ).promise().done( function() {
 				bannerHide();
 				$( '#scanning' ).addClass( 'hide' );
