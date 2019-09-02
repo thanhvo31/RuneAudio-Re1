@@ -322,11 +322,7 @@ $redis->del( 'reboot' );
 	<a id="displaylibrary"><i class="fa fa-library gr"></i>Library Tools</a>
 	<a id="displayplayback"><i class="fa fa-play-circle gr"></i>Playback Tools</a>
 	<a id="displaycolor"><i class="fa fa-brush gr"></i>Color<?=$submenucolor ?></a>
-		<?php
-		if ( file_exists( '/srv/http/assets/fonts/addons.ttf' ) ) { ?> 
 	<a id="addons"><i class="fa fa-addons gr"></i>Addons</a>
-		<?php 
-		} ?>
 </div>
 <div id="swipebar" class="transparent">
 	<i id="swipeL" class="fa fa-left fa-2x"></i>

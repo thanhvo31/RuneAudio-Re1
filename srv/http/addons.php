@@ -27,9 +27,9 @@ $htmlfree = '<white>'.( $MiBavail < 1024 ? round( $MiBavail, 2 ).' MiB' : round(
 	<link rel="stylesheet" href="/assets/css/bootstrap.min.<?=$time?>.css">
 	<style>
 		@font-face {
-			font-family: addons;
-			src        : url( '/assets/fonts/addons.<?=$time?>.woff' ) format( 'woff' ),
-			             url( '/assets/fonts/addons.<?=$time?>.ttf' ) format( 'truetype' );
+			font-family: enhance;
+			src        : url( '/assets/fonts/enhance.<?=$time?>.woff' ) format( 'woff' ),
+			             url( '/assets/fonts/enhance.<?=$time?>.ttf' ) format( 'truetype' );
 			font-weight: normal;
 			font-style : normal;
 		}
@@ -41,7 +41,7 @@ $htmlfree = '<white>'.( $MiBavail < 1024 ? round( $MiBavail, 2 ).' MiB' : round(
 <body>
 <div class="container">
 	<h1>
-		<i class="fa fa-addons"></i>&ensp;Addons
+		<i class="fa fa-addons gr"></i>&ensp;Addons
 		<i class="close-root fa fa-times"></i>
 	</h1>
 	<p class="bl"></p>
