@@ -401,17 +401,12 @@ function wlanScan() {
 			profile = val[ 6 ] ? ' data-profile="1"' : '';
 			router = val[ 7 ] ? ' data-router="'+ val[ 7 ] +'"' : '';
 			ip = val[ 8 ] ? ' data-ip="'+ val[ 8 ] +'"' : '';
-			stored = profile ? '<i class="fa fa-save"></i>' : '';
-			wifi = db > good ? 3 : ( db < fair ? 1 : 2 );
-			html += '<li '
-				   +'data-db="'+ db +'" data-ssid="'+ ssid +'" data-encrypt="'+ encrypt +'" '
-				   +' data-encrypt="'+ encrypt +'" data-wpa="'+ wpa +'" data-wlan="'+ wlan +'"'
-				   + router + ip +'"'+ connected + profile +'>';
-			html += '<i class="fa fa-wifi-'+ wifi +'"></i>';
+			html += '<li data-db="'+ db +'" data-ssid="'+ ssid +'" data-encrypt="'+ encrypt +'" data-wpa="'+ wpa +'" data-wlan="'+ wlan +'"'+ connected + profile + router + ip +'>';
+			html += '<i class="fa fa-wifi-'+ ( db > good ? 3 : ( db < fair ? 1 : 2 ) ) +'"></i>';
 			if ( connected ) html += '<span class="green">&bull;</span>&ensp;';
 			html += db < fair ? '<gr>'+ ssid +'</gr>' : ssid;
 			if ( encrypt === 'on' ) html += ' <i class="fa fa-lock"></i>';
-			html += stored +'<gr>'+ dbm +'</gr>';
+			html += ( profile ? '<i class="fa fa-save"></i>' : '' ) +'<gr>'+ dbm +'</gr>';
 			$( '#listwifi' ).html( html +'</li>' ).promise().done( function() {
 				bannerHide();
 				$( '#scanning' ).addClass( 'hide' );
