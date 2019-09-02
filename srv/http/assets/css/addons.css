@@ -286,19 +286,14 @@ a[ href^='http' ]:hover { color: #0ab1ff }
 }
 /* 'addons' declared in <head> for cache busting */
 .fa {
-	font-family: addons;
-}
-i.fa {
+	font-family: enhance;
 	font-style: normal;
 }
-
 .fa-addons:before {
-	font-family: addons;
 	content: "\f520";
-	color: hsl(200,3%,60%)/*cgl*/;
 }
 .fa-arrow-down:before { content: "\f567" }
-.fa-arrow-up:before { 	font-family: addons; content: "\f566" }
+.fa-arrow-up:before { content: "\f566" }
 .fa-check:before { content: "\f51B" }
 .fa-chevron-down:before { content: "\f564" }
 .fa-external-link:before { content: "\f565" }
@@ -333,6 +328,8 @@ i.fa {
         transform: rotate(359deg)
     }
 }
+wh, .wh { color: #e0e7ee !important; }
+gr, .gr { color: hsl(200,3%,60%)/*cgl*/ !important; }
 
 body {
 	margin: 0;
@@ -411,9 +408,7 @@ h1 {
 }
 #list li:before {
 	margin-right: 5px;
-	font-family: addons;
-	content: '\f567';
-	color: hsl(200,100%,40%)/*c*/;
+	content: '\2022';
 }
 #issues i,
 .detailtext i {
