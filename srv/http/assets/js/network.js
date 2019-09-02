@@ -28,11 +28,11 @@ $( '#listinterfaces' ).on( 'click', 'li', function( e ) {
 		wlcurrent = inf;
 		wlanStatus();
 	} else {
-		var dataeth0 = "Description='eth0 connection'\n"
-				  +'Interface=eth0\n'
-				  +'ForceConnect=yes\n'
-				  +'SkipNoCarrier=yes\n'
-				  +'Connection=ethernet\n'
+		var dataeth0 = "Description='eth0 connection'"
+				  +'\nInterface=eth0'
+				  +'\nForceConnect=yes'
+				  +'\nSkipNoCarrier=yes'
+				  +'\nConnection=ethernet'
 		info( {
 			  icon         : 'lan'
 			, title        : 'Edit LAN IP'
@@ -51,10 +51,10 @@ $( '#listinterfaces' ).on( 'click', 'li', function( e ) {
 				if ( !checked ) {
 					dataeth0 += 'IP=dhcp';
 				} else {
-					dataeth0 += "IP=static\n"
-							   +"Address='"+ $( '#infoTextBox' ).val() +"/24'\n"
-							   +"Gateway='"+ $( '#infoTextBox1' ).val() +"'\n"
-							   +"DNS=('"+ $( '#infoTextBox2' ).val() +"' '"+ $( '#infoTextBox3' ).val() +"')";
+					dataeth0 += "IP=static"
+							   +"\nAddress='"+ $( '#infoTextBox' ).val() +"/24'"
+							   +"\nGateway='"+ $( '#infoTextBox1' ).val() +"'"
+							   +"\nDNS=('"+ $( '#infoTextBox2' ).val() +"' '"+ $( '#infoTextBox3' ).val() +"')";
 				}
 				notify( 'eth0', 'Restarting ...', 'lan', 10000 );
 				local = 1;
@@ -131,12 +131,10 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 			, title   : ssid
 			, message : 
 				'<div class="col-l">'
-					+'Signal<br>'
 					+'IP<br>'
 					+'Router'
 				+'</div>'
 				+'<div class="col-r" style="width: 140px">'
-					+ $this.data( 'db' ) +' dB<br>'
 					+ $this.data( 'ip' ) +'<br>'
 					+ $this.data( 'router' )
 				+'</div>'
@@ -201,11 +199,11 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 			newWiFi( $this );
 		}
 	} else { // no password
-		var data = 'Interface='+ wlan +'\n'
-				  +'Connection=wireless\n'
-				  +'IP=dhcp\n'
-				  +'ESSID="'+ ssid +'"\n'
-				  +'Security=none\n';
+		var data = 'Interface='+ wlan
+				  +'\nConnection=wireless'
+				  +'\nIP=dhcp'
+				  +'\nESSID="'+ ssid +'"'
+				  +'\nSecurity=none';
 		connect( wlan, ssid, data );
 	}
 } );
@@ -226,20 +224,20 @@ $( '#add' ).click( function() {
 			var password = $( '#infoPasswordBox' ).val();
 			var ip = $( '#infoTextBox2' ).val();
 			var gw = $( '#infoTextBox3' ).val();
-			var hidden = $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked' ) ? 'Hidden=yes\n' : '';
+			var hidden = $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked' ) ? '\nHidden=yes' : '';
 			var wpa = $( '#infoCheckBox input:eq( 2 )' ).prop( 'checked' ) ? 'wep' : 'wpa';
-			var data = 'Interface='+ wlan +'\n'
-					  +'Connection=wireless\n'
-					  +'IP=dhcp\n'
-					  +'ESSID="'+ ssid +'"\n';
+			var data = 'Interface='+ wlan
+					  +'\nConnection=wireless'
+					  +'\nIP=dhcp'
+					  +'\nESSID="'+ ssid
 					  + hidden
 			if ( password ) {
-				data += 'Security='+ wpa +'\n'
-					   +'Key="'+ password +'"\n'
+				data += '\nSecurity='+ wpa
+					   +'\nKey="'+ password +'"'
 			}
 			if ( ip ) {
-				data += 'Address='+ ip +'\n'
-					   +'Gateway='+ gw
+				data += '\nAddress='+ ip
+					   +'\nGateway='+ gw
 			}
 			connect( wlan, ssid, data );
 		}
@@ -409,7 +407,8 @@ function wlanScan() {
 			html += connected ? '<span class="green">&bull;</span>&ensp;' : '';
 			html += db < fair ? '<gr>'+ ssid +'</gr>' : ssid;
 			html += encrypt === 'on' ? ' <i class="fa fa-lock"></i>' : '';
-			html += ( profile ? '<i class="fa fa-save"></i>' : '' ) +'<gr>'+ dbm +'</gr>';
+			html += '<gr>'+ dbm +'</gr>';
+			html += profile ? '&ensp;<i class="fa fa-save"></i>' : '';
 			$( '#listwifi' ).html( html +'</li>' ).promise().done( function() {
 				bannerHide();
 				$( '#scanning' ).addClass( 'hide' );
@@ -433,12 +432,12 @@ function newWiFi( $this ) {
 		, message       : 'Connect: <wh>'+ ssid +'</wh>'
 		, passwordlabel : 'Password'
 		, ok            : function() {
-			var data = 'Interface='+ wlan +'\n'
-					  +'Connection=wireless\n'
-					  +'IP=dhcp\n'
-					  +'ESSID="'+ ssid +'"\n'
-					  +'Security='+ ( wpa || 'wep' ) +'\n'
-					  +'Key="'+ $( '#infoTextBox' ).val() +'"\n';
+			var data = 'Interface='+ wlan
+					  +'\nConnection=wireless'
+					  +'\nIP=dhcp'
+					  +'\nESSID="'+ ssid +'"'
+					  +'\nSecurity='+ ( wpa || 'wep' )
+					  +'\nKey="'+ $( '#infoTextBox' ).val() +'"';
 			connect( wlan, ssid, data );
 		}
 	} );
