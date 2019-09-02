@@ -15,7 +15,7 @@ for line in "${lines[@]}"; do
 	ini=${line:0:2}
 	if [[ $ini == Qu ]]; then
 		if [[ -n $ssid ]]; then
-			list="$list$quality^^$db^^$ssid^^$encryption^^$wpa^^$wlan^^$connected^^$profile^^$gw_ip\n"
+			list="$list$db^^$ssid^^$encryption^^$wpa^^$wlan^^$connected^^$profile^^$gw_ip\n"
 		fi
 		signal=
 		quality=
@@ -24,9 +24,7 @@ for line in "${lines[@]}"; do
 		encryption=
 		wpa=
 		profile=
-		quality_db=( $( echo $line | sed 's|Quality=\(.*\)/.*=\(.*\) .*|\1 \2|' ) )
-		quality=${quality_db[0]}
-		db=${quality_db[1]}
+		db=$( echo $line | cut -d= -f3 )
 	elif [[ $ini == En ]]; then
 		encryption=$( echo $line | cut -d':' -f2 )
 	elif echo $line | grep -q WPA; then
@@ -47,9 +45,10 @@ for line in "${lines[@]}"; do
 	fi
 done
 # last one
-if [[ $ssid ]] && (( $quality > 35 )); then
-	list="$list$quality^^$db^^$ssid^^$encryption^^$wpa^^$wlan^^$connected^^$profile^^$gw_ip"
+if [[ -n $ssid ]]; then
+	list="$list$db^^$ssid^^$encryption^^$wpa^^$wlan^^$connected^^$profile^^$gw_ip"
 fi
-list=$( echo -e "$list" | sort -r )
 
-printf "$list"
+list=$( echo -e "$list" | awk NF | sort )
+
+printf -- "$list"
