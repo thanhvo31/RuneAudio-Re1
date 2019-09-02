@@ -217,7 +217,7 @@ $( '#add' ).click( function() {
 		, textlabel : [ 'SSID', 'Password', 'IP', 'Gateway' ]
 		, checkbox  : { 'Static IP': 1, 'Hidden SSID': 1, 'WEP': 1 }
 		, preshow   : function() {
-			$( '#infoTextLabel2, #infoTextBox2, #infoTextLabel3, #infoTextBox3' ).hide();
+			$( '#infotextlabel a:eq( 2 ), #infoTextBox2, #infotextlabel a:eq( 3 ), #infoTextBox3' ).hide();
 		}
 		, ok        : function() {
 			var ssid = $( '#infoTextBox' ).val();
@@ -225,11 +225,13 @@ $( '#add' ).click( function() {
 			var password = $( '#infoTextBox1' ).val();
 			var ip = $( '#infoTextBox2' ).val();
 			var gw = $( '#infoTextBox3' ).val();
-			var wpa = $( '#infoCheckBox input:eq( 2 )' ).prop( 'checked' ) ? 'wep' : 'wpa'
+			var hidden = $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked' ) ? 'Hidden=yes' : '';
+			var wpa = $( '#infoCheckBox input:eq( 2 )' ).prop( 'checked' ) ? 'wep' : 'wpa';
 			var data = 'Interface='+ wlan +'\n'
 					  +'Connection=wireless\n'
 					  +'IP=dhcp\n'
 					  +'ESSID="'+ ssid +'"\n';
+					  + hidden
 			if ( password ) {
 				data += 'Security='+ wpa +'\n'
 					   +'Key="'+ password +'"\n'
@@ -242,7 +244,7 @@ $( '#add' ).click( function() {
 		}
 	} );
 	$( '#infoCheckBox' ).on( 'click', 'input:eq( 0 )', function() {
-		$( '#infoTextLabel2, #infoTextBox2, #infoTextLabel3, #infoTextBox3' ).toggle( $( this ).prop( 'checked' ) );
+		$( '#infotextlabel a:eq( 2 ), #infoTextBox2, #infotextlabel a:eq( 3 ), #infoTextBox3' ).toggle( $( this ).prop( 'checked' ) );
 	} );
 } );
 $( '#accesspoint' ).change( function() {
@@ -403,9 +405,9 @@ function wlanScan() {
 			ip = val[ 8 ] ? ' data-ip="'+ val[ 8 ] +'"' : '';
 			html += '<li data-db="'+ db +'" data-ssid="'+ ssid +'" data-encrypt="'+ encrypt +'" data-wpa="'+ wpa +'" data-wlan="'+ wlan +'"'+ connected + profile + router + ip +'>';
 			html += '<i class="fa fa-wifi-'+ ( db > good ? 3 : ( db < fair ? 1 : 2 ) ) +'"></i>';
-			if ( connected ) html += '<span class="green">&bull;</span>&ensp;';
+			html += connected ? '<span class="green">&bull;</span>&ensp;' : '';
 			html += db < fair ? '<gr>'+ ssid +'</gr>' : ssid;
-			if ( encrypt === 'on' ) html += ' <i class="fa fa-lock"></i>';
+			html += encrypt === 'on' ? ' <i class="fa fa-lock"></i>' : '';
 			html += ( profile ? '<i class="fa fa-save"></i>' : '' ) +'<gr>'+ dbm +'</gr>';
 			$( '#listwifi' ).html( html +'</li>' ).promise().done( function() {
 				bannerHide();
@@ -425,11 +427,11 @@ function newWiFi( $this ) {
 	var ssid = $this.data( 'ssid' );
 	var wpa = $this.data( 'wpa' );
 	info( {
-		  icon      : 'wifi-3'
-		, title     : 'Wi-Fi'
-		, message   : 'Connect: <wh>'+ ssid +'</wh>'
-		, textlabel : 'Password'
-		, ok      : function() {
+		  icon          : 'wifi-3'
+		, title         : 'Wi-Fi'
+		, message       : 'Connect: <wh>'+ ssid +'</wh>'
+		, passwordlabel : 'Password'
+		, ok            : function() {
 			var data = 'Interface='+ wlan +'\n'
 					  +'Connection=wireless\n'
 					  +'IP=dhcp\n'

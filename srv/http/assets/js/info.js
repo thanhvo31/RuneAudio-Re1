@@ -119,6 +119,17 @@ $( '#infoX' ).click( function() {
 	$( '#infoCancel' ).click();
 	$( '#infoContent' ).empty();
 } );
+$( '#infoContent' ).on( 'click', '.eye', function() {
+	$this = $( this );
+	$pwd = $this.prev();
+	if ( $pwd.prop( 'type' ) === 'text' ) {
+		$this.removeClass( 'fa-eye-no' ).addClass( 'fa-eye' );
+		$pwd.prop( 'type', 'password' );
+	} else {
+		$this.removeClass( 'fa-eye' ).addClass( 'fa-eye-no' );
+		$pwd.prop( 'type', 'text' );
+	}
+} );
 
 function infoReset() {
 	$( '#infoContent' ).html( infocontenthtml );
@@ -261,7 +272,7 @@ function info( O ) {
 				var iid = i || '';
 				var labeltext = O.passwordlabel[ i ] || '';
 				labelhtml += '<a class="infolabel">'+ labeltext +'</a>';
-				boxhtml += '<input type="password" class="infoinput" id="infoPasswordBox'+ iid +'">';
+				boxhtml += '<input type="password" class="infoinput" id="infoPasswordBox'+ iid +'"> <i class="eye fa fa-eye fa-lg"></i><br>';
 			}
 			$( '#infopasswordlabel' ).html( labelhtml );
 			$( '#infopasswordbox' ).html( boxhtml );
