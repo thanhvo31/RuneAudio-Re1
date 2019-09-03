@@ -224,8 +224,7 @@ $( '#power' ).click( function( e ) {
 	}
 	
 	var cmd = [
-		  'mount | grep -q mmcblk0p8 && echo 8 > /sys/module/bcm2709/parameters/reboot_part'
-		, 'test -e /root/gpiooff.py &&  /root/gpiooff.py'
+		  'test -e /root/gpiooff.py &&  /root/gpiooff.py'
 		, 'systemctl stop local-browser'
 		, '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
 		, 'redis-cli save'
