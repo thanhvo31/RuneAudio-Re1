@@ -1,13 +1,12 @@
 .infobtn,
 .filebtn {
 	display: inline-block;
-	height: 36px;
 	margin: 0 5px;
 	min-width: 70px;
 	padding: 0 10px;
-	line-height: 36px;
+	line-height: 30px;
 	border: none;
-	border-radius: 6px;
+	border-radius: 4px;
 	white-space: nowrap;
 	font-size: 14px;
 	text-align: center;
@@ -75,7 +74,7 @@
 }
 #infoTop {
 	float: left;
-	width: calc( 100% - 40px );
+	width: calc( 100% - 60px );
 	color: #e0e7ee;
 	line-height: 40px;
 	padding: 0 0 0 15px;
