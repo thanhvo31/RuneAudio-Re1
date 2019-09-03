@@ -30,6 +30,7 @@ foreach( $list0103 as $name => $value ) {
 }
 $listruneui = array(
 	  'Bootstrap' => [ 'https://getbootstrap.com/' ]
+	, 'bootstrap-select' => [ 'https://github.com/snapappointments/bootstrap-select' ]
 	, 'HTML5-Color-Picker' => [ 'https://github.com/NC22/HTML5-Color-Picker', 'Rubchuk Vladimir' ]
 	, 'jQuery' => [ 'https://jquery.com/' ]
 	, 'jQuery.documentSize' => [ 'https://github.com/hashchange/jquery.documentsize', 'Michael Heim' ]
@@ -38,7 +39,6 @@ $listruneui = array(
 	, 'Lato-Fonts' => [ 'http://www.latofonts.com/lato-free-fonts', 'Lukasz Dziedzic' ]
 	, 'LazyLoad' => [ 'https://github.com/verlok/lazyload', 'Andrea Verlicchi' ]
 	, 'pica' => [ 'https://github.com/nodeca/pica', 'Nodeca' ]
-	, 'raspi-rotate' => [ 'https://github.com/colinleroy/raspi-rotate', 'Colin Leroy-Mira' ]
 	, 'roundSlider' => [ 'https://github.com/soundar24/roundSlider', 'Soundar' ]
 	, 'Sortable' => [ 'https://github.com/SortableJS/Sortable' ]
 );
@@ -67,6 +67,7 @@ $listruneos = array(
 	, 'Phpiredis' => [ 'https://github.com/nrk/phpiredis', 'Daniele Alessandri' ]
 	, 'Phpredis' => [ 'https://github.com/phpredis', 'Nicolas Favre-Felix, Michael Grunder &amp; Pavlo Yatsukhnenko' ]
 	, 'Pi-Bluetooth' => [ 'https://aur.archlinux.org/pi-bluetooth.git' ]
+	, 'raspi-rotate' => [ 'https://github.com/colinleroy/raspi-rotate', 'Colin Leroy-Mira' ]
 	, 'Redis' => [ 'http://redis.io', 'Salvatore Sanfilippo' ]
 	, 'Samba' => [ 'http://www.samba.org' ]
 	, 'Shairport' => [ 'https://github.com/abrasive/shairport', 'James &#8220;abrasive&#8221; Laird' ]
