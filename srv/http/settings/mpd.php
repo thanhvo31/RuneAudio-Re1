@@ -45,10 +45,10 @@ $ffmpeg = exec( "$sudo/sed -n '/ffmpeg/ {n;p}' /etc/mpd.conf | cut -d'\"' -f2" )
 			<div class="col-sm-10">
 				<input id="dop" type="checkbox" <?=$dop?>>
 				<label class="switchlabel" for="dop"></label>
-				<span class="help-block hide">For DSD-capable devices without drivers dedicated for native DSD.
+				<span class="help-block hide">For DSD-capable devices without drivers dedicated for native DSD. Enable if there's no sound from the DAC.
 					<br>DoP will repack 16bit DSD stream into 24bit PCM frames and transmit to the DAC. 
 					Then PCM frames will be reassembled back to original DSD stream, COMPLETELY UNCHANGED, with expense of double bandwith.
-					<br>On-board audio will always get DSD converted to PCM stream.</span>
+					<br>On-board audio and non-DSD devices will always get DSD converted to PCM stream.</span>
 			</div>
 		</div>
 		<div class="form-group">
