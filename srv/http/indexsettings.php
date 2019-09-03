@@ -37,34 +37,29 @@ function headhtml( $icon, $title ) {
 	';
 }
 $p = $_GET[ 'p' ];
-if ( $p === 'credits' ) {
-	headhtml( 'rune', 'CREDITS' );
-	include 'settings/credits.php';
-} else if ( $p === 'mpd' ) {
-	headhtml( 'mpd', 'MPD' );
-	include 'settings/mpd.php';
-} else if ( $p === 'network' ) {
-	headhtml( 'network', 'NETWORK' );
-	include 'settings/network.php';
-} else if ( $p === 'sources' ) {
-	headhtml( 'folder-open-cascade', 'SOURCES' );
-	include 'settings/sources.php';
-} else if ( $p === 'system' ) {
-	headhtml( 'sliders', 'SYSTEM' );
-	include 'settings/system.php';
-}
+$icon = array(
+	  'credits' => 'rune'
+	, 'mpd'     => 'mpd'
+	, 'network' => 'network'
+	, 'sources' => 'folder-open-cascade'
+	, 'system'  => 'sliders'
+);
+headhtml( $icon [ $p ], strtoupper( $p ) );
+include "settings/$p.php";
 ?>
 <script src="/assets/js/vendor/jquery-2.1.0.min.<?=$time?>.js"></script>
 <script src="/assets/js/vendor/bootstrap.min.<?=$time?>.js"></script>
 <script src="/assets/js/vendor/pushstream.min.<?=$time?>.js"></script>
 <script src="/assets/js/info.<?=$time?>.js"></script>
 <script src="/assets/js/banner.<?=$time?>.js"></script>
+	<?php if ( $p !== 'credits' ) { ?>
 <script src="/assets/js/<?=$p?>.<?=$time?>.js"></script>
-	<?php if ( $p === 'mpd' || $p === 'system' ) { ?>
+	<?php	if ( $p === 'mpd' || $p === 'system' ) { ?>
 <script src="/assets/js/vendor/bootstrap-select-1.12.1.min.<?=$time?>.js"></script>
-	<?php } else if ( $p === 'network' ) { ?>
+	<?php	} else if ( $p === 'network' ) { ?>
 <script src="/assets/js/vendor/jquery.qrcode.min.<?=$time?>.js"></script>
-	<?php } ?>
+	<?php	}
+		  } ?>
 <script>
 $( '#help' ).click( function() {
 	$( this ).toggleClass( 'blue' );
