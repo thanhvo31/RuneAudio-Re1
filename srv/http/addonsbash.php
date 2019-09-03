@@ -215,22 +215,29 @@ if ( !$reinit ) pclose( $popencmd );
 		$( '.close-root' )
 			.removeClass( 'disabled' )
 			.click( function() {
-				if ( '<?=$alias?>' === 'rre1' ) {
+				var alias = '<?=$alias?>';
+				if ( alias === 'rrre' ) {
 					$.post( 'commands.php', { bash: [
-						  'systemctl stop local-browser'
-						, '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
+						  '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
 						, 'shutdown -h now'
 					] } );
+					info( {
+						  icon    : 'info-circle'
+						, title   : '<?=$title?>'
+						, message : 'Powering off ....'
+					} );
+				} else if ( alias === 'cove' ) {
+					location.href = '/';
 				} else {
-					location.href = '<?=( $alias === "cove" ? "/" : "/addons.php" )?>';
+					location.href = '/addons.php';
 				}
 			} );
 		$( '#reinit' ).remove();
 		
 		info( {
-			icon:    'info-circle',
-			title:   '<?=$title?>',
-			message: 'Please see result information on screen.',
+			  icon    : 'info-circle'
+			, title   : '<?=$title?>'
+			, message : 'Please see result information on screen.'
 		} );
 	}, 1000 );
 </script>
