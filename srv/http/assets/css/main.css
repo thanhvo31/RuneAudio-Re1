@@ -144,6 +144,28 @@
 .fa-warning:before { content: "\f562" }
 .fa-webradio:before { content: "\f554" }
 .fa-youtube:before { content: "\f55D" }
+.fa-spin {
+	display: inline-block;
+	margin-right: 10px;
+	-webkit-animation: fa-spin 2s infinite linear;
+	animation: fa-spin 2s infinite linear
+}
+@-webkit-keyframes fa-spin {
+    0% { -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    100% { -webkit-transform: rotate(359deg);
+        transform: rotate(359deg)
+    }
+}
+@keyframes fa-spin {
+    0% {  -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    100% { -webkit-transform: rotate(359deg);
+        transform: rotate(359deg)
+    }
+}
 
 #stopwatch {
 	width: 30px;

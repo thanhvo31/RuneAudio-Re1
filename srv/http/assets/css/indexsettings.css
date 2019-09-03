@@ -31,6 +31,9 @@
 	font-family: enhance;
 	font-style: normal;
 }
+.fa-lg { font-size: 22px }
+.fa-2x { font-size: 28px }
+.fa-addons:before { content: "\f520" }
 .fa-arrow-left:before { content: "\f544" }
 .fa-check:before { content: "\f51B" }
 .fa-chromium:before { content: "\f52E" }

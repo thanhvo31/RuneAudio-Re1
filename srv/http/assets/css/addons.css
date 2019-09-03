@@ -21,6 +21,7 @@
 }
 /* 'addons' declared in <head> for cache busting */
 .fa {
+	display: inline-block;
 	font-family: enhance;
 	font-style: normal;
 }
