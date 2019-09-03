@@ -1955,6 +1955,19 @@ pushstreams.idle.onmessage = function( data ) {
 }
 pushstreams.notify.onmessage = function( data ) {
 	var data = data[ 0 ];
+	if ( data.title === 'runonce' ) {
+		info( {
+			  icon        : 'rune'
+			, title       : 'RuneAudio'
+			, message     : 'Welcome!'
+						   +'<br><br>Show <wh>Web user interface</wh> URL'
+						   +'<br>for remote device connection?'
+			, ok          : function() {
+				location.href = 'indexsettings.php?p=network';
+			}
+		} );
+		return
+	} // runonce
 	notify( data.title, data.text, data.icon );
 }
 pushstreams.playlist.onmessage = function( data ) {
