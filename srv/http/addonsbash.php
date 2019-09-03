@@ -215,10 +215,11 @@ if ( !$reinit ) pclose( $popencmd );
 		$( '.close-root' )
 			.removeClass( 'disabled' )
 			.click( function() {
-				if ( '<?=( $alias === "rre1" )?>' ) {
+				if ( '<?=$alias?>' === 'rre1' ) {
 					$.post( 'commands.php', { bash: [
 						  'systemctl stop local-browser'
 						, '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
+						, 'shutdown -h now'
 					] } );
 				} else {
 					location.href = '<?=( $alias === "cove" ? "/" : "/addons.php" )?>';
