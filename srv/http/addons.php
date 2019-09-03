@@ -24,7 +24,6 @@ $htmlfree = '<white>'.( $MiBavail < 1024 ? round( $MiBavail, 2 ).' MiB' : round(
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="msapplication-tap-highlight" content="no">
-	<link rel="stylesheet" href="/assets/css/bootstrap.min.<?=$time?>.css">
 	<style>
 		@font-face {
 			font-family: enhance;
@@ -47,7 +46,6 @@ $htmlfree = '<white>'.( $MiBavail < 1024 ? round( $MiBavail, 2 ).' MiB' : round(
 	<p class="bl"></p>
 	<?=$htmlused.$htmlavail ?>&nbsp;
 	<p id="disktext" class="disk"><?=$htmlfree?>&emsp;<i class="fa fa-addons"></i> e1.1</p>
-	<a id="issues" class="disk" href="http://www.runeaudio.com/forum/addons-menu-install-addons-the-easy-way-t5370-1000.html" target="_blank">issues&ensp;<i class="fa fa-external-link"></i>
 	</a>
 <?php
 // ------------------------------------------------------------------------------------
@@ -75,18 +73,20 @@ foreach( $arrayalias as $alias ) {
 	
 	if ( $versioninstalled ) {
 		$check = '<i class="fa fa-check status"></i> ';
+		$nouninstall = isset( $addon[ 'nouninstall' ] );
 		$hide = '';
-		if ( isset( $addon[ 'nouninstall' ] ) ) {
+		if ( $nouninstall ) {
 			$taphold = ' alias="'.$alias.'" style="pointer-events: unset"';
 			$hide = ' hide';
 		}
 		if ( !isset( $addon[ 'version' ] ) || $addon[ 'version' ] == $versioninstalled ) {
+			$icon = $nouninstall ? '<i class="fa fa-refresh"></i>' : '';
 			// !!! mobile browsers: <button>s submit 'formtemp' with 'get' > 'failed', use <a> instead
-			$btnin = '<a class="btn btn-default disabled"'.$taphold.'>'.$buttonlabel.'</a>';
+			$btnin = '<a class="btn btn-default disabled"'.$taphold.'>'.$icon.$buttonlabel.'</a>';
 		} else {
 			$updatecount++;
 			$check = '<i class="fa fa-refresh status"></i> ';
-			$btnin = '<a class="btn btn-primary" alias="'.$alias.'"><i class="fa fa-refresh"></i>Update</a>';
+			$btnin = '<a class="btn btn-primary" alias="'.$alias.'">Update</a>';
 		}
 		$btnunattr = isset( $addon[ 'rollback' ] ) ?' rollback="'.$addon[ 'rollback' ].'"' : '';
 		$btnun = '<a class="btn btn-default'.$hide.'" alias="'.$alias.'"'.$btnunattr.'><i class="fa fa-minus-circle"></i>Uninstall</a>';

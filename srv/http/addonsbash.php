@@ -19,9 +19,9 @@ $heading = $alias !== 'cove' ? 'Addons Progress' : 'Update Thumbnails';
 	<link rel="icon" href="/assets/img/addons/addons.<?=$time?>.png">
 	<style>
 		@font-face {
-			font-family: addons;
-			src        : url( '/assets/fonts/addons.<?=$time?>.woff' ) format( 'woff' ),
-			             url( '/assets/fonts/addons.<?=$time?>.ttf' ) format( 'truetype' );
+			font-family: enhance;
+			src        : url( '/assets/fonts/enhance.<?=$time?>.woff' ) format( 'woff' ),
+			             url( '/assets/fonts/enhance.<?=$time?>.ttf' ) format( 'truetype' );
 			font-weight: normal;
 			font-style : normal;
 		}
