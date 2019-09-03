@@ -4,7 +4,7 @@
 
 ifconfig $wlan up
 
-stored=$( netctl list | grep -v eth | sed 's/^\s*\*\s*//' )
+stored=$( netctl list | grep -v eth | sed 's/^\s*\**\s*//' )
 readarray -t stored <<<"$stored"
 
 connectedssid=$( iwgetid $wlan -r )
