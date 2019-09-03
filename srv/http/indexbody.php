@@ -1,31 +1,4 @@
 <?php
-if ( $password && !$_SESSION[ 'login' ] ) {
-?>
-<div id="divlogin" style="text-align: center">
-	<svg viewBox="0 0 480.2 144.2" style="margin: 100px auto 20px; width: 200px;"><?=$logo ?></svg><br>
-	<input type="password" id="pwd" class="form-control input-lg">
-	<a id="login" class="btn btn-primary">Login</a>
-</div>
-<script src="assets/js/vendor/jquery-2.1.0.min.js"></script>
-<script src="assets/js/info.<?=$time?>.js"></script>
-<script>
-$( '#pwd' ).focus();
-$( '#login' ).click( function() {
-	$.post( 'commands.php', { login: $( '#pwd' ).val() }, function( data ) {
-		data ? location.reload() : info( 'Wrong password' );
-	} );
-} );
-$( '#pwd' ).keypress( function( e ) {
-	if ( e.which == 13 ) $( '#login' ).click();
-});
-</script>
-
-</body>
-</html>
-<?php
-	exit();
-}
-
 $logo = '
 	<g><path class="st0" d="M206.4,118.7c2.3,3.8,5.7,7.3,8.1,9.3c3.8,3.1,6.7,2.8,10.2-0.6c4.8-5.5,8.7-8.9,13.2-13.5
 			c12.5-12.8,14.4-28.3,13-45.2c-1.9-12.8-1.6-14.3-0.6-23.3c1.2-7.1,0.8-13.6-0.9-20c-0.6-3.4-1.4-3.4-4.6-4
@@ -79,6 +52,33 @@ $logo = '
 			c1.8-0.8,3.3-2,4.4-3.5s2.1-3.4,2.7-5.5s0.9-4.5,0.9-7.2c0-2.6-0.3-5-0.9-7.2s-1.5-4-2.7-5.5s-2.7-2.7-4.4-3.5
 			c-1.8-0.8-3.8-1.2-6.2-1.2s-4.4,0.4-6.2,1.2s-3.3,2-4.4,3.5c-1.2,1.5-2.1,3.4-2.7,5.5C448.2,75.9,447.9,78.3,447.9,81z"/></g>
 ';
+
+if ( $password && !$_SESSION[ 'login' ] ) {
+?>
+<div id="divlogin" style="text-align: center">
+	<svg viewBox="0 0 480.2 144.2" style="margin: 100px auto 20px; width: 200px;"><?=$logo ?></svg><br>
+	<input type="password" id="pwd" class="form-control input-lg">
+	<a id="login" class="btn btn-primary">Login</a>
+</div>
+<script src="assets/js/vendor/jquery-2.1.0.min.js"></script>
+<script src="assets/js/info.<?=$time?>.js"></script>
+<script>
+$( '#pwd' ).focus();
+$( '#login' ).click( function() {
+	$.post( 'commands.php', { login: $( '#pwd' ).val() }, function( data ) {
+		data ? location.reload() : info( 'Wrong password' );
+	} );
+} );
+$( '#pwd' ).keypress( function( e ) {
+	if ( e.which == 13 ) $( '#login' ).click();
+});
+</script>
+
+</body>
+</html>
+<?php
+	exit();
+}
 $color = $redis->hGet( 'display', 'color' );
 $submenucolor = ( !$color || $color === 'hsl(200,100%,40%)' ) ? '' : '<i class="fa fa-brush-undo gr submenu"></i>';
 if ( in_array( $_SERVER[ 'REMOTE_ADDR' ], array( '127.0.0.1', '::1' ) ) ) {
