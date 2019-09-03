@@ -224,20 +224,22 @@ $( '#add' ).click( function() {
 			var password = $( '#infoPasswordBox' ).val();
 			var ip = $( '#infoTextBox2' ).val();
 			var gw = $( '#infoTextBox3' ).val();
-			var hidden = $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked' ) ? '\nHidden=yes' : '';
+			var hidden = $( '#infoCheckBox input:eq( 1 )' ).prop( 'checked' );
 			var wpa = $( '#infoCheckBox input:eq( 2 )' ).prop( 'checked' ) ? 'wep' : 'wpa';
 			var data = 'Interface='+ wlan
 					  +'\nConnection=wireless'
 					  +'\nIP=dhcp'
-					  +'\nESSID="'+ ssid
-					  + hidden
+					  +'\nESSID="'+ ssid;
+			if ( hidden ) {
+				data += '\nHidden=yes';
+			}
 			if ( password ) {
 				data += '\nSecurity='+ wpa
-					   +'\nKey="'+ password +'"'
+					   +'\nKey="'+ password +'"';
 			}
 			if ( ip ) {
 				data += '\nAddress='+ ip
-					   +'\nGateway='+ gw
+					   +'\nGateway='+ gw;
 			}
 			connect( wlan, ssid, data );
 		}
@@ -388,7 +390,7 @@ function wlanScan() {
 	$.post( 'commands.php', { bash: '/srv/http/settings/networkwlanscan.sh '+ wlcurrent }, function( data ) {
 		var val, dbm, db, ssid, encrypt, wpa, wlan, connected, profile, router, ip, db, wifi;
 		var good = -60;
-		var fair = -68;
+		var fair = -67;
 		var html = '';
 		data.forEach( function( el ) {
 			val = el.split( '^^' );
@@ -437,7 +439,7 @@ function newWiFi( $this ) {
 					  +'\nIP=dhcp'
 					  +'\nESSID="'+ ssid +'"'
 					  +'\nSecurity='+ ( wpa || 'wep' )
-					  +'\nKey="'+ $( '#infoTextBox' ).val() +'"';
+					  +'\nKey="'+ $( '#infoPasswordBox' ).val() +'"';
 			connect( wlan, ssid, data );
 		}
 	} );
