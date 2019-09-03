@@ -174,7 +174,6 @@ echo $blocks;
 ?>
 </div>
 <p id="bottom"></p> <!-- for bottom padding -->
-<div id="loader" class="hide"><i class="fa fa-addons blink"></i></div>
 
 <?php
 $keepkey = array( 'title', 'installurl', 'rollback', 'option' );

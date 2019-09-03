@@ -215,7 +215,14 @@ if ( !$reinit ) pclose( $popencmd );
 		$( '.close-root' )
 			.removeClass( 'disabled' )
 			.click( function() {
-				location.href = '<?=( $alias === "cove" ? "/" : "/addons.php" )?>';
+				if ( '<?=( $alias === "rre1" )?>' ) {
+					$.post( 'commands.php', { bash: [
+						  'systemctl stop local-browser'
+						, '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
+					] } );
+				} else {
+					location.href = '<?=( $alias === "cove" ? "/" : "/addons.php" )?>';
+				}
 			} );
 		$( '#reinit' ).remove();
 		
