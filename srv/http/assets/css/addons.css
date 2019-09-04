@@ -283,7 +283,7 @@ a:visited {
 	display: inline-block;
 	text-transform: none;
 	min-width: 100px;
-	line-height: 30px;
+	line-height: 34px;
 	text-align: center;
 	color: #e0e7ee;
 	background: -webkit-radial-gradient(50% -50%, 160% 200%, hsla(0,0%,100%,.3) 50%, hsla(0,0%,100%,0) 55%); /* button highlight - last % for anti-alias edge*/
