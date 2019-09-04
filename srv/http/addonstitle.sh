@@ -158,18 +158,11 @@ getinstallzip() {
 	rm -rf /tmp/install
 	mkdir -p /tmp/install
 	bsdtar -tf $branch.zip | cut -d/ -f2- | grep / | grep -v '/$' | sed 's|^|/|' # list files
-	bsdtar -xf $branch.zip --strip 1 -C /tmp/install
-
-	rm $branch.zip /tmp/install/* &> /dev/null
-	
-	if [[ -e /tmp/install/root && -L /root ]]; then # fix 0.4b /root as symlink
-		mkdir /tmp/install/home
-		mv /tmp/install/{,home/}root
-	fi
-	chown -R http:http /tmp/install/srv
-	chmod -R 755 /tmp/install
-	cp -rfp /tmp/install/* /
-	rm -rf /tmp/install
+	bsdtar -xf $branch.zip --strip 1 -C /
+	rm $branch.zip
+	chown -R http:http /srv
+	chmod -R 755 /srv/http/*
+	chmod 644 /etc/systemd/system/*
 }
 getuninstall() {
 	installurl=$( getvalue installurl )
