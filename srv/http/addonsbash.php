@@ -215,6 +215,7 @@ pclose( $popencmd );
 <script>
 clearInterval( intscroll );
 pre.scrollTop = pre.scrollHeight;
+$( '#wait' ).remove();
 $( '#hidescrollv' ).css( 'max-height', ( $( '#hidescrollv' ).height() + 30 ) +'px' );
 info( {
 	  icon    : 'info-circle'
