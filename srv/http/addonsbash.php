@@ -63,7 +63,10 @@ if ( end( $optarray ) === '-b' ) $installurl = str_replace( 'raw/master', 'raw/'
 
 $installfile = basename( $installurl );
 $title = preg_replace( '/\**$/', '', $addon[ 'title' ] );
+
+include 'logosvg.php';
 ?>
+<div id="splash" class="hide"><svg viewBox="0 0 480.2 144.2"><?=$logo?></svg></div>
 <div class="container">
 	<h1>
 		<i class="fa fa-addons gr"></i>&ensp;<span><?=$heading?></span>
@@ -180,12 +183,6 @@ while ( !feof( $popencmd ) ) {                          // each line
 	foreach( $skippacman as $findp ) {                  // skip pacman line after output once
 		if ( stripos( $std, $findp ) !== false ) $skip[] = $findp; // add skip string to $skip array
 	}
-	if (  stripos( $std, 'Reinitialize system ...' ) !== false ) {
-		echo '<w id="reinit"><i class="fa fa-gear fa-spin"></i>Reinitialize system ...</w><br><br>';
-		pclose( $popencmd );
-		$reinit = 1;
-		break;
-	}
 	echo $std;                                          // stdout to screen
 	echo $fillbuffer;                                   // fill buffer to force output line by line
 	
@@ -199,7 +196,8 @@ while ( !feof( $popencmd ) ) {                          // each line
 		die();
 	}
 }
-if ( !$reinit ) pclose( $popencmd );
+sleep( 1 );
+pclose( $popencmd );
 ?>
 <!-- ...................................................................................... -->
 	</pre>
@@ -207,39 +205,35 @@ if ( !$reinit ) pclose( $popencmd );
 </div>
 
 <script>
-	setTimeout( function() {
-		clearInterval( intscroll );
-		pre.scrollTop = pre.scrollHeight;
-		$( '#wait' ).remove();
-		$( '#hidescrollv' ).css( 'max-height', ( $( '#hidescrollv' ).height() + 30 ) +'px' );
-		$( '.close-root' )
-			.removeClass( 'disabled' )
-			.click( function() {
-				var alias = '<?=$alias?>';
-				if ( alias === 'rrre' ) {
-					$.post( 'commands.php', { bash: [
-						  '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
-						, 'shutdown -h now'
-					] } );
-					info( {
-						  icon    : 'info-circle'
-						, title   : '<?=$title?>'
-						, message : 'Powering off ....'
-					} );
-				} else if ( alias === 'cove' ) {
-					location.href = '/';
-				} else {
-					location.href = '/addons.php';
-				}
+clearInterval( intscroll );
+pre.scrollTop = pre.scrollHeight;
+$( '#hidescrollv' ).css( 'max-height', ( $( '#hidescrollv' ).height() + 30 ) +'px' );
+info( {
+	  icon    : 'info-circle'
+	, title   : '<?=$title?>'
+	, message : 'Please see result information on screen.'
+} );
+$( '.close-root' )
+	.removeClass( 'disabled' )
+	.click( function() {
+		var alias = '<?=$alias?>';
+		if ( alias === 'rrre' ) {
+			$.post( 'commands.php', { bash: [
+				  '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
+				, 'shutdown -h now'
+			] } );
+			info( {
+				  icon    : 'info-circle'
+				, title   : '<?=$title?>'
+				, message : 'Powering off ....'
 			} );
-		$( '#reinit' ).remove();
-		
-		info( {
-			  icon    : 'info-circle'
-			, title   : '<?=$title?>'
-			, message : 'Please see result information on screen.'
-		} );
-	}, 1000 );
+			$( '#splash' ).removeClass( 'hide' );
+		} else if ( alias === 'cove' ) {
+			location.href = '/';
+		} else {
+			location.href = '/addons.php';
+		}
+	} );
 </script>
 
 </body>
