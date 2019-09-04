@@ -96,7 +96,6 @@ $( '#listwifi' ).on( 'click', '.fa-save', function() {
 				] }, function() {
 				wlconnected = '';
 				wlanScan();
-				notify( 'Wi-Fi', ssid +' removed.', 'wifi-3' );
 				resetlocal();
 			} );
 		}
@@ -150,7 +149,6 @@ $( '#listwifi' ).on( 'click', 'li', function( e ) {
 					] }, function() {
 					wlconnected = '';
 					wlanScan();
-					notify( 'Wi-Fi', ssid +' removed.', 'wifi-3' );
 					resetlocal();
 				} );
 			}
@@ -325,7 +323,6 @@ $( '#settings-accesspoint' ).click( function() {
 			$( '#passphrase' ).text( passphrase || '(No password)' );
 			$( '#ipwebuiap' ).text( ip );
 			qr();
-			notify( 'Access Point', 'Settings changed' );
 		}
 	} );
 } );
