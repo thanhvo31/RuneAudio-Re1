@@ -113,6 +113,7 @@ $( '#infoOverlay' ).keydown( function( e ) {
 // close: reset to default
 $( '#infoX' ).click( function() {
 	$( '#infoCancel' ).click();
+	$( '#infoOverlay' ).hide();
 	$( '#infoContent' ).empty();
 } );
 $( '#infoContent' ).on( 'click', '.eye', function() {
