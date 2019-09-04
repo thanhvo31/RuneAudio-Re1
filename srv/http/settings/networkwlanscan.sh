@@ -6,6 +6,10 @@ ifconfig $wlan up
 
 stored=$( netctl list | grep -v eth | sed 's/^\s*\**\s*//' )
 readarray -t stored <<<"$stored"
+# pre-scan saved profile to force display hidden ssid
+for st in "${stored[@]}"; do
+	iwlist $wlan scan essid "$st" &> /dev/null
+done
 
 connectedssid=$( iwgetid $wlan -r )
 
