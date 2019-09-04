@@ -1955,19 +1955,6 @@ pushstreams.idle.onmessage = function( data ) {
 }
 pushstreams.notify.onmessage = function( data ) {
 	var data = data[ 0 ];
-	if ( data.title === 'runonce' ) {
-		info( {
-			  icon        : 'rune'
-			, title       : 'RuneAudio'
-			, message     : 'Welcome!'
-						   +'<br><br>Show <wh>Web user interface</wh> URL'
-						   +'<br>for remote device connection?'
-			, ok          : function() {
-				location.href = 'indexsettings.php?p=network';
-			}
-		} );
-		return
-	} // runonce
 	notify( data.title, data.text, data.icon );
 }
 pushstreams.playlist.onmessage = function( data ) {
@@ -1980,8 +1967,23 @@ pushstreams.playlist.onmessage = function( data ) {
 		$( '#plopen' ).click();
 	}
 }
-pushstreams.reload.onmessage = function() {
-	location.href = '/';
+pushstreams.reload.onmessage = function( data ) {
+	if ( !'content' in data[ 0 ] ) {
+		location.href = '/';
+	} else { // bash: curl -s -X POST 'http://localhost/pub?id=reload' -d '{"content":"xxx"}'
+		if ( data[ 0 ].content === 'runonce' ) { 
+			info( {
+				  icon    : 'rune'
+				, title   : 'RuneAudio'
+				, message : 'Welcome!'
+						   +'<br><br>Show <wh>Web user interface</wh> URL'
+						   +'<br>for remote device connection?'
+				, ok      : function() {
+					location.href = 'indexsettings.php?p=network';
+				}
+			} );
+		}
+	}
 }
 pushstreams.volume.onmessage = function( data ) {
 	var data = data[ 0 ];
