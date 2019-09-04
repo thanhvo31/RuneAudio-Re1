@@ -1,7 +1,15 @@
 #!/bin/bash
 
+. /srv/http/addonstitle.sh
+
 webradiodir=/srv/http/assets/img/webradios
 allfiles=$( find /mnt/MPD/Webradio -type f )
+
+if [[ -z $allfiles ]]; then
+	title "$info No webradio files found in /mnt/MPD/Webradio"
+	exit
+fi
+
 readarray -t files <<<"$allfiles"
 for file in "${files[@]}"; do
 	if [[ ${file##*.} == pls ]]; then
@@ -30,3 +38,5 @@ for file in "${files[@]}"; do
 		done
 	fi
 done
+
+title "$bar Import webradios successfully."
