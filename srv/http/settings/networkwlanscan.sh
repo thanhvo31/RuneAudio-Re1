@@ -4,21 +4,20 @@
 
 ifconfig $wlan up
 
-stored=$( netctl list | grep -v eth | sed 's/^\s*\**\s*//' )
-if [[ -n $stored ]]; then
-	readarray -t stored <<<"$stored"
+netctllist=$( netctl list | grep -v eth | sed 's/^\s*\**\s*//' )
+if [[ -n $netctllist ]]; then
+	readarray -t netctllist_ar <<<"$netctllist"
 	# pre-scan saved profile to force display hidden ssid
-	for st in "${stored[@]}"; do
-		grep -q '^Hidden=yes' "/etc/netctl/$st" && iwlist $wlan scan essid "$st" &> /dev/null
+	for name in "${netctllist_ar[@]}"; do
+		grep -q '^Hidden=yes' "/etc/netctl/$name" && iwlist $wlan scan essid "$name" &> /dev/null
 	done
-	storedlist=1
 fi
 
 connectedssid=$( iwgetid $wlan -r )
 
-scan=$( iwlist $wlan scan | grep '^\s*Qu\|^\s*En\|^\s*ES\|WPA' | sed 's/^\s*//' )
-readarray -t lines <<<"$scan"
-for line in "${lines[@]}"; do
+iwlistscan=$( iwlist $wlan scan | grep '^\s*Qu\|^\s*En\|^\s*ES\|WPA' | sed 's/^\s*//' )
+readarray -t iwlistscan_ar <<<"$iwlistscan"
+for line in "${iwlistscan_ar[@]}"; do
 	ini=${line:0:2}
 	if [[ $ini == Qu ]]; then
 		if [[ -n $ssid ]]; then
@@ -46,9 +45,9 @@ for line in "${lines[@]}"; do
 			connected=
 			gw_ip=
 		fi
-		if [[ $storedlist ]]; then
-			for st in "${stored[@]}"; do
-				[[ $ssid == $st ]] && profile=stored
+		if [[ -n $netctllist ]]; then
+			for name in "${netctllist_ar[@]}"; do
+				[[ $ssid == $name ]] && profile=netctllist_ar
 			done
 		fi
 	fi
