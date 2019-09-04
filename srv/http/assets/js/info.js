@@ -368,7 +368,7 @@ function info( O ) {
 			var thisW = $( this ).width();
 			if ( thisW > labelW ) labelW = thisW;
 		} );
-		var boxW = O.boxwidth !== 'max' ? O.boxwidth : calcW - 40 - labelW;
+		var boxW = O.boxwidth !== 'max' ? O.boxwidth : calcW - 70 - labelW;
 		$( '.infoinput' ).css( 'width', boxW +'px' );
 	}
 	if ( 'buttonwidth' in O ) {
