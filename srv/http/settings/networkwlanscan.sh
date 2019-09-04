@@ -5,11 +5,14 @@
 ifconfig $wlan up
 
 stored=$( netctl list | grep -v eth | sed 's/^\s*\**\s*//' )
-readarray -t stored <<<"$stored"
-# pre-scan saved profile to force display hidden ssid
-for st in "${stored[@]}"; do
-	grep -q '^Hidden=yes' "/etc/netctl/$st" && iwlist $wlan scan essid "$st" &> /dev/null
-done
+if [[ -n $stored ]]; then
+	readarray -t stored <<<"$stored"
+	# pre-scan saved profile to force display hidden ssid
+	for st in "${stored[@]}"; do
+		grep -q '^Hidden=yes' "/etc/netctl/$st" && iwlist $wlan scan essid "$st" &> /dev/null
+	done
+	storedlist=1
+fi
 
 connectedssid=$( iwgetid $wlan -r )
 
@@ -43,9 +46,11 @@ for line in "${lines[@]}"; do
 			connected=
 			gw_ip=
 		fi
-		for st in "${stored[@]}"; do
-			[[ $ssid == $st ]] && profile=stored
-		done
+		if [[ $storedlist ]]; then
+			for st in "${stored[@]}"; do
+				[[ $ssid == $st ]] && profile=stored
+			done
+		fi
 	fi
 done
 # last one
