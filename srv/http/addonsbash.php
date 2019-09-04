@@ -28,6 +28,9 @@ $heading = $alias !== 'cove' ? 'Addons Progress' : 'Update Thumbnails';
 	</style>
 	<link rel="stylesheet" href="/assets/css/info.<?=$time?>.css">
 	<link rel="stylesheet" href="/assets/css/addons.<?=$time?>.css">
+		<?php if ( $alias === 'rrre' ) { ?>
+	<link rel="stylesheet" href="/assets/css/banner.<?=$time?>.css">
+		<?php } ?>
 </head>
 <body>
 
@@ -63,10 +66,15 @@ if ( end( $optarray ) === '-b' ) $installurl = str_replace( 'raw/master', 'raw/'
 
 $installfile = basename( $installurl );
 $title = preg_replace( '/\**$/', '', $addon[ 'title' ] );
-
-include 'logosvg.php';
+if ( $alias === 'rrre' ) {
+	include 'logosvg.php';
 ?>
+<script src="/assets/js/banner.<?=$time?>.js"></script>
 <div id="splash" class="hide"><svg viewBox="0 0 480.2 144.2"><?=$logo?></svg></div>
+<?php
+}
+?>
+
 <div class="container">
 	<h1>
 		<i class="fa fa-addons gr"></i>&ensp;<span><?=$heading?></span>
@@ -218,16 +226,12 @@ $( '.close-root' )
 	.click( function() {
 		var alias = '<?=$alias?>';
 		if ( alias === 'rrre' ) {
+			$( '#splash' ).removeClass( 'hide' );
 			$.post( 'commands.php', { bash: [
 				  '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
 				, 'shutdown -h now'
 			] } );
-			info( {
-				  icon    : 'info-circle'
-				, title   : '<?=$title?>'
-				, message : 'Powering off ....'
-			} );
-			$( '#splash' ).removeClass( 'hide' );
+			notify( 'Powering Off ...', '', 'gear fa-spin', -1 );
 		} else if ( alias === 'cove' ) {
 			location.href = '/';
 		} else {
