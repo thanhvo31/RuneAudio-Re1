@@ -229,7 +229,7 @@ $( '#add' ).click( function() {
 			var data = 'Interface='+ wlan
 					  +'\nConnection=wireless'
 					  +'\nIP=dhcp'
-					  +'\nESSID="'+ ssid;
+					  +'\nESSID="'+ ssid +'"';
 			if ( hidden ) {
 				data += '\nHidden=yes';
 			}
@@ -449,7 +449,7 @@ function connect( wlan, ssid, data ) {
 	wlcurrent = wlan;
 	$( '#scanning' ).removeClass( 'hide' );
 	var cmd = [
-		  'echo -e "'+ data +'" > "/etc/netctl/'+ ssid +'"'
+		  "echo -e '"+ data +"' > '/etc/netctl/"+ ssid +"'"
 		, 'netctl stop-all'
 		, 'ifconfig '+ wlan +' down'
 		, 'netctl start "'+ ssid +'"'
