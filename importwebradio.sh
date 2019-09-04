@@ -5,8 +5,8 @@
 webradiodir=/srv/http/assets/img/webradios
 allfiles=$( find /mnt/MPD/Webradio -type f )
 
-if [[ -z $allfiles ]]; then
-	title "$info No webradio files found in $( tcolor /mnt/MPD/Webradio )"
+if [[ ! -e /mnt/MPD/Webradio ]]; then
+	title "$info No $( tcolor /mnt/MPD/Webradio ) directory found."
 	exit
 fi
 
