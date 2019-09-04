@@ -66,7 +66,7 @@ $title = preg_replace( '/\**$/', '', $addon[ 'title' ] );
 ?>
 <div class="container">
 	<h1>
-		<i class="fa fa-addons"></i>&ensp;<span><?=$heading?></span>
+		<i class="fa fa-addons gr"></i>&ensp;<span><?=$heading?></span>
 		<i class="close-root fa fa-times disabled"></i>
 	</h1>
 	<p class="bl"></p>
