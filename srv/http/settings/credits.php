@@ -30,7 +30,6 @@ foreach( $list0103 as $name => $value ) {
 }
 $listruneui = array(
 	  'Bootstrap' => [ 'https://getbootstrap.com/' ]
-	, 'bootstrap-select' => [ 'https://github.com/snapappointments/bootstrap-select' ]
 	, 'HTML5-Color-Picker' => [ 'https://github.com/NC22/HTML5-Color-Picker', 'Rubchuk Vladimir' ]
 	, 'jQuery' => [ 'https://jquery.com/' ]
 	, 'jQuery.documentSize' => [ 'https://github.com/hashchange/jquery.documentsize', 'Michael Heim' ]
