@@ -113,7 +113,6 @@ $( '#infoOverlay' ).keydown( function( e ) {
 // close: reset to default
 $( '#infoX' ).click( function() {
 	$( '#infoCancel' ).click();
-	$( '#infoOverlay' ).hide();
 	$( '#infoContent' ).empty();
 } );
 $( '#infoContent' ).on( 'click', '.eye', function() {
@@ -188,8 +187,7 @@ function info( O ) {
 			$( '#infoCancel' )
 				.html( O.cancellabel || 'Cancel' )
 				.css( 'background', O.cancelcolor || '' );
-			if ( 'cancelbutton' in O || 'cancellabel' in O ) $( '#infoCancel' ).show();
-			if ( typeof O.cancel === 'function' ) $( '#infoCancel' ).click( O.cancel );
+			if ( 'cancelbutton' in O || 'cancellabel' in O ) $( '#infoCancel' ).show(); 
 		}
 		if ( 'button' in O ) {
 			if ( !O.button.length ) O.button = [ O.button ];
@@ -208,6 +206,10 @@ function info( O ) {
 		}
 		$( '.infobtn' ).click( infoReset );
 	}
+	$( '#infoCancel' ).click( function() {
+		$( '#infoOverlay' ).hide();
+		if ( typeof O.cancel === 'function' ) O.cancel();
+	} );
 	
 	if ( O.content ) {
 		// custom html content
