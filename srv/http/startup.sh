@@ -22,7 +22,10 @@ while $( sleep 1 ); do
 	fi
 done
 
-[[ -e /srv/http/runonce.sh ]] && /srv/http/runonce.sh && runonce=1
+if [[ -e /srv/http/runonce.sh ]]; then
+	runonce=1
+	/srv/http/runonce.sh
+fi
 
 systemctl start redis
 sleep 1
@@ -45,8 +48,7 @@ if ! grep '^dtoverlay=pi3-disable-wifi' /boot/config.txt; then
 	if redis-cli exists accesspoint; then
 		ifconfig wlan0 $( grep router /etc/dnsmasq.conf | cut -d, -f2 )
 		systemctl start dnsmasq hostapd
-		[[ $runonce ]] && curl -s -X POST 'http://localhost/pub?id=notify' -d '{ "title": "runonce" }'
-		sed -i '/runonce/,/runonce/ d' /srv/http/assets/js/main.js
+		[[ $runonce ]] && curl -s -X POST 'http://localhost/pub?id=reload' -d '{ "content": "runonce" }'
 	fi
 	
 	sleep 15
