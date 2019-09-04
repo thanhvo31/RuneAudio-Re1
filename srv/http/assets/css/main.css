@@ -167,9 +167,13 @@
     }
 }
 
-#stopwatch {
-	width: 30px;
-	vertical-align: -15px;
+.fa-stopwatch-i,
+.fa-stopwatch-o {
+	font-size: 28px !important;
+}
+.fa-stopwatch-o {
+	position: absolute;
+	margin-left: -30px;
 }
 /* bootstrap mod */
 .page {
