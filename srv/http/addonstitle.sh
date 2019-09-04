@@ -314,7 +314,7 @@ s|\(hsl(\).*\()/\*cgl\*/\)|\1${hsg}60%\2|g
 getextMount() {
 	mnt=$( df --output=target,fstype | grep "$1.* ext" -m1 | cut -d' ' -f1 )
 }
-makeDirLink() { # $1-directory name
+extraDir() { # $1-directory name
 	name=$1
 	dir=/srv/http/assets/img/
 	direxist=$( find /mnt/MPD/ -maxdepth 3 -type d -name "$name" )
