@@ -231,7 +231,7 @@ $( '.close-root' )
 				  '/usr/local/bin/ply-image /usr/share/bootsplash/start.png'
 				, 'shutdown -h now'
 			] } );
-			notify( 'Powering Off ...', '', 'gear fa-spin', 10 );
+			notify( 'Powering Off ...', '', 'gear fa-spin', 10000 );
 		} else if ( alias === 'cove' ) {
 			location.href = '/';
 		} else {
