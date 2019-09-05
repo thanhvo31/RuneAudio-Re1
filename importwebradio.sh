@@ -14,7 +14,7 @@ readarray -t files <<<"$allfiles"
 for file in "${files[@]}"; do
 	if [[ ${file##*.} == pls ]]; then
 		name=$( grep "^Title$i" "$file" | cut -d '=' -f2 )
-		url=$( grep "^File$i" "$file" | cut -d '=' -f2 )
+		url=$( grep "^File$i" "$file" | cut -d '=' -f2 | sed 's|/*;*$||' )
 		# no name
 		[[ -z $name ]] && name="noName"
 		printf "%-30s : $url\n" "$name"
