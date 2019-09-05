@@ -464,6 +464,9 @@ svg path.st1 {
 #settings a.on .fa-gpio {
 	color: #0f0 !important;
 }
+#settings img.on {
+	border: solid 2px #0f0;
+}
 #menu-settings {
 	float: right;
 	width: 40px;

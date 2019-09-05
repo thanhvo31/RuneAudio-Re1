@@ -61,10 +61,10 @@ $desktop = !preg_match( '/(Mobile|Android|Tablet|GoBrowser|[0-9]x[0-9]*|uZardWeb
 <script src="/assets/js/vendor/lazyload.min.<?=$time?>.js"></script>
 <script src="/assets/js/vendor/pica.<?=$time?>.js"></script>
 <script src="/assets/js/vendor/html5kellycolorpicker.min.<?=$time?>.js"></script>
+<script src="/assets/js/function.<?=$time?>.js"></script>
 <script src="/assets/js/main.<?=$time?>.js"></script>
 <script src="/assets/js/banner.<?=$time?>.js"></script>
 <script src="/assets/js/context.<?=$time?>.js"></script>
-<script src="/assets/js/function.<?=$time?>.js"></script>
 <script src="/assets/js/lyrics.<?=$time?>.js"></script>
 	<?php if ( $desktop ) { ?> 
 <script src="/assets/js/shortcut.<?=$time?>.js"></script>
