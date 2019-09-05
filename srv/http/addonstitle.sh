@@ -329,7 +329,7 @@ extraDir() { # $1-directory name
 		fi
 		
 		ln -sf "$direxist" "$dir"
-		chown -R "$ow_gr" "$direxist" "$dir"
+		chown -R "$ow_gr" "$direxist" "$dir/$name"
 		chmod -R +w "$direxist"
 	else
 		getextMount /mnt/MPD/USB
@@ -340,7 +340,7 @@ extraDir() { # $1-directory name
 				newdir=$mnt/$name
 				mkdir -p "$newdir"
 				ln -sf "$newdir" "$dir"
-				chown -R "$ow_gr" "$newdir" "$dir"
+				chown -R "$ow_gr" "$newdir" "$dir/$name"
 			fi
 		fi
 		if [[ -z $newdir ]]; then
