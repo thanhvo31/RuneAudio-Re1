@@ -2,6 +2,8 @@
 
 . /srv/http/addonstitle.sh
 
+title "$bar Import webradios ..."
+
 webradiodir=/srv/http/assets/img/webradios
 allfiles=$( find /mnt/MPD/Webradio -type f )
 
@@ -16,7 +18,7 @@ for file in "${files[@]}"; do
 		name=$( grep "^Title$i" "$file" | cut -d '=' -f2 )
 		url=$( grep "^File$i" "$file" | cut -d '=' -f2 | sed 's|/*;*$||' )
 		# no name
-		[[ -z $name ]] && name="noName"
+		[[ -z $name ]] && name="(no name)"
 		printf "%-30s : $url\n" "$name"
 		
 		echo $name > $webradiodir/${url//\//|}
@@ -30,7 +32,7 @@ for file in "${files[@]}"; do
 				filename=${linenohttp##*/}
 				name=${filename%.*}
 			else
-				name="noName"
+				name="(no name)"
 			fi
 			printf "%-30s : $line\n" "$name"
 			

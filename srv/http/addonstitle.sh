@@ -345,7 +345,7 @@ extraDir() { # $1-directory name
 		fi
 		if [[ -z $newdir ]]; then
 			mkdir -p "$dir/$name"
-			chown -R http:http "$dir/$name"
+			chown -R "$ow_gr" "$dir/$name"
 		fi
 	fi
 }

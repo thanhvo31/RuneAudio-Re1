@@ -10,6 +10,8 @@ installstart $@
 
 getinstallzip
 
+! grep -q replaygain /etc/mpd.conf && sed -i '/^port/ a\replaygain              "off"' /etc/mpd.conf
+
 setColor
 
 installfinish $@
