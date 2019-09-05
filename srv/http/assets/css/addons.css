@@ -79,9 +79,6 @@ gr, .gr { color: hsl(200,3%,60%)/*cgl*/ !important; }
 img {
 	border: 0
 }
-pre {
-	overflow: auto
-}
 code {
 	font-family: monospace;
 	font-size: 1em
