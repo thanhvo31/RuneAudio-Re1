@@ -287,10 +287,6 @@ $menu.= '</div>';
 
 $reboot = $redis->get( 'reboot' );
 $redis->del( 'reboot' );
-//0tran0
-$tranenable = exec( '/usr/bin/systemctl is-enabled transmission' ) === 'enabled' ? 1 : 0;
-$tranactive = exec( '/usr/bin/systemctl is-active transmission' ) === 'active' ? 1 : 0;
-//1tran1
 ?>
 <input type="hidden" id="reboot" value="<?=$reboot?>">
 <input type="hidden" id="password" value="<?=$password?>">
@@ -318,12 +314,6 @@ $tranactive = exec( '/usr/bin/systemctl is-active transmission' ) === 'active' ?
 	<a id="logout"><i class="fa fa-lock"></i>Logout</a>
 		<?php } ?>
 	<a id="power"><i class="fa fa-power"></i>Power<?=$submenupower ?></a>
-<?php //0tran0 ?>
-	<a id="transmission" data-enabled="<?=$tranenable?>" data-active="<?=$tranactive?>">
-		<img src="/assets/img/addons/thumbtran.png" <?=( $tranactive ? 'class="on"' : '' )?>>Transmission
-		<i class="fa fa-gear submenu imgicon settings"></i>
-	</a>
-<?php //1tran1 ?>
 	<a id="displaylibrary"><i class="fa fa-library gr"></i>Library Tools</a>
 	<a id="displayplayback"><i class="fa fa-play-circle gr"></i>Playback Tools</a>
 	<a id="displaycolor"><i class="fa fa-brush gr"></i>Color<?=$submenucolor ?></a>
