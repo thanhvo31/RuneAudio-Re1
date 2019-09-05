@@ -1971,7 +1971,7 @@ pushstreams.reload.onmessage = function( data ) {
 	if ( data[ 0 ] === 1 ) {
 		location.href = '/';
 	} else { // bash: curl -s -X POST 'http://localhost/pub?id=reload' -d '{"content":"xxx"}'
-		if ( data[ 0 ].content === 'runonce' ) { 
+		if ( GUI.localhost && data[ 0 ].content === 'runonce' ) { 
 			info( {
 				  icon    : 'rune'
 				, title   : 'RuneAudio'
