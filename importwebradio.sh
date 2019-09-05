@@ -19,7 +19,7 @@ for file in "${files[@]}"; do
 		[[ -z $name ]] && name="noName"
 		printf "%-30s : $url\n" "$name"
 		
-		echo $name > $webradiodir/${url//\//|/}
+		echo $name > $webradiodir/${url//\//|}
 	else
 		# *.m3u
 		cat $file | while read line; do
@@ -34,7 +34,7 @@ for file in "${files[@]}"; do
 			fi
 			printf "%-30s : $line\n" "$name"
 			
-			echo $name > $webradiodir/${line//\//|/}
+			echo $name > $webradiodir/${line//\//|}
 		done
 	fi
 done
