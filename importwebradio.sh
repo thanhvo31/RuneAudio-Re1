@@ -2,6 +2,8 @@
 
 . /srv/http/addonstitle.sh
 
+title "$bar Import webradios ..."
+
 webradiodir=/srv/http/assets/img/webradios
 allfiles=$( find /mnt/MPD/Webradio -type f )
 
