@@ -259,11 +259,6 @@ $( '#logout' ).click( function( e ) {
 		location.reload();
 	} );
 } );
-//0tran0
-$( '#transmission' ).click( function( e ) {
-	menuPackage( e, $( this ) );
-} );
-//1tran1
 $( '#displaycolor' ).click( function( e ) {
 	if ( $( '#home-album gr' ).text() == 0 ) {
 		info( {
