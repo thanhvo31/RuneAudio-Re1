@@ -160,9 +160,7 @@ getinstallzip() {
 	bsdtar -tf $branch.zip | cut -d/ -f2- | grep / | grep -v '/$' | sed 's|^|/|' # list files
 	bsdtar -xf $branch.zip --strip 1 -C /
 	rm $branch.zip
-	chown -R http:http /srv
-	chmod -R 755 /srv/http/* /usr/local/bin/*
-	chmod 644 /etc/systemd/system/*
+	chmod -R 755 /srv/http/* /usr/local/bin
 }
 getuninstall() {
 	installurl=$( getvalue installurl )
@@ -316,6 +314,13 @@ getextMount() {
 }
 extraDir() { # $1-directory name
 	name=$1
+	if [[ $name == mpd ]]; then
+		ow_gr='mpd:audio'
+	elif [[ $name == redis ]] ; then
+		ow_gr='redis:redis'
+	else
+		ow_gr='http:http'
+	fi
 	dir=/srv/http/assets/img/
 	direxist=$( find /mnt/MPD/ -maxdepth 3 -type d -name "$name" )
 	if [[ -e $direxist ]]; then
@@ -324,13 +329,8 @@ extraDir() { # $1-directory name
 		fi
 		
 		ln -sf "$direxist" "$dir"
-		chown -R http:http "$direxist" "$dir"
+		chown -R "$ow_gr" "$direxist" "$dir"
 		chmod -R +w "$direxist"
-		perm=$( stat -L -c "%A %G %U" "$direxist" )
-		if [[ ${perm:2:1} != w ]]; then
-			title "$info Directory $( tcolor "$direxist" ) found but not writable."
-			title -nt "Set write permission after install."
-		fi
 	else
 		getextMount /mnt/MPD/USB
 		[[ -z $mnt ]] && getextMount /mnt/MPD/NAS
@@ -340,7 +340,7 @@ extraDir() { # $1-directory name
 				newdir=$mnt/$name
 				mkdir -p "$newdir"
 				ln -sf "$newdir" "$dir"
-				chown -R http:http "$newdir" "$dir"
+				chown -R "$ow_gr" "$newdir" "$dir"
 			fi
 		fi
 		if [[ -z $newdir ]]; then
