@@ -338,6 +338,9 @@ svg path.st1 {
 	background: hsl(200,3%,30%)/*cg*/;
 	border-left: 1px solid hsl(200,3%,20%)/*cd*/;
 }
+.submenu.imgicon {
+	border-bottom: 1px solid hsl(200,3%,20%)/*cd*/;
+}
 .menu a.active,
 .submenu.active {
 	background: hsl(200,3%,40%)/*cgh*/;
@@ -500,6 +503,7 @@ svg path.st1 {
 	margin: 0 5px;
 	width: 28px;
 	border-radius: 50%;
+	vertical-align: -8px;
 }
 /* ---------------------- menu-bottom ----------------------*/
 #menu-bottom {
