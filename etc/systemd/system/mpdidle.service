@@ -1,6 +1,0 @@
-[Unit]
-Description=MPD idle
-After=mpd.service
-
-[Service]
-ExecStart=/srv/http/mpdidle.sh
